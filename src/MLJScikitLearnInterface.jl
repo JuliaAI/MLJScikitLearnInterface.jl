@@ -50,7 +50,8 @@ ski!(sks, mdl) = copy!(sks, pyimport("sklearn.$mdl"))
 const Option{T} = Union{Nothing,T}
 
 # recurrent information for traits
-const SK_NAME = "MLJScikitLearnInterface"
+const PKG_NAME = "ScikitLearn"
+const API_PKG_NAME = "MLJScikitLearnInterface"
 const SK_UUID = "3646fa90-6ef7-5e7e-9f22-8aca16db6324"
 const SK_URL  = "https://github.com/cstjean/ScikitLearn.jl"
 const SK_LIC  = "BSD"
