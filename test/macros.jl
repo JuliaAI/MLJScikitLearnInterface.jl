@@ -9,7 +9,7 @@
     @test @test_logs (:warn, r"Constraint") ARDRegressor(n_iter=-5).n_iter > 0
 
     # traits
-    @test MB.load_path(m) == "MLJScikitLearn.ARDRegressor"
+    @test MB.load_path(m) == "MLJScikitLearnInterface.ARDRegressor"
     @test MB.package_name(m) == "ScikitLearn"
 end
 
@@ -25,6 +25,6 @@ end
             penalty="foo").penalty == "l2"
 
     # traits
-    @test MB.load_path(m) == "MLJScikitLearn.LogisticClassifier"
+    @test MB.load_path(m) == "MLJScikitLearnInterface.LogisticClassifier"
     @test MB.package_license(m) == "BSD"
 end
