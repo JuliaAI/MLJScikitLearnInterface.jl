@@ -10,7 +10,7 @@
 
     # traits
     @test MB.load_path(m) == "MLJScikitLearnInterface.ARDRegressor"
-    @test MB.package_name(m) == "MLJScikitLearnInterface"
+    @test MB.package_name(m) == "ScikitLearn"
 end
 
 @testset "clf-mdl" begin

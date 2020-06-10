@@ -92,8 +92,8 @@ function _sk_finalize(m, clean_expr, fit_expr, expr)
         $clean_expr     # clean! method
         $fit_expr       # fit method
         $predict_expr   # predict method if relevant
-        MMI.load_path(::Type{<:$m})       = "MLJScikitLearnInterface.$(MMI.name($m))"
-        MMI.package_name(::Type{<:$m})    = SK_NAME
+        MMI.load_path(::Type{<:$m})       = "$API_PKG_NAME.$(MMI.name($m))"
+        MMI.package_name(::Type{<:$m})    = PKG_NAME
         MMI.is_pure_julia(::Type{<:$m})   = false
         MMI.package_license(::Type{<:$m}) = SK_LIC
         MMI.package_uuid(::Type{<:$m})    = SK_UUID
