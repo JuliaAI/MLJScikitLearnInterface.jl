@@ -223,8 +223,7 @@ function _skmodel_predict_prob(modelname)
             # this is an array of size n x c with rows that sum to 1
             preds   = SK.predict_proba(fitres, Xmatrix)
             classes = MMI.classes(y1)
-            return [MMI.UnivariateFinite(classes, preds[i, :])
-                    for i in 1:size(Xmatrix, 1)]
+            return MMI.UnivariateFinite(classes, preds)
         end
     end
 end
