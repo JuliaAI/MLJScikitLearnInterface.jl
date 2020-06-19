@@ -24,10 +24,8 @@ end
 
 @testset "Docstrings" begin
     for mod in models
-        for mod in models
-            m = mod()
-            @test !isempty(MB.docstring(m))
-        end
+        m = mod()
+        @test !isempty(MB.docstring(m))
     end
 end
 
