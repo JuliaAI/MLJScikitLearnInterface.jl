@@ -16,3 +16,6 @@ println("linear-classifiers");      include("models/linear-classifiers.jl")
 println("discriminant-analysis");   include("models/discriminant-analysis.jl")
 println("gaussian-process");        include("models/gaussian-process.jl")
 println("ensemble");                include("models/ensemble.jl")
+
+
+println("extras"); include("extras.jl")
