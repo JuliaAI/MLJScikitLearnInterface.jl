@@ -246,7 +246,12 @@ function _skmodel_fit_uns(modelname, params)
     quote
         function MMI.fit(model::$modelname, verbosity::Int, X)
             Xmatrix = MMI.matrix(X)
-            skmodel = $(Symbol(modelname, "_"))(
+           # See _skmodel_fit_reg, same story
+            sksym, skmod, mdl = $(Symbol(modelname, "_"))
+            parent = eval(sksym)
+            ispynull(parent) && ski!(parent, skmod)
+            skconstr = getproperty(parent, mdl)
+            skmodel = skconstr(
                         $((Expr(:kw, p, :(model.$p)) for p in params)...))
             fitres  = SK.fit!(skmodel, Xmatrix)
             # TODO: we may want to use the report later on
