@@ -186,6 +186,9 @@ const RandomForestRegressor_ = sken(:RandomForestRegressor)
     random_state::Any              = nothing
     verbose::Int                   = 0
     warm_start::Bool               = false
+    ccp_alpha::Float64             =0.0::(_ ≥ 0)
+    max_samples::Union{Nothing,Float64,Int} =
+        nothing::(_ === nothing || (_ ≥ 0 && (_ isa Integer || _ ≤ 1)))
 end
 MMI.fitted_params(model::RandomForestRegressor, (f, _, _)) = (
     estimators          = f.estimators_,
@@ -221,6 +224,9 @@ const RandomForestClassifier_ = sken(:RandomForestClassifier)
     verbose::Int                   = 0
     warm_start::Bool               = false
     class_weight::Any              = nothing
+    ccp_alpha::Float64             =0.0::(_ ≥ 0)
+    max_samples::Union{Nothing,Float64,Int} =
+        nothing::(_ === nothing || (_ ≥ 0 && (_ isa Integer || _ ≤ 1)))
 end
 MMI.fitted_params(m::RandomForestClassifier, (f, _, _)) = (
     estimators            = f.estimators_,
