@@ -321,7 +321,7 @@ macro sku_predict(modelname)
             else
                 throw(ArgumentError("Model $sm does not support `predict`."))
             end
-            preds  = SK.predict(fitres, MMI.matrix(X)) .+ 1
+            preds  = broadcast(+, SK.predict(fitres, MMI.matrix(X)), 1)
             return catv[preds]
         end
     end
