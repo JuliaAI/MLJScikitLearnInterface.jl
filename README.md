@@ -6,5 +6,4 @@
 
 **June 2020**
 
-* Tests for clustering (port from MLJModels)
 * Maybe more integration tests

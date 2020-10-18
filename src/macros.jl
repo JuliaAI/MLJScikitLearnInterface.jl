@@ -55,7 +55,7 @@ corresponding to the model constructor (see [`_model_constructor`](@ref)).
 """
 function _sk_constructor(expr)
     # similar to @mlj_model
-    expr, modelname, params, defaults, constraints = _process_model_def(expr)
+    expr, modelname, params, defaults, constraints = _process_model_def(@__MODULE__, expr)
     # keyword constructor
     const_expr = _model_constructor(modelname, params, defaults)
     # associate the constructor with the definition of the struct
