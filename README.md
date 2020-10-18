@@ -1,6 +1,6 @@
 # MLJ <> ScikitLearn.jl
 Repository implementing MLJ interface for 
-[MultivariateStats](https://github.com/JuliaStats/MultivariateStats.jl) models.
+[ScikitLearn.jl](https://github.com/JuliaStats/ScikitLearn.jl) models.
 
 
 [![Build Status](https://travis-ci.com/alan-turing-institute/MLJScikitLearnInterface.jl.svg?branch=master)](https://travis-ci.com/github/alan-turing-institute/MLJScikitLearnInterface.jl)
