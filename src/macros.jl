@@ -98,7 +98,7 @@ function _sk_finalize(m, clean_expr, fit_expr, expr)
         MMI.package_license(::Type{<:$m}) = SK_LIC
         MMI.package_uuid(::Type{<:$m})    = SK_UUID
         MMI.package_url(::Type{<:$m})     = SK_URL
-        MMI.is_wrapper(::Type{<:$m})      = true
+        MMI.is_wrapper(::Type{<:$m})      = false
     end
     esc(expr)
 end
