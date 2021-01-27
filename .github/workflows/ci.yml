@@ -1,4 +1,6 @@
 name: CI
+env:
+  PYTHON=Conda
 on:
   pull_request:
     branches:
