@@ -3,6 +3,7 @@ using MLJScikitLearnInterface
 using Test
 import MLJBase
 import ScikitLearn
+import MLJBase: target_scitype, input_scitype, output_scitype
 
 const MB = MLJBase
 

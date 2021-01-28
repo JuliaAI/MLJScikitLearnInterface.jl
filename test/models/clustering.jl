@@ -29,7 +29,7 @@ models = (
 
        if m in (AffinityPropagation, MeanShift)
           p = MB.predict(m, f, X)
-          @test p isa MB.CategoricalArray 
+          @test p isa MB.CategoricalArray
        end
 
        @test keys(fp) == getproperty(fparams, Symbol(mod))
@@ -46,12 +46,11 @@ end
 @testset "Scitypes" begin
     for mod in models
         m = mod()
-        infos = MB.info_dict(m)
-        @test infos[:input_scitype] == MB.Table(MB.Continuous)
+        @test input_scitype(mod) == MB.Table(MB.Continuous)
         m == AffinityPropagation &&
-            @test infos[:target_scitype] == AbstractVector{MB.Multiclass}
-        m == MeanShift && 
-            @test infos[:output_scitype] == MB.Table(MB.Continuous)
+            @test target_scitype(mod) == AbstractVector{MB.Multiclass}
+        m == MeanShift &&
+            @test output_scitype(mod) == MB.Table(MB.Continuous)
     end
 end
 
@@ -69,10 +68,10 @@ models = (
        fp = MB.fitted_params(m, f)
        @test size(fp.cluster_centers) == (4, 3)
        p = MB.predict(m, f, X)
-       @test p isa MB.CategoricalArray 
+       @test p isa MB.CategoricalArray
        Xt = MB.transform(m, f, X)
        @test Xt isa MB.Tables.MatrixTable
-            
+
        @test keys(fp) == getproperty(fparams, Symbol(mod))
     end
 end
@@ -87,10 +86,9 @@ end
 @testset "Scitypes" begin
     for mod in models
         m = mod()
-        infos = MB.info_dict(m)
-        @test infos[:input_scitype] == MB.Table(MB.Continuous)
-        @test infos[:target_scitype] == AbstractVector{MB.Multiclass}
-        @test infos[:output_scitype] == MB.Table(MB.Continuous)
+        @test input_scitype(mod) == MB.Table(MB.Continuous)
+        @test target_scitype(mod) == AbstractVector{MB.Multiclass}
+        @test output_scitype(mod) == MB.Table(MB.Continuous)
     end
 end
 
@@ -107,19 +105,19 @@ models = (
        f, = MB.fit(m, 1, X)
        fp = MB.fitted_params(m, f)
        @test fp.labels isa MB.CategoricalArray
-          
+
        Xt = MB.transform(m, f, X)
        if mod == FeatureAgglomeration
-           @test fp.distances === nothing 
-           Xit = MB.inverse_transform(m, f, Xt)            
+           @test fp.distances === nothing
+           Xit = MB.inverse_transform(m, f, Xt)
           # NOTE: they're not equal (not sure why)
            @test Xit isa MB.Tables.MatrixTable
-       else 
+       else
         p = MB.predict(m, f, X)
-        @test p isa MB.CategoricalArray  
+        @test p isa MB.CategoricalArray
         @test Xt isa MB.Tables.MatrixTable
-       end     
-            
+       end
+
        @test keys(fp) == getproperty(fparams, Symbol(mod))
     end
 end
@@ -133,11 +131,10 @@ end
 
 @testset "Scitypes" begin
     for mod in models
-        infos = MB.info_dict(mod)
-        @test infos[:input_scitype] == MB.Table(MB.Continuous)
+        @test input_scitype(mod) == MB.Table(MB.Continuous)
         mod == Birch &&
-            @test infos[:target_scitype] == AbstractVector{MB.Multiclass}
-        @test infos[:output_scitype] == MB.Table(MB.Continuous)
+            @test target_scitype(mod) == AbstractVector{MB.Multiclass}
+        @test output_scitype(mod) == MB.Table(MB.Continuous)
     end
 end
 
@@ -152,7 +149,7 @@ model = (
        m=mod()
        f, = MB.fit(m, 1, X)
        fp = MB.fitted_params(m, f)
-       @test fp.labels isa MB.CategoricalArray            
+       @test fp.labels isa MB.CategoricalArray
        @test keys(fp) == getproperty(fparams, Symbol(mod))
     end
 end
@@ -167,7 +164,6 @@ end
 @testset "Scitypes" begin
     for mod in models
         m = mod()
-        infos = MB.info_dict(m)
-        @test infos[:input_scitype] == MB.Table(MB.Continuous)
+        @test input_scitype(mod) == MB.Table(MB.Continuous)
     end
 end
