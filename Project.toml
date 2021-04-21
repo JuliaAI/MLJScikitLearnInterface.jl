@@ -9,7 +9,7 @@ PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 ScikitLearn = "3646fa90-6ef7-5e7e-9f22-8aca16db6324"
 
 [compat]
-MLJModelInterface = "0.3.6,0.4"
+MLJModelInterface = "0.3.6,0.4, 1.0"
 PyCall = "1"
 ScikitLearn = "0.5,0.6"
 julia = "1"
