@@ -76,7 +76,7 @@ const ElasticNetCVRegressor_ = sklm(:ElasticNetCV)
     l1_ratio::Union{Float64,Vector{Float64}} = 0.5::(all(0 .≤ _ .≤ 1))
     eps::Float64        = 1e-3::(_ > 0)
     n_alphas::Int       = 100::(_ > 0)
-    alphas::Any         = nothing::(_ === nothing || all(0 .≤ _ .≤ 1))
+    alphas::Any         = nothing::(_ === nothing || all(0 .≤ _))
     fit_intercept::Bool = true
     normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
@@ -189,7 +189,7 @@ const LassoCVRegressor_ = sklm(:LassoCV)
 @sk_reg mutable struct LassoCVRegressor <: MMI.Deterministic
     eps::Float64        = 1e-3::(_ > 0)
     n_alphas::Int       = 100::(_ > 0)
-    alphas::Any         = nothing::(_ === nothing || all(0 .≤ _ .≤ 1))
+    alphas::Any         = nothing::(_ === nothing || all(0 .≤ _))
     fit_intercept::Bool = true
     normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
