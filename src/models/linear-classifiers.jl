@@ -25,7 +25,7 @@ meta(LogisticClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Logistic regression classifier."
+    human_name  = "logistic regression classifier"
     )
 
 # ============================================================================
@@ -64,7 +64,7 @@ meta(LogisticCVClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Logistic regression classifier $CV."
+    human_name   = "logistic regression classifier $CV"
     )
 
 # ============================================================================
@@ -94,7 +94,7 @@ meta(PassiveAggressiveClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Passive aggressive classifier."
+    human_name   = "passive aggressive classifier"
     )
 
 # ============================================================================
@@ -124,7 +124,6 @@ meta(PerceptronClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Perceptron classifier."
     )
 
 # ============================================================================
@@ -148,7 +147,7 @@ meta(RidgeClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Ridge regression classifier."
+    human_name   = "ridge regression classifier"
     )
 
 # ============================================================================
@@ -170,7 +169,7 @@ meta(RidgeCVClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Ridge regression classifier $CV."
+    human_name   = "ridge regression classifier $CV"
     )
 
 # ============================================================================
@@ -234,6 +233,5 @@ MMI.fitted_params(m::ProbabilisticSGDClassifier, (f,_,_)) = (
 meta.((SGDClassifier, ProbabilisticSGDClassifier),
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
-    weights = false,
-    descr   = "Linear classifier with stochastic gradient descent training."
+    weights = false
     )

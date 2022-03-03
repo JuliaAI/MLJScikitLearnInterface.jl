@@ -13,7 +13,7 @@ MMI.fitted_params(model::MultiTaskLassoRegressor, (fitresult, _, _)) = (
     coef      = fitresult.coef_,
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
-descr(MultiTaskLassoRegressor, "MultiTask Lasso regression.")
+add_human_name_trait(MultiTaskLassoRegressor, "multi-target lasso regressor")
 
 # ==============================================================================
 const MultiTaskLassoCVRegressor_ = sklm(:MultiTaskLassoCV)
@@ -39,7 +39,7 @@ MMI.fitted_params(model::MultiTaskLassoCVRegressor, (fitresult, _, _)) = (
     mse_path  = fitresult.mse_path_,
     alphas    = fitresult.alphas_
     )
-descr(MultiTaskLassoCVRegressor, "MultiTask Lasso regression $CV.")
+add_human_name_trait(MultiTaskLassoCVRegressor, "multi-target lasso regressor $CV")
 
 # ==============================================================================
 const MultiTaskElasticNetRegressor_ = sklm(:MultiTaskElasticNet)
@@ -59,7 +59,7 @@ MMI.fitted_params(model::MultiTaskElasticNetRegressor, (fitresult, _, _)) = (
     coef      = fitresult.coef_,
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
-descr(MultiTaskElasticNetRegressor, "MultiTask Elastic Net regression.")
+add_human_name_trait(MultiTaskElasticNetRegressor, "multi-target elastic net regressor")
 
 # ==============================================================================
 const MultiTaskElasticNetCVRegressor_ = sklm(:MultiTaskElasticNetCV)
@@ -86,7 +86,8 @@ MMI.fitted_params(model::MultiTaskElasticNetCVRegressor, (fitresult, _, _)) = (
     mse_path  = fitresult.mse_path_,
     l1_ratio  = fitresult.l1_ratio_
     )
-descr(MultiTaskElasticNetCVRegressor, "MultiTask Elastic Net regression $CV.")
+add_human_name_trait(MultiTaskElasticNetCVRegressor, "multi-target elastic "*
+                     "net regressor $CV")
 
 
 const SKL_REGS_MULTI = Union{

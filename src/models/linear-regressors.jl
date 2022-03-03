@@ -21,7 +21,7 @@ MMI.fitted_params(model::ARDRegressor, (fitresult, _, _)) = (
     sigma     = fitresult.sigma_,
     scores    = fitresult.scores_
     )
-descr(ARDRegressor, "Bayesian ARD regression.")
+add_human_name_trait(ARDRegressor, "Bayesian ARD regressor")
 
 # =============================================================================
 const BayesianRidgeRegressor_ = sklm(:BayesianRidge)
@@ -46,7 +46,7 @@ MMI.fitted_params(model::BayesianRidgeRegressor, (fitresult, _, _)) = (
     sigma     = fitresult.sigma_,
     scores    = fitresult.scores_
     )
-descr(BayesianRidgeRegressor, "Bayesian ridge regression.")
+add_human_name_trait(BayesianRidgeRegressor, "Bayesian ridge regressor")
 
 # =============================================================================
 const ElasticNetRegressor_ = sklm(:ElasticNet)
@@ -68,7 +68,6 @@ MMI.fitted_params(model::ElasticNetRegressor, (fitresult, _, _)) = (
     coef      = fitresult.coef_,
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     )
-descr(ElasticNetRegressor, "Elastic net regression.")
 
 # =============================================================================
 const ElasticNetCVRegressor_ = sklm(:ElasticNetCV)
@@ -97,7 +96,7 @@ MMI.fitted_params(model::ElasticNetCVRegressor, (fitresult, _, _)) = (
     mse_path  = fitresult.mse_path_,
     alphas    = fitresult.alphas_
     )
-descr(ElasticNetCVRegressor, "Elastic net regression $CV.")
+add_human_name_trait(ElasticNetCVRegressor, "elastic net regression $CV")
 
 # =============================================================================
 const HuberRegressor_ = sklm(:HuberRegressor)
@@ -115,7 +114,7 @@ MMI.fitted_params(model::HuberRegressor, (fitresult, _, _)) = (
     scale     = fitresult.scale_,
     outliers  = fitresult.outliers_
     )
-descr(HuberRegressor, "Huber regression.")
+add_human_name_trait(HuberRegressor, "Huber regressor")
 
 # =============================================================================
 const LarsRegressor_ = sklm(:Lars)
@@ -136,7 +135,7 @@ MMI.fitted_params(model::LarsRegressor, (fitresult, _, _)) = (
     active    = fitresult.active_,
     coef_path = fitresult.coef_path_
     )
-descr(LarsRegressor, "Lars regression.")
+add_human_name_trait(LarsRegressor, "least angle regressor (LARS)")
 
 # =============================================================================
 const LarsCVRegressor_ = sklm(:LarsCV)
@@ -161,7 +160,7 @@ MMI.fitted_params(model::LarsCVRegressor, (fitresult, _, _)) = (
     mse_path  = fitresult.mse_path_,
     coef_path = fitresult.coef_path_
     )
-descr(LarsCVRegressor, "Lars regression $CV.")
+add_human_name_trait(LarsCVRegressor, "least angle regressor $CV")
 
 # =============================================================================
 const LassoRegressor_ = sklm(:Lasso)
@@ -182,7 +181,6 @@ MMI.fitted_params(model::LassoRegressor, (fitresult, _, _)) = (
     coef      = fitresult.coef_,
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     )
-descr(LassoRegressor, "Lasso regression.")
 
 # =============================================================================
 const LassoCVRegressor_ = sklm(:LassoCV)
@@ -211,7 +209,7 @@ MMI.fitted_params(model::LassoCVRegressor, (fitresult, _, _)) = (
     mse_path  = fitresult.mse_path_,
     dual_gap  = fitresult.dual_gap_
     )
-descr(LassoCVRegressor, "Lasso regression $CV.")
+add_human_name_trait(LassoCVRegressor, "lasso regressor $CV")
 
 # =============================================================================
 const LassoLarsRegressor_ = sklm(:LassoLars)
@@ -234,7 +232,7 @@ MMI.fitted_params(model::LassoLarsRegressor, (fitresult, _, _)) = (
     active    = fitresult.active_,
     coef_path = fitresult.coef_path_
     )
-descr(LassoLarsRegressor, "Lasso model fit with least angle regression (LARS).")
+add_human_name_trait(LassoLarsRegressor, "Lasso model fit with least angle regression (LARS)")
 
 # =============================================================================
 const LassoLarsCVRegressor_ = sklm(:LassoLarsCV)
@@ -260,7 +258,8 @@ MMI.fitted_params(model::LassoLarsCVRegressor, (fitresult, _, _)) = (
     cv_alphas = fitresult.cv_alphas_,
     mse_path  = fitresult.mse_path_
     )
-descr(LassoLarsCVRegressor, "Lasso model fit with least angle regression (LARS) $CV.")
+add_human_name_trait(LassoLarsCVRegressor, "Lasso model fit with least angle "*
+                     "regression (LARS) $CV")
 
 # =============================================================================
 const LassoLarsICRegressor_ = sklm(:LassoLarsIC)
@@ -280,7 +279,8 @@ MMI.fitted_params(model::LassoLarsICRegressor, (fitresult, _, _)) = (
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alpha     = fitresult.alpha_
     )
-descr(LassoLarsICRegressor, "Lasso model with Lars using BIC or AIC for model selection.")
+add_human_name_trait(LassoLarsICRegressor, "Lasso model with LARS using "*
+                     "BIC or AIC for model selection")
 
 # =============================================================================
 const LinearRegressor_ = sklm(:LinearRegression)
@@ -294,7 +294,7 @@ MMI.fitted_params(model::LinearRegressor, (fitresult, _, _)) = (
     coef      = fitresult.coef_,
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
-descr(LinearRegressor, "Ordinary least-square regression (OLS).")
+add_human_name_trait(LinearRegressor, "ordinary least-squares regressor (OLS)")
 
 # =============================================================================
 const OrthogonalMatchingPursuitRegressor_ = sklm(:OrthogonalMatchingPursuit)
@@ -309,7 +309,6 @@ MMI.fitted_params(model::OrthogonalMatchingPursuitRegressor, (fitresult, _, _)) 
     coef      = fitresult.coef_,
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
-descr(OrthogonalMatchingPursuitRegressor, "Orthogonal Matching Pursuit (OMP) model.")
 
 # =============================================================================
 const OrthogonalMatchingPursuitCVRegressor_ = sklm(:OrthogonalMatchingPursuitCV)
@@ -327,7 +326,8 @@ MMI.fitted_params(model::OrthogonalMatchingPursuitCVRegressor, (fitresult, _, _)
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     n_nonzero_coefs = fitresult.n_nonzero_coefs_
     )
-descr(OrthogonalMatchingPursuitCVRegressor, "Orthogonal Matching Pursuit (OMP) model $CV.")
+add_human_name_trait(OrthogonalMatchingPursuitCVRegressor, "orthogonal ,atching pursuit "*
+                     "(OMP) model $CV")
 
 # =============================================================================
 const PassiveAggressiveRegressor_ = sklm(:PassiveAggressiveRegressor)
@@ -351,7 +351,6 @@ MMI.fitted_params(model::PassiveAggressiveRegressor, (fitresult, _, _)) = (
     coef      = fitresult.coef_,
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
-descr(PassiveAggressiveRegressor, "Passive Aggressive Regressor.")
 
 # =============================================================================
 const RANSACRegressor_ = sklm(:RANSACRegressor)
@@ -377,7 +376,6 @@ MMI.fitted_params(m::RANSACRegressor, (f, _, _)) = (
     n_skips_invalid_data  = f.n_skips_invalid_data_,
     n_skips_invalid_model = f.n_skips_invalid_model_
     )
-descr(RANSACRegressor, "RANSAC regressor.")
 
 # =============================================================================
 const RidgeRegressor_ = sklm(:Ridge)
@@ -395,7 +393,6 @@ MMI.fitted_params(model::RidgeRegressor, (fitresult, _, _)) = (
     coef      = fitresult.coef_,
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
-descr(RidgeRegressor, "Ridge regression.")
 
 # =============================================================================
 const RidgeCVRegressor_ = sklm(:RidgeCV)
@@ -414,7 +411,7 @@ MMI.fitted_params(model::RidgeCVRegressor, (fitresult, _, _)) = (
     alpha     = fitresult.alpha_,
     cv_values = model.store_cv_values ? fitresult.cv_values_ : nothing
     )
-descr(RidgeCVRegressor, "Ridge regression $CV.")
+add_human_name_trait(RidgeCVRegressor, "ridge regressor $CV")
 
 # =============================================================================
 const SGDRegressor_ = sklm(:SGDRegressor)
@@ -445,7 +442,7 @@ MMI.fitted_params(model::SGDRegressor, (fitresult, _, _)) = (
     average_coef      = model.average ? fitresult.average_coef_ : nothing,
     average_intercept = model.average ? ifelse(model.fit_intercept, fitresult.average_intercept_, nothing) : nothing
     )
-descr(SGDRegressor, "Stochastic gradient descent-based regressor.")
+add_human_name_trait(SGDRegressor, "stochastic gradient descent-based regressor")
 
 # =============================================================================
 const TheilSenRegressor_ = sklm(:TheilSenRegressor)
@@ -466,7 +463,7 @@ MMI.fitted_params(model::TheilSenRegressor, (fitresult, _, _)) = (
     breakdown       = fitresult.breakdown_,
     n_subpopulation = fitresult.n_subpopulation_
     )
-descr(TheilSenRegressor, "Theil-Sen regressor.")
+add_human_name_trait(TheilSenRegressor, "Theil-Sen regressor")
 
 
 # Metadata for Continuous -> Vector{Continuous}
