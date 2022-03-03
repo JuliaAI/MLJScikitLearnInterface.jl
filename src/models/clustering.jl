@@ -189,7 +189,6 @@ const KMeans_ = skcl(:KMeans)
     n_jobs::Option{Int} = nothing
     algorithm::String   = "auto"::(_ in ("auto", "full", "elkane"))
     # long
-    precompute_distances::Union{Bool,String} = "auto"::(_ isa Bool || _ == "auto")
     init::Union{AbstractArray,String}        = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
 end
 @sku_transform KMeans
