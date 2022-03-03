@@ -12,7 +12,7 @@ MMI.fitted_params(model::AdaBoostRegressor, (f, _, _)) = (
     estimator_errors     = f.estimator_errors_,
     feature_importances  = f.feature_importances_
     )
-descr(AdaBoostRegressor, "AdaBoost ensemble regression.")
+add_human_name_trait(AdaBoostRegressor, "AdaBoost ensemble regression")
 
 # ----------------------------------------------------------------------------
 const AdaBoostClassifier_ = sken(:AdaBoostClassifier)
@@ -34,7 +34,6 @@ meta(AdaBoostClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Adaboost ensemble classifier."
     )
 
 # ============================================================================
@@ -59,7 +58,7 @@ MMI.fitted_params(model::BaggingRegressor, (f, _, _)) = (
     oob_score           = model.oob_score ? f.oob_score_ : nothing,
     oob_prediction      = model.oob_score ? f.oob_prediction_ : nothing
     )
-descr(BaggingRegressor, "Bagging ensemble regression.")
+add_human_name_trait(BaggingRegressor, "bagging ensemble regressor")
 
 # ----------------------------------------------------------------------------
 const BaggingClassifier_ = sken(:BaggingClassifier)
@@ -90,7 +89,7 @@ meta(BaggingClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Bagging ensemble classifier."
+    human_name   = "bagging ensemble classifier"
     )
 
 # ============================================================================
@@ -126,7 +125,7 @@ MMI.fitted_params(m::GradientBoostingRegressor, (f, _, _)) = (
     estimators          = f.estimators_,
     oob_improvement     = m.subsample < 1 ? f.oob_improvement_ : nothing
     )
-descr(GradientBoostingRegressor, "Gradient boosting ensemble regression.")
+add_human_name_trait(GradientBoostingRegressor, "gradient boosting ensemble regression")
 
 # ----------------------------------------------------------------------------
 const GradientBoostingClassifier_ = sken(:GradientBoostingClassifier)
@@ -164,8 +163,7 @@ MMI.fitted_params(m::GradientBoostingClassifier, (f, _, _)) = (
 meta(GradientBoostingClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
-    weights = false,
-    descr   = "Gradient boosting ensemble classifier."
+    weights = false
     )
 
 # ============================================================================
@@ -201,8 +199,7 @@ MMI.fitted_params(model::RandomForestRegressor, (f, _, _)) = (
 meta(RandomForestRegressor,
     input   = Table(Count,Continuous),
     target  = AbstractVector{Continuous},
-    weights = false,
-    descr   = "Random forest regressor."
+    weights = false
     )
 
 # ----------------------------------------------------------------------------
@@ -241,8 +238,7 @@ MMI.fitted_params(m::RandomForestClassifier, (f, _, _)) = (
 meta(RandomForestClassifier,
     input   = Table(Count,Continuous),
     target  = AbstractVector{<:Finite},
-    weights = false,
-    descr   = "Random forest classifier."
+    weights = false
     )
 
 const ENSEMBLE_REG = Union{Type{<:AdaBoostRegressor}, Type{<:BaggingRegressor}, Type{<:GradientBoostingRegressor}}
@@ -280,9 +276,18 @@ MMI.fitted_params(m::ExtraTreesRegressor, (f, _, _)) = (
 meta(ExtraTreesRegressor,
     input   = Table(Continuous),
     target  = AbstractVector{Continuous},
-    weights = false,
-    descr   = "Extra trees regressor, fits a number of randomized decision trees on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting."
+    weights = false
     )
+
+"""
+$(MMI.doc_header(ExtraTreesRegressor))
+
+Extra trees regressor, fits a number of randomized decision trees on
+various sub-samples of the dataset and uses averaging to improve the
+predictive accuracy and control over-fitting.
+
+"""
+ExtraTreesRegressor
 
 # ----------------------------------------------------------------------------
 const ExtraTreesClassifier_ = sken(:ExtraTreesClassifier)
@@ -317,6 +322,15 @@ MMI.fitted_params(m::ExtraTreesClassifier, (f, _, _)) = (
 meta(ExtraTreesClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
-    weights = false,
-    descr   = "Extra trees classifier, fits a number of randomized decision trees on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting."
+    weights = false
     )
+
+"""
+$(MMI.doc_header(ExtraTreesClassifier))
+
+Extra trees classifier, fits a number of randomized decision trees on
+various sub-samples of the dataset and uses averaging to improve the
+predictive accuracy and control over-fitting.
+
+"""
+ExtraTreesClassifier

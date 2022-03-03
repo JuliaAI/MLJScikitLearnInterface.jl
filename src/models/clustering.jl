@@ -23,7 +23,7 @@ meta(AffinityPropagation,
     target  = AbstractVector{Multiclass},
     # no transform so no output
     weights = false,
-    descr   = "Perform Affinity Propagation Clustering of data."
+    human_name  = "Affinity Propagation Clustering of data"
     )
 
 # ============================================================================
@@ -48,12 +48,20 @@ function MMI.fitted_params(m::AgglomerativeClustering, f)
         children   = f.children_)
 end
 meta(AgglomerativeClustering,
-    input   = Table(Continuous),
-    # no predict nor transform so no target nor output
-    weights = false,
-    descr   = "Recursively merges the pair of clusters that minimally increases a given linkage distance. Note: there is no `predict` or `transform` method
-    associated with it; instead, inspect the `fitted_params`."
+     input   = Table(Continuous),
+     # no predict nor transform so no target nor output
+     weights = false,
     )
+
+"""
+$(MMI.doc_header(AgglomerativeClustering))
+
+Recursively merges the pair of clusters that minimally increases a
+given linkage distance. Note: there is no `predict` or `transform`.
+Instead, inspect the `fitted_params`.
+
+"""
+AgglomerativeClustering
 
 # ============================================================================
 const Birch_ = skcl(:Birch)
@@ -81,8 +89,17 @@ meta(Birch,
     target  = AbstractVector{Multiclass},
     output  = Table(Continuous),
     weights = false,
-    descr   = "Memory-efficient, online-learning algorithm provided as an alternative to MiniBatchKMeans. Note: noisy samples are given the label -1."
     )
+
+"""
+$(MMI.doc_header(Birch))
+
+Memory-efficient, online-learning algorithm provided as an
+alternative to MiniBatchKMeans. Note: noisy samples are given the
+label -1.
+
+"""
+Birch
 
 # ============================================================================
 const DBSCAN_ = skcl(:DBSCAN)
@@ -106,8 +123,17 @@ end
 meta(DBSCAN,
     input   = Table(Continuous),
     weights = false,
-    descr   = "Density-Based Spatial Clustering of Applications with Noise. Finds core samples of high density and expands clusters from them. Good for data which contains clusters of similar density."
     )
+
+"""
+$(MMI.doc_header(DBSCAN))
+
+Density-Based Spatial Clustering of Applications with Noise. Finds
+core samples of high density and expands clusters from them. Good for
+data which contains clusters of similar density.
+
+"""
+DBSCAN
 
 # ============================================================================
 const FeatureAgglomeration_ = skcl(:FeatureAgglomeration)
@@ -139,8 +165,16 @@ meta(FeatureAgglomeration,
     input   = Table(Continuous),
     output  = Table(Continuous),
     weights = false,
-    descr   = "Similar to AgglomerativeClustering, but recursively merges features instead of samples."
     )
+
+"""
+$(MMI.doc_header(FeatureAgglomeration))
+
+Similar to [`AgglomerativeClustering`](@ref), but recursively merges
+features instead of samples."
+
+"""
+FeatureAgglomeration
 
 # ============================================================================
 const KMeans_ = skcl(:KMeans)
@@ -152,10 +186,8 @@ const KMeans_ = skcl(:KMeans)
     verbose::Int        = 0::(_ ≥ 0)
     random_state::Any   = nothing
     copy_x::Bool        = true
-    n_jobs::Option{Int} = nothing
     algorithm::String   = "auto"::(_ in ("auto", "full", "elkane"))
     # long
-    precompute_distances::Union{Bool,String} = "auto"::(_ isa Bool || _ == "auto")
     init::Union{AbstractArray,String}        = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
 end
 @sku_transform KMeans
@@ -169,12 +201,18 @@ function MMI.fitted_params(m::KMeans, f)
         inertia         = f.inertia_)
 end
 meta(KMeans,
-    input   = Table(Continuous),
-    target  = AbstractVector{Multiclass},
-    output  = Table(Continuous),
-    weights = false,
-    descr   = "K-Means algorithm: find K centroids corresponding to K clusters in the data."
-    )
+     input   = Table(Continuous),
+     target  = AbstractVector{Multiclass},
+     output  = Table(Continuous),
+     weights = false)
+
+"""
+$(MMI.doc_header(KMeans))
+
+K-Means algorithm: find K centroids corresponding to K clusters in the data.
+
+"""
+KMeans
 
 # ============================================================================
 const MiniBatchKMeans_ = skcl(:MiniBatchKMeans)
@@ -207,7 +245,7 @@ meta(MiniBatchKMeans,
     target  = AbstractVector{Multiclass},
     output  = Table(Continuous),
     weights = false,
-    descr   = "Mini-Batch K-Means clustering."
+    human_name   = "Mini-Batch K-Means clustering."
     )
 
 # ============================================================================
@@ -233,9 +271,21 @@ end
 meta(MeanShift,
     input   = Table(Continuous),
     target  = AbstractVector{Multiclass},
-    weights = false,
-    descr   = "Mean shift clustering using a flat kernel. Mean shift clustering aims to discover \"blobs\" in a smooth density of samples. It is a centroid-based algorithm, which works by updating candidates for centroids to be the mean of the points within a given region. These candidates are then filtered in a post-processing stage to eliminate near-duplicates to form the final set of centroids."
+    weights = false
     )
+
+"""
+$(MMI.doc_header(MeanShift))
+
+Mean shift clustering using a flat kernel. Mean shift clustering aims
+to discover \"blobs\" in a smooth density of samples. It is a
+centroid-based algorithm, which works by updating candidates for
+centroids to be the mean of the points within a given region. These
+candidates are then filtered in a post-processing stage to eliminate
+near-duplicates to form the final set of centroids."
+
+"""
+MeanShift
 
 # ============================================================================
 const OPTICS_ = skcl(:OPTICS)
@@ -267,8 +317,19 @@ end
 meta(OPTICS,
     input   = Table(Continuous),
     weights = false,
-    descr   = "OPTICS (Ordering Points To Identify the Clustering Structure), closely related to DBSCAN, finds core sample of high density and expands clusters from them. Unlike DBSCAN, keeps cluster hierarchy for a variable neighborhood radius. Better suited for usage on large datasets than the current sklearn implementation of DBSCAN."
     )
+
+"""
+$(MMI.doc_header(OPTICS))
+
+OPTICS (Ordering Points To Identify the Clustering Structure), closely
+related to [`DBSCAN'](@ref), finds core sample of high density and expands
+clusters from them. Unlike DBSCAN, keeps cluster hierarchy for a
+variable neighborhood radius. Better suited for usage on large
+datasets than the current sklearn implementation of DBSCAN.
+
+"""
+OPTICS
 
 # ============================================================================
 const SpectralClustering_ = skcl(:SpectralClustering)
@@ -294,10 +355,21 @@ function MMI.fitted_params(m::SpectralClustering, f)
 end
 meta(SpectralClustering,
     input   = Table(Continuous),
-    weights = false,
-    descr   = "Apply clustering to a projection of the normalized Laplacian.
-    In practice Spectral Clustering is very useful when the structure of the individual clusters is highly non-convex or more generally when a measure of the center and spread of the cluster is not a suitable description of the complete cluster. For instance when clusters are nested circles on the 2D plane."
+    weights = false
     )
+
+"""
+$(MMI.doc_header(SpectralClustering))
+
+Apply clustering to a projection of the normalized Laplacian.  In
+practice spectral clustering is very useful when the structure of the
+individual clusters is highly non-convex or more generally when a
+measure of the center and spread of the cluster is not a suitable
+description of the complete cluster. For instance when clusters are
+nested circles on the 2D plane.
+
+"""
+SpectralClustering
 
 # NOTE: the two models below are weird, not bothering with them for now
 # # ============================================================================

@@ -22,7 +22,7 @@ meta(BayesianLDA,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Bayesian Linear Discriminant Analysis."
+    human_name   = "Bayesian linear discriminant analysis"
     )
 
 # ============================================================================
@@ -44,5 +44,5 @@ meta(BayesianQDA,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Bayesian Quadratic Discriminant Analysis."
+    human_name   = "Bayesian quadratic discriminant analysis"
     )
