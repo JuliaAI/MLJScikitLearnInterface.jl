@@ -11,9 +11,16 @@ MMI.fitted_params(m::DummyRegressor, (f, _, _)) = (
 meta(DummyRegressor,
     input   = Table(Continuous),
     target  = AbstractVector{Continuous},
-    weights = false,
-    descr   = "DummyRegressor is a regressor that makes predictions using simple rules."
+    weights = false
     )
+
+"""
+$(MMI.doc_header(DummyRegressor))
+
+DummyRegressor is a regressor that makes predictions using simple rules.
+
+"""
+DummyRegressor
 
 # ----------------------------------------------------------------------------
 const DummyClassifier_ = skdu(:DummyClassifier)
@@ -31,8 +38,15 @@ meta(DummyClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "DummyClassifier is a classifier that makes predictions using simple rules."
-    )
+     )
+
+"""
+$(MMI.doc_header(DummyClassifier))
+
+DummyClassifier is a classifier that makes predictions using simple rules.
+
+"""
+DummyClassifier
 
 # ============================================================================
 const GaussianNBClassifier_ = sknb(:GaussianNB)
@@ -51,7 +65,7 @@ meta(GaussianNBClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Gaussian naive bayes model."
+    human_name   = "Gaussian naive Bayes classifier"
     )
 
 # ============================================================================
@@ -71,9 +85,20 @@ MMI.fitted_params(m::BernoulliNBClassifier, (f, _, _)) = (
 meta(BernoulliNBClassifier,
     input   = Table(Count),      # it expects binary but binarize takes care of that
     target  = AbstractVector{<:Finite},
-    weights = false,
-    descr   = "Binomial naive bayes classifier. It is suitable for classification with binary features; features will be binarized based on the `binarize` keyword (unless it's `nothing` in which case the features are assumed to be binary)."
-    )
+     weights = false,
+     human_name = "Bernoulli naive Bayes classifier"
+     )
+
+"""
+$(MMI.doc_header(BernoulliNBClassifier))
+
+Binomial naive bayes classifier. It is suitable for classification
+with binary features; features will be binarized based on the
+`binarize` keyword (unless it's `nothing` in which case the features
+are assumed to be binary).
+
+"""
+BernoulliNBClassifier
 
 # ============================================================================
 const MultinomialNBClassifier_ = sknb(:MultinomialNB)
@@ -93,9 +118,18 @@ MMI.fitted_params(m::MultinomialNBClassifier, (f, _, _)) = (
 meta(MultinomialNBClassifier,
     input   = Table(Count),        # NOTE: sklearn may also accept continuous (tf-idf)
     target  = AbstractVector{<:Finite},
-    weights = false,
-    descr   = "Multinomial naive bayes classifier. It is suitable for classification with discrete features (e.g. word counts for text classification)."
-    )
+     weights = false,
+     human_name = "multinomial naive Bayes classifier"
+     )
+
+"""
+$(MMI.doc_header(MultinomialNBClassifier))
+
+Multinomial naive bayes classifier. It is suitable for classification
+with discrete features (e.g. word counts for text classification).
+
+"""
+MultinomialNBClassifier
 
 # ============================================================================
 const ComplementNBClassifier_ = sknb(:ComplementNB)
@@ -115,9 +149,18 @@ MMI.fitted_params(m::ComplementNBClassifier, (f, _, _)) = (
 meta(ComplementNBClassifier,
     input   = Table(Count),        # NOTE: sklearn may also accept continuous (tf-idf)
     target  = AbstractVector{<:Finite},
-    weights = false,
-    descr   = "Similar to Multinomial NB classifier but with more robust assumptions. Suited for imbalanced datasets."
-    )
+     weights = false,
+     human_name = "Complement naive Bayes classifier"
+     )
+
+"""
+$(MMI.doc_header(ComplementNBClassifier))
+
+Similar to [`MultinomialNBClassifier`](@ref) but with more robust
+assumptions. Suited for imbalanced datasets.
+
+"""
+ComplementNBClassifier
 
 # ============================================================================
 const KNeighborsRegressor_ = skne(:KNeighborsRegressor)
@@ -139,8 +182,8 @@ meta(KNeighborsRegressor,
     input=Table(Continuous),
     target=AbstractVector{Continuous},
     weights=false,
-    descr="K-Nearest Neighbors regressor: predicts the response associated with a new point by taking an average of the response of the K-nearest points."
-    )
+     human_name = "K-nearest neighbors regressor"
+     )
 
 # ----------------------------------------------------------------------------
 const KNeighborsClassifier_ = skne(:KNeighborsClassifier)
@@ -164,5 +207,5 @@ meta(KNeighborsClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "K-Nearest Neighbors classifier: predicts the class associated with a new point by taking a vote over the classes of the K-nearest points."
+    human_name   = "K-nearest neighbors classifier"
     )

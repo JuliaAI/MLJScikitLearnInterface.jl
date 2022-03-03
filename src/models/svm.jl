@@ -19,7 +19,7 @@ MMI.fitted_params(m::SVMLinearClassifier, (f, _, _)) = (
 meta(SVMLinearClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
-    descr   = "Linear Support Vector Classification."
+    human_name   = "linear support vector classifier"
     )
 
 # ----------------------------------------------------------------------------
@@ -52,7 +52,7 @@ MMI.fitted_params(m::SVMClassifier, (f, _, _)) = (
 meta(SVMClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
-    descr   = "C-Support Vector Classification."
+    human_name   = "C-support vector classifier"
     )
 
 # ============================================================================
@@ -75,7 +75,7 @@ MMI.fitted_params(m::SVMLinearRegressor, (f, _, _)) = (
 meta(SVMLinearRegressor,
     input   = Table(Continuous),
     target  = AbstractVector{Continuous},
-    descr   = "Linear Support Vector Regression."
+    human_name   = "linear support vector regressor"
     )
 
 # ----------------------------------------------------------------------------
@@ -103,7 +103,7 @@ MMI.fitted_params(m::SVMRegressor, (f, _, _)) = (
 meta(SVMRegressor,
     input   = Table(Continuous),
     target  = AbstractVector{Continuous},
-    descr   = "Epsilon-Support Vector Regression."
+    human_name   = "epsilon-support vector regressor"
     )
 
 # ============================================================================
@@ -138,7 +138,7 @@ MMI.fitted_params(m::SVMNuClassifier, (f, _, _)) = (
 meta(SVMNuClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
-    descr   = "Nu-Support Vector Classification."
+    human_name   = "nu-support vector classifier"
     )
 
 # ============================================================================
@@ -165,5 +165,5 @@ MMI.fitted_params(m::SVMNuRegressor, (f, _, _)) = (
 meta(SVMNuRegressor,
     input   = Table(Continuous),
     target  = AbstractVector{Continuous},
-    descr   = "Nu-Support Vector Regression."
+    human_name   = "nu-support vector regressor"
     )

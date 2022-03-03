@@ -21,7 +21,7 @@ meta(GaussianProcessRegressor,
     input   = Table(Continuous),
     target  = AbstractVector{Continuous},
     weights = false,
-    descr   = "Gaussian process regressor."
+    human_name   = "Gaussian process regressor"
     )
 
 # ============================================================================
@@ -46,5 +46,5 @@ meta(GaussianProcessClassifier,
     input   = Table(Continuous),
     target  = AbstractVector{<:Finite},
     weights = false,
-    descr   = "Gaussian process classifier."
+    human_name   = "Gaussian process classifier"
     )
