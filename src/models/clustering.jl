@@ -186,7 +186,6 @@ const KMeans_ = skcl(:KMeans)
     verbose::Int        = 0::(_ ≥ 0)
     random_state::Any   = nothing
     copy_x::Bool        = true
-    n_jobs::Option{Int} = nothing
     algorithm::String   = "auto"::(_ in ("auto", "full", "elkane"))
     # long
     init::Union{AbstractArray,String}        = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
