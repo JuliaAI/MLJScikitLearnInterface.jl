@@ -46,8 +46,8 @@ jobs:
             ${{ runner.os }}-
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
-        with: 
-          prefix: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.julia/conda/3/lib
+        env: 
+          LD_LIBRARY_PATH: ~/.julia/conda/3/lib
       - uses: julia-actions/julia-processcoverage@v1
       - uses: codecov/codecov-action@v1
         with:
