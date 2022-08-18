@@ -27,6 +27,8 @@ jobs:
           - x64
     steps:
       - uses: actions/checkout@v2
+      - name: "set linux enviroment variable"
+        run: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.julia/conda/3/lib
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
