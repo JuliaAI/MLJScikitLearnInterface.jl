@@ -1,6 +1,9 @@
 name: CI
+
 env:
   PYTHON: Conda
+  LD_LIBRARY_PATH: ~/.julia/conda/3/lib
+  
 on:
   pull_request:
     branches:
@@ -27,9 +30,6 @@ jobs:
           - x64
     steps:
       - uses: actions/checkout@v2
-      - name: "set linux enviroment variable"
-        run: |
-          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/.julia/conda/3/lib
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
@@ -44,6 +44,8 @@ jobs:
             ${{ runner.os }}-test-${{ env.cache-name }}-
             ${{ runner.os }}-test-
             ${{ runner.os }}-
+      - name: "my test"
+        run: echo $LD_LIBRARY_PATH
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
         env: 
