@@ -2,7 +2,7 @@ name: CI
 
 env:
   PYTHON: Conda
-  LD_LIBRARY_PATH: $HOME/.julia/conda/
+  LD_LIBRARY_PATH: /home/runner/.julia/conda/
   
 on:
   pull_request:
