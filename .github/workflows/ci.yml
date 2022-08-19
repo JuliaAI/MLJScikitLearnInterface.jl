@@ -45,7 +45,8 @@ jobs:
             ${{ runner.os }}-test-
             ${{ runner.os }}-
       - name: "my test"
-        run: echo $LD_LIBRARY_PATH
+        run: cd $LD_LIBRARY_PATH\
+        pwd
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
         env: 
