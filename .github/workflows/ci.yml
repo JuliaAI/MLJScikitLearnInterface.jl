@@ -2,6 +2,7 @@ name: CI
 
 env:
   PYTHON: Conda
+# remove next line (and others marked below) when #42 properly resolved
   LD_LIBRARY_PATH: /home/runner/.julia/conda/3/lib
   
 on:
@@ -45,6 +46,7 @@ jobs:
             ${{ runner.os }}-test-
             ${{ runner.os }}-
       - uses: julia-actions/julia-buildpkg@v1
+# remove next four lines (and one other marked above) when #42 properly resolved
       - name: "Install Conda"
         run: julia -e 'using Pkg; Pkg.add("Conda");'
       - name: "Install Scikit-learn"
