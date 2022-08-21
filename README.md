@@ -1,6 +1,6 @@
 # MLJ <> ScikitLearn.jl
 Repository implementing MLJ interface for 
-[ScikitLearn.jl](https://github.com/JuliaStats/ScikitLearn.jl) models.
+[ScikitLearn.jl](https://github.com/cstjean/ScikitLearn.jl) models.
 
 
 [![Build Status](https://github.com/JuliaAI/MLJScikitLearnInterface.jl/workflows/CI/badge.svg)](https://github.com/JuliaAI/MLJScikitLearnInterface.jl/actions)

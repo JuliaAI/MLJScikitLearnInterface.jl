@@ -1,4 +1,4 @@
-module MLJScikitLearnInterface
+module MLJScikitLearnInterface 
 
 import MLJModelInterface
 import MLJModelInterface:
