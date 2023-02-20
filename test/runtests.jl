@@ -18,3 +18,5 @@ println("\ndiscriminant-analysis");   include("models/discriminant-analysis.jl")
 println("\ngaussian-process");        include("models/gaussian-process.jl")
 println("\nensemble");                include("models/ensemble.jl")
 println("\nclustering");              include("models/clustering.jl")
+
+prinln("\ngeneric interface tests");  include("generic_api_tests.jl")
