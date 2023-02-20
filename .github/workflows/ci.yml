@@ -2,8 +2,8 @@ name: CI
 
 env:
   PYTHON: Conda
-# remove next line (and others marked below) when #42 properly resolved
-  LD_LIBRARY_PATH: /home/runner/.julia/conda/3/lib
+  # uncomment the line below when #42 comes up again
+  # LD_LIBRARY_PATH: /home/runner/.julia/conda/3/x86_64/lib
   
 on:
   pull_request:
@@ -46,11 +46,11 @@ jobs:
             ${{ runner.os }}-test-
             ${{ runner.os }}-
       - uses: julia-actions/julia-buildpkg@v1
-# remove next four lines (and one other marked above) when #42 properly resolved
-      - name: "Install Conda"
-        run: julia -e 'using Pkg; Pkg.add("Conda");'
-      - name: "Install Scikit-learn"
-        run: cd $LD_LIBRARY_PATH
+# uncomment the next four lines (and one other marked above) when #42 comes up again.
+      #- name: "Install Conda"
+      #  run: julia -e 'using Pkg; Pkg.add("Conda");'
+      #- name: "Install Scikit-learn"
+      #  run: cd $LD_LIBRARY_PATH
       - uses: julia-actions/julia-runtest@v1
       - uses: julia-actions/julia-processcoverage@v1
       - uses: codecov/codecov-action@v1
