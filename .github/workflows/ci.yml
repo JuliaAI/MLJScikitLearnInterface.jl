@@ -3,7 +3,7 @@ name: CI
 env:
   PYTHON: Conda
 # remove next line (and others marked below) when #42 properly resolved
-  LD_LIBRARY_PATH: /home/runner/.julia/conda/3/
+  LD_LIBRARY_PATH: /home/runner/.julia/conda/3/x86_64/
   
 on:
   pull_request:
