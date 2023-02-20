@@ -2,7 +2,6 @@ const MultiTaskLassoRegressor_ = sklm(:MultiTaskLasso)
 @sk_reg mutable struct MultiTaskLassoRegressor <: MMI.Deterministic
     alpha::Float64      = 1.0::(_ ≥ 0)
     fit_intercept::Bool = true
-    normalize::Bool     = false
     max_iter::Int       = 1_000::(_ > 0)
     tol::Float64        = 1e-4::(_ > 0)
     copy_X::Bool        = true
@@ -22,7 +21,6 @@ const MultiTaskLassoCVRegressor_ = sklm(:MultiTaskLassoCV)
     n_alphas::Int       = 100::(_ > 0)
     alphas::Any         = nothing::(_ === nothing || all(0 .≤ _ .≤ 1))
     fit_intercept::Bool = true
-    normalize::Bool     = false
     max_iter::Int       = 300::(_ > 0)
     tol::Float64        = 1e-4::(_ > 0)
     copy_X::Bool        = true
@@ -47,7 +45,6 @@ const MultiTaskElasticNetRegressor_ = sklm(:MultiTaskElasticNet)
     alpha::Float64      = 1.0::(_ ≥ 0)
     l1_ratio::Union{Float64, Vector{Float64}} = 0.5::(0 ≤ _ ≤ 1)
     fit_intercept::Bool = true
-    normalize::Bool     = true
     copy_X::Bool        = true
     max_iter::Int       = 1_000::(_ > 0)
     tol::Float64        = 1e-4::(_ > 0)
@@ -69,7 +66,6 @@ const MultiTaskElasticNetCVRegressor_ = sklm(:MultiTaskElasticNetCV)
     n_alphas::Int       = 100::(_ > 0)
     alphas::Any         = nothing::(_ === nothing || all(0 .≤ _ .≤ 1))
     fit_intercept::Bool = true
-    normalize::Bool     = false
     max_iter::Int       = 1_000::(_ > 0)
     tol::Float64        = 1e-4::(_ > 0)
     cv::Any             = 5

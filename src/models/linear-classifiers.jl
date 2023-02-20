@@ -131,7 +131,6 @@ const RidgeClassifier_ = sklm(:RidgeClassifier)
 @sk_clf mutable struct RidgeClassifier <: MMI.Deterministic
     alpha::Float64        = 1.0
     fit_intercept::Bool   = true
-    normalize::Bool       = false
     copy_X::Bool          = true
     max_iter::Option{Int} = nothing::(_ === nothing || _ > 0)
     tol::Float64          = 1e-3::(arg>0)
@@ -155,7 +154,6 @@ const RidgeCVClassifier_ = sklm(:RidgeClassifierCV)
 @sk_clf mutable struct RidgeCVClassifier <: MMI.Deterministic
     alphas::AbstractArray{Float64} = [0.1,1.0,10.0]::(all(0 .≤ _))
     fit_intercept::Bool   = true
-    normalize::Bool       = false
     scoring::Any          = nothing
     cv::Int               = 5
     class_weight::Any     = nothing
@@ -175,7 +173,8 @@ meta(RidgeCVClassifier,
 # ============================================================================
 const SGDClassifier_ = sklm(:SGDClassifier)
 @sk_clf mutable struct SGDClassifier <: MMI.Deterministic
-    loss::String          = "hinge"::(_ in ("hinge", "log", "modified_huber", "squared_hinge", "perceptron", "squared_loss", "huber", "epsilon_insensitive", "squared_epsilon_insensitive"))
+    ## TODO: remove the `log` option when python releases sklearn v1.3.
+    loss::String          = "hinge"::(_ in ("hinge", "log_loss", "log", "modified_huber", "squared_hinge", "perceptron", "squared_error", "huber", "epsilon_insensitive", "squared_epsilon_insensitive"))
     penalty::String       = "l2"::(_ in ("l1", "l2", "elasticnet", "none"))
     alpha::Float64        = 1e-4::(_ > 0)
     l1_ratio::Float64     = 0.15::(0 ≤ _ ≤ 1)
@@ -199,7 +198,8 @@ const SGDClassifier_ = sklm(:SGDClassifier)
 end
 const ProbabilisticSGDClassifier_ = sklm(:SGDClassifier)
 @sk_clf mutable struct ProbabilisticSGDClassifier <: MMI.Probabilistic
-    loss::String          = "log"::(_ in ("log", "modified_huber")) # only those -> predict proba
+    ## TODO: remove the `log` option when python releases sklearn v1.3.
+    loss::String          = "log_loss"::(_ in ("log_loss", "log", "modified_huber")) # only those -> predict proba
     penalty::String       = "l2"::(_ in ("l1", "l2", "elasticnet", "none"))
     alpha::Float64        = 1e-4::(_ > 0)
     l1_ratio::Float64     = 0.15::(0 ≤ _ ≤ 1)
