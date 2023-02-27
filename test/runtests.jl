@@ -19,4 +19,4 @@ println("\ngaussian-process");        include("models/gaussian-process.jl")
 println("\nensemble");                include("models/ensemble.jl")
 println("\nclustering");              include("models/clustering.jl")
 
-prinln("\ngeneric interface tests");  include("generic_api_tests.jl")
+println("\ngeneric interface tests");  include("generic_api_tests.jl")
