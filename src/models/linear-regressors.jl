@@ -9,7 +9,6 @@ const ARDRegressor_ = sklm(:ARDRegression)
     compute_score::Bool       = false
     threshold_lambda::Float64 = 1e4::(_ > 0)
     fit_intercept::Bool       = true
-    normalize::Bool           = false
     copy_X::Bool              = true
     verbose::Bool             = false
 end
@@ -34,7 +33,6 @@ const BayesianRidgeRegressor_ = sklm(:BayesianRidge)
     lambda_2::Float64   = 1e-6::(_ > 0)
     compute_score::Bool = false
     fit_intercept::Bool = true
-    normalize::Bool     = false
     copy_X::Bool        = true
     verbose::Bool       = false
 end
@@ -54,7 +52,6 @@ const ElasticNetRegressor_ = sklm(:ElasticNet)
     alpha::Float64      = 1.0::(_ ≥ 0)   # 0 is OLS
     l1_ratio::Float64   = 0.5::(0 ≤ _ ≤ 1)
     fit_intercept::Bool = true
-    normalize::Bool     = false
     precompute::Union{Bool,AbstractMatrix} = false
     max_iter::Int       = 1_000::(_ ≥ 1)
     copy_X::Bool        = true
@@ -77,7 +74,6 @@ const ElasticNetCVRegressor_ = sklm(:ElasticNetCV)
     n_alphas::Int       = 100::(_ > 0)
     alphas::Any         = nothing::(_ === nothing || all(0 .≤ _))
     fit_intercept::Bool = true
-    normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     max_iter::Int       = 1_000::(_ > 0)
     tol::Float64        = 1e-4::(_ > 0)
@@ -121,7 +117,8 @@ const LarsRegressor_ = sklm(:Lars)
 @sk_reg mutable struct LarsRegressor <: MMI.Deterministic
     fit_intercept::Bool      = true
     verbose::Union{Bool,Int} = false
-    normalize::Bool          = true
+    # TODO Remove this when python ScikitLearn releases v1.4
+    normalize::Bool          = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     n_nonzero_coefs::Int     = 500::(_ > 0)
     eps::Float64   = eps(Float64)::(_ > 0)
@@ -143,7 +140,8 @@ const LarsCVRegressor_ = sklm(:LarsCV)
     fit_intercept::Bool      = true
     verbose::Union{Bool,Int} = false
     max_iter::Int     = 500::(_ > 0)
-    normalize::Bool   = true
+    # TODO Remove this when python ScikitLearn releases v1.4
+    normalize::Bool   = false 
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     cv::Any           = 5
     max_n_alphas::Int = 1_000::(_ > 0)
@@ -167,7 +165,6 @@ const LassoRegressor_ = sklm(:Lasso)
 @sk_reg mutable struct LassoRegressor <: MMI.Deterministic
     alpha::Float64      = 1.0::(_ ≥ 0) # should use alpha > 0 (or OLS)
     fit_intercept::Bool = true
-    normalize::Bool     = false
     precompute::Union{Bool,AbstractMatrix} = false
     copy_X::Bool        = true
     max_iter::Int       = 1_000::(_ > 0)
@@ -189,7 +186,6 @@ const LassoCVRegressor_ = sklm(:LassoCV)
     n_alphas::Int       = 100::(_ > 0)
     alphas::Any         = nothing::(_ === nothing || all(0 .≤ _))
     fit_intercept::Bool = true
-    normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     max_iter::Int       = 1_000::(_ > 0)
     tol::Float64        = 1e-4::(_ > 0)
@@ -217,7 +213,8 @@ const LassoLarsRegressor_ = sklm(:LassoLars)
     alpha::Float64      = 1.0::(_ ≥ 0) # 0 should be OLS
     fit_intercept::Bool = true
     verbose::Union{Bool, Int} = false
-    normalize::Bool     = true
+    # TODO Remove this when python ScikitLearn releases v1.4
+    normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     max_iter::Int       = 500::(_ > 0)
     eps::Float64        = eps(Float64)::(_ > 0)
@@ -240,7 +237,8 @@ const LassoLarsCVRegressor_ = sklm(:LassoLarsCV)
     fit_intercept::Bool = true
     verbose::Union{Bool, Int} = false
     max_iter::Int       = 500::(_ > 0)
-    normalize::Bool     = true
+    # TODO Remove this when python ScikitLearn releases v1.4
+    normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     cv::Any             = 5
     max_n_alphas::Int   = 1_000::(_ > 0)
@@ -267,7 +265,8 @@ const LassoLarsICRegressor_ = sklm(:LassoLarsIC)
     criterion::String   = "aic"::(_ in ("aic","bic"))
     fit_intercept::Bool = true
     verbose::Union{Bool, Int} = false
-    normalize::Bool     = true
+    # TODO Remove this when python ScikitLearn releases v1.4
+    normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     max_iter::Int       = 500::(_ > 0)
     eps::Float64        = eps(Float64)::(_ > 0.0)
@@ -286,7 +285,6 @@ add_human_name_trait(LassoLarsICRegressor, "Lasso model with LARS using "*
 const LinearRegressor_ = sklm(:LinearRegression)
 @sk_reg mutable struct LinearRegressor <: MMI.Deterministic
     fit_intercept::Bool = true
-    normalize::Bool     = false
     copy_X::Bool        = true
     n_jobs::Option{Int} = nothing
 end
@@ -302,7 +300,7 @@ const OrthogonalMatchingPursuitRegressor_ = sklm(:OrthogonalMatchingPursuit)
     n_nonzero_coefs::Option{Int} = nothing
     tol::Option{Float64} = nothing
     fit_intercept::Bool  = true
-    normalize::Bool      = true
+    normalize::Bool      = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
 end
 MMI.fitted_params(model::OrthogonalMatchingPursuitRegressor, (fitresult, _, _)) = (
@@ -315,6 +313,7 @@ const OrthogonalMatchingPursuitCVRegressor_ = sklm(:OrthogonalMatchingPursuitCV)
 @sk_reg mutable struct OrthogonalMatchingPursuitCVRegressor <: MMI.Deterministic
     copy::Bool            = true
     fit_intercept::Bool   = true
+    # TODO Remove this when python ScikitLearn releases v1.4
     normalize::Bool       = false
     max_iter::Option{Int} = nothing::(_ === nothing||_ > 0)
     cv::Any               = 5
@@ -355,7 +354,7 @@ MMI.fitted_params(model::PassiveAggressiveRegressor, (fitresult, _, _)) = (
 # =============================================================================
 const RANSACRegressor_ = sklm(:RANSACRegressor)
 @sk_reg mutable struct RANSACRegressor <: MMI.Deterministic
-    base_estimator::Any         = nothing
+    estimator::Any         = nothing
     min_samples::Union{Int,Float64}     = 5::(_ isa Int ? _ ≥ 1 : (0 ≤ _ ≤ 1))
     residual_threshold::Option{Float64} = nothing
     is_data_valid::Any          = nothing
@@ -365,7 +364,7 @@ const RANSACRegressor_ = sklm(:RANSACRegressor)
     stop_n_inliers::Int         = typemax(Int)::(_ > 0)
     stop_score::Float64         = Inf::(_ > 0)
     stop_probability::Float64   = 0.99::(0 ≤ _ ≤ 1.0)
-    loss::Union{Function,String}= "absolute_loss"::((_ isa Function) || _ in ("absolute_loss","squared_loss"))
+    loss::Union{Function,String}= "absolute_error"::((_ isa Function) || _ in ("absolute_error","squared_error"))
     random_state::Any           = nothing
 end
 MMI.fitted_params(m::RANSACRegressor, (f, _, _)) = (
@@ -382,7 +381,6 @@ const RidgeRegressor_ = sklm(:Ridge)
 @sk_reg mutable struct RidgeRegressor <: MMI.Deterministic
     alpha::Union{Float64,Vector{Float64}} = 1.0::(all(_ .> 0))
     fit_intercept::Bool = true
-    normalize::Bool     = false
     copy_X::Bool        = true
     max_iter::Int       = 1_000::(_ > 0)
     tol::Float64        = 1e-4::(_ > 0)
@@ -399,7 +397,6 @@ const RidgeCVRegressor_ = sklm(:RidgeCV)
 @sk_reg mutable struct RidgeCVRegressor <: MMI.Deterministic
     alphas::Any              = (0.1, 1.0, 10.0)::(all(_ .> 0))
     fit_intercept::Bool      = true
-    normalize::Bool          = false
     scoring::Any             = nothing
     cv::Any                  = 5
     gcv_mode::Option{String} = nothing::(_ === nothing || _ in ("auto","svd","eigen"))
@@ -416,7 +413,7 @@ add_human_name_trait(RidgeCVRegressor, "ridge regressor $CV")
 # =============================================================================
 const SGDRegressor_ = sklm(:SGDRegressor)
 @sk_reg mutable struct SGDRegressor <: MMI.Deterministic
-    loss::String             = "squared_loss"::(_ in ("squared_loss","huber","epsilon_insensitive","squared_epsilon_insensitive"))
+    loss::String             = "squared_error"::(_ in ("squared_error","huber","epsilon_insensitive","squared_epsilon_insensitive"))
     penalty::String          = "l2"::(_ in ("none","l2","l1","elasticnet"))
     alpha::Float64           = 1e-4::(_ > 0)
     l1_ratio::Float64        = 0.15::(_ > 0)

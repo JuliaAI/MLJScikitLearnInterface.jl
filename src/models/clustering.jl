@@ -186,7 +186,8 @@ const KMeans_ = skcl(:KMeans)
     verbose::Int        = 0::(_ ≥ 0)
     random_state::Any   = nothing
     copy_x::Bool        = true
-    algorithm::String   = "auto"::(_ in ("auto", "full", "elkane"))
+    ## TODO: Remove the "auto" and "full" options when python sklearn releases v1.3
+    algorithm::String   = "lloyd"::(_ in ("auto", "full", "elkane", "lloyd"))
     # long
     init::Union{AbstractArray,String}        = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
 end
