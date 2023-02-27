@@ -49,6 +49,8 @@ bad_single_target_classifiers = [
     LogisticClassifier,
     GaussianProcessClassifier,
     GradientBoostingClassifier,
+    # https://github.com/JuliaAI/MLJScikitLearnInterface.jl/issues/53
+    GaussianNBClassifier,
 ]
 
 @test_broken isempty(bad_single_target_classifiers)
@@ -77,7 +79,7 @@ bad_single_target_classifiers = [
                 data...;
                 mod=@__MODULE__,
                 verbosity=0, # bump to debug
-                throw=false, # set to true to debug
+                throw=false  # set to true to debug
             )
             @test isempty(failures)
         end
