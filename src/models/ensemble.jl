@@ -1,6 +1,6 @@
 const AdaBoostRegressor_ = sken(:AdaBoostRegressor)
 @sk_reg mutable struct AdaBoostRegressor <: MMI.Deterministic
-    base_estimator::Any    = nothing
+    estimator::Any    = nothing
     n_estimators::Int      = 50::(_ > 0)
     learning_rate::Float64 = 1.0::(_ > 0)
     loss::String           = "linear"::(_ in ("linear","square","exponential"))
@@ -17,7 +17,7 @@ add_human_name_trait(AdaBoostRegressor, "AdaBoost ensemble regression")
 # ----------------------------------------------------------------------------
 const AdaBoostClassifier_ = sken(:AdaBoostClassifier)
 @sk_clf mutable struct AdaBoostClassifier <: MMI.Probabilistic
-    base_estimator::Any    = nothing
+    estimator::Any    = nothing
     n_estimators::Int      = 50::(_ > 0)
     learning_rate::Float64 = 1.0::(_ > 0)
     algorithm::String      = "SAMME.R"::(_ in ("SAMME", "SAMME.R"))
@@ -39,7 +39,7 @@ meta(AdaBoostClassifier,
 # ============================================================================
 const BaggingRegressor_ = sken(:BaggingRegressor)
 @sk_reg mutable struct BaggingRegressor <: MMI.Deterministic
-    base_estimator::Any      = nothing
+    estimator::Any      = nothing
     n_estimators::Int        = 10::(_>0)
     max_samples::Union{Int,Float64}  = 1.0::(_>0)
     max_features::Union{Int,Float64} = 1.0::(_>0)
@@ -63,7 +63,7 @@ add_human_name_trait(BaggingRegressor, "bagging ensemble regressor")
 # ----------------------------------------------------------------------------
 const BaggingClassifier_ = sken(:BaggingClassifier)
 @sk_clf mutable struct BaggingClassifier <: MMI.Probabilistic
-    base_estimator::Any      = nothing
+    estimator::Any      = nothing
     n_estimators::Int        = 10::(_>0)
     max_samples::Union{Int,Float64}  = 1.0::(_>0)
     max_features::Union{Int,Float64} = 1.0::(_>0)
