@@ -54,6 +54,7 @@ const BaggingRegressor_ = sken(:BaggingRegressor)
     verbose::Int             = 0
 end
 MMI.fitted_params(model::BaggingRegressor, (f, _, _)) = (
+    estimator           = f.estimator_,
     estimators          = f.estimators_,
     estimators_samples  = f.estimators_samples_,
     estimators_features = f.estimators_features_,
@@ -109,7 +110,7 @@ const GradientBoostingRegressor_ = sken(:GradientBoostingRegressor)
     min_impurity_decrease::Float64 = 0.0::(_≥0)
     init::Any                      = nothing
     random_state::Any              = nothing
-    max_features::Union{Int,Float64,String,Nothing} = nothing::(_===nothing || (isa(_,String) && (_ in ("auto","sqrt","log2"))) || _ > 0)
+    max_features::Union{Int,Float64,String,Nothing} = nothing::(_===nothing || (isa(_,String) && (_ in ("auto","sqrt","log2"))) || (_ isa Number && _ > 0))
     alpha::Float64                 = 0.9::(_>0)
     verbose::Int                   = 0
     max_leaf_nodes::Option{Int}    = nothing::(_===nothing || _>0)
@@ -146,7 +147,7 @@ const GradientBoostingClassifier_ = sken(:GradientBoostingClassifier)
     min_impurity_decrease::Float64 = 0.0::(_≥0)
     init::Any                      = nothing
     random_state::Any              = nothing
-    max_features::Union{Int,Float64,String,Nothing} = nothing::(_===nothing || (isa(_,String) && (_ in ("auto","sqrt","log2"))) || _ > 0)
+    max_features::Union{Int,Float64,String,Nothing} = nothing::(_===nothing || (isa(_,String) && (_ in ("auto","sqrt","log2"))) || (_ isa Number && _ > 0))
     verbose::Int                   = 0
     max_leaf_nodes::Option{Int}    = nothing::(_===nothing || _>0)
     warm_start::Bool               = false
@@ -181,7 +182,7 @@ const RandomForestRegressor_ = sken(:RandomForestRegressor)
     min_samples_leaf::Union{Int,Float64}  = 1::(_ > 0)
     min_weight_fraction_leaf::Float64     = 0.0::(_ ≥ 0)
     ## TODO: Remove the "auto" option in python sklearn v1.3
-    max_features::Union{Int,Float64,String,Nothing} = "sqrt"::(_ === nothing || (isa(_, String) && (_ in ("auto","sqrt","log2"))) || _ > 0)
+    max_features::Union{Int,Float64,String,Nothing} = 1.0::(_ === nothing || (isa(_, String) && (_ in ("auto","sqrt","log2"))) || (_ isa Number && _ > 0))
     max_leaf_nodes::Option{Int}    = nothing::(_ === nothing || _ > 0)
     min_impurity_decrease::Float64 = 0.0::(_ ≥ 0)
     bootstrap::Bool                = true
@@ -195,6 +196,7 @@ const RandomForestRegressor_ = sken(:RandomForestRegressor)
         nothing::(_ === nothing || (_ ≥ 0 && (_ isa Integer || _ ≤ 1)))
 end
 MMI.fitted_params(model::RandomForestRegressor, (f, _, _)) = (
+    estimator           = f.estimator_,
     estimators          = f.estimators_,
     feature_importances = f.feature_importances_,
     n_features          = f.n_features_in_,
@@ -218,7 +220,7 @@ const RandomForestClassifier_ = sken(:RandomForestClassifier)
     min_samples_leaf::Union{Int,Float64}  = 1::(_ > 0)
     min_weight_fraction_leaf::Float64     = 0.0::(_ ≥ 0)
     ## TODO: Remove the "auto" option in python sklearn v1.3
-    max_features::Union{Int,Float64,String,Nothing} = "sqrt"::(_ === nothing || (isa(_, String) && (_ in ("auto","sqrt","log2"))) || _ > 0)
+    max_features::Union{Int,Float64,String,Nothing} = "sqrt"::(_ === nothing || (isa(_, String) && (_ in ("auto","sqrt","log2"))) || (_ isa Number && _ > 0))
     max_leaf_nodes::Option{Int}    = nothing::(_ === nothing || _ > 0)
     min_impurity_decrease::Float64 = 0.0::(_ ≥ 0)
     bootstrap::Bool                = true
@@ -233,6 +235,7 @@ const RandomForestClassifier_ = sken(:RandomForestClassifier)
         nothing::(_ === nothing || (_ ≥ 0 && (_ isa Integer || _ ≤ 1)))
 end
 MMI.fitted_params(m::RandomForestClassifier, (f, _, _)) = (
+    estimator             = f.estimator_,
     estimators            = f.estimators_,
     classes               = f.classes_,
     n_classes             = f.n_classes_,
@@ -263,7 +266,7 @@ const ExtraTreesRegressor_ = sken(:ExtraTreesRegressor)
     min_samples_leaf::Union{Int,Float64}   = 1::(_ > 0)
     min_weight_fraction_leaf::Float64      = 0.0::(_ ≥ 0)
     ## TODO: Remove the "auto" option in python sklearn v1.3
-    max_features::Union{Int,Float64,String,Nothing} = "sqrt"::(_ === nothing || (isa(_, String) && (_ in ("auto","sqrt","log2"))) || _ > 0)
+    max_features::Union{Int,Float64,String,Nothing} = 1.0::(_ === nothing || (isa(_, String) && (_ in ("auto","sqrt","log2"))) || (_ isa Number && _ > 0))
     max_leaf_nodes::Option{Int}    = nothing::(_ === nothing || _ > 0)
     min_impurity_decrease::Float64 = 0.0::(_ ≥ 0)
     bootstrap::Bool                = true
@@ -274,6 +277,7 @@ const ExtraTreesRegressor_ = sken(:ExtraTreesRegressor)
     warm_start::Bool               = false
 end
 MMI.fitted_params(m::ExtraTreesRegressor, (f, _, _)) = (
+    estimator           = f.estimator_,
     estimators          = f.estimators_,
     feature_importances = f.feature_importances_,
     n_features          = f.n_features_in_,
@@ -307,7 +311,7 @@ const ExtraTreesClassifier_ = sken(:ExtraTreesClassifier)
     min_samples_leaf::Union{Int,Float64}   = 1::(_ > 0)
     min_weight_fraction_leaf::Float64      = 0.0::(_ ≥ 0)
     ## TODO: Remove the "auto" option in python sklearn v1.3
-    max_features::Union{Int,Float64,String,Nothing} = "sqrt"::(_ === nothing || (isa(_, String) && (_ in ("auto","sqrt","log2"))) || _ > 0)
+    max_features::Union{Int,Float64,String,Nothing} = "sqrt"::(_ === nothing || (isa(_, String) && (_ in ("auto","sqrt","log2"))) || (_ isa Number && _ > 0))
     max_leaf_nodes::Option{Int}    = nothing::(_ === nothing || _ > 0)
     min_impurity_decrease::Float64 = 0.0::(_ ≥ 0)
     bootstrap::Bool                = true
@@ -319,6 +323,7 @@ const ExtraTreesClassifier_ = sken(:ExtraTreesClassifier)
     class_weight::Any              = nothing
 end
 MMI.fitted_params(m::ExtraTreesClassifier, (f, _, _)) = (
+    estimator             = f.estimator_,
     estimators            = f.estimators_,
     classes               = f.classes_,
     n_classes             = f.n_classes_,
