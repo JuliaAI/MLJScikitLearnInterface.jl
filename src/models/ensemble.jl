@@ -122,6 +122,7 @@ end
 MMI.fitted_params(m::GradientBoostingRegressor, (f, _, _)) = (
     feature_importances = f.feature_importances_,
     train_score         = f.train_score_,
+    # remove `loss` parameter when python sklearn releases v1.3
     loss                = f.loss_,
     init                = f.init_,
     estimators          = f.estimators_,
