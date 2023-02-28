@@ -7,6 +7,7 @@ const AdaBoostRegressor_ = sken(:AdaBoostRegressor)
     random_state::Any      = nothing
 end
 MMI.fitted_params(model::AdaBoostRegressor, (f, _, _)) = (
+    estimator            = f.estimator_,
     estimators           = f.estimators_,
     estimator_weights    = f.estimator_weights_,
     estimator_errors     = f.estimator_errors_,
@@ -24,6 +25,7 @@ const AdaBoostClassifier_ = sken(:AdaBoostClassifier)
     random_state::Any      = nothing
 end
 MMI.fitted_params(m::AdaBoostClassifier, (f, _, _)) = (
+    estimator         = f.estimator_,
     estimators        = f.estimators_,
     estimator_weights = f.estimator_weights_,
     estimator_errors  = f.estimator_errors_,
@@ -76,7 +78,7 @@ const BaggingClassifier_ = sken(:BaggingClassifier)
     verbose::Int             = 0
 end
 MMI.fitted_params(m::BaggingClassifier, (f, _, _)) = (
-    base_estimator        = f.base_estimator_,
+    estimator             = f.estimator_,
     estimators            = f.estimators_,
     estimators_samples    = f.estimators_samples_,
     estimators_features   = f.estimators_features_,
