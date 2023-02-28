@@ -58,7 +58,7 @@ MMI.fitted_params(m::GaussianNBClassifier, (f, _, _)) = (
     class_prior = f.class_prior_,
     class_count = f.class_count_,
     theta       = f.theta_,
-    sigma       = f.sigma_,
+    var       = f.var_,
     epsilon     = f.epsilon_,
     )
 meta(GaussianNBClassifier,
@@ -109,9 +109,7 @@ const MultinomialNBClassifier_ = sknb(:MultinomialNB)
 end
 MMI.fitted_params(m::MultinomialNBClassifier, (f, _, _)) = (
     class_log_prior  = f.class_log_prior_,
-    intercept        = f.intercept_,
     feature_log_prob = f.feature_log_prob_,
-    coef             = f.coef_,
     class_count      = f.class_count_,
     feature_count    = f.feature_count_
     )
