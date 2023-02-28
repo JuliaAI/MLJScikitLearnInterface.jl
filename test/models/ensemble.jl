@@ -44,7 +44,7 @@ fparams = (
     BaggingRegressor=(:estimator, :estimators, :estimators_samples, :estimators_features, :oob_score, :oob_prediction),
     GradientBoostingRegressor=(:feature_importances, :train_score, :loss, :init, :estimators, :oob_improvement),
     RandomForestRegressor=(:estimator, :estimators, :feature_importances, :n_features, :n_outputs, :oob_score, :oob_prediction),
-    ExtraTreesRegressor=(:estimators, :feature_importances, :n_features, :n_outputs, :oob_score, :oob_prediction)
+    ExtraTreesRegressor=(:estimator, :estimators, :feature_importances, :n_features, :n_outputs, :oob_score, :oob_prediction)
 )
 
 @testset "Fit/Predict" begin
