@@ -8,7 +8,7 @@ models = (
 
 fparams = (
     AdaBoostClassifier=(:estimators, :estimator_weights, :estimator_errors, :classes, :n_classes),
-    BaggingClassifier=(:base_estimator, :estimators, :estimators_samples, :estimators_features, :classes, :n_classes, :oob_score, :oob_decision_function),
+    BaggingClassifier=(:estimator, :estimators, :estimators_samples, :estimators_features, :classes, :n_classes, :oob_score, :oob_decision_function),
     GradientBoostingClassifier=(:n_estimators, :feature_importances, :train_score, :loss, :init, :estimators, :oob_improvement),
     RandomForestClassifier=(:estimators, :classes, :n_classes, :n_features, :n_outputs, :feature_importances, :oob_score, :oob_decision_function),
     ExtraTreesClassifier=(:estimators, :classes, :n_classes, :feature_importances, :n_features, :n_outputs, :oob_score, :oob_decision_function)

@@ -76,7 +76,7 @@ const BaggingClassifier_ = sken(:BaggingClassifier)
     verbose::Int             = 0
 end
 MMI.fitted_params(m::BaggingClassifier, (f, _, _)) = (
-    base_estimator        = f.base_estimator_,
+    estimator             = f.estimator_,
     estimators            = f.estimators_,
     estimators_samples    = f.estimators_samples_,
     estimators_features   = f.estimators_features_,

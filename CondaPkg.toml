@@ -1,0 +1,4 @@
+
+[deps.scikit-learn]
+channel = "conda-forge"
+version = ">=1"

@@ -17,22 +17,23 @@ fparams = (
 models = (
         AffinityPropagation,
         AgglomerativeClustering,
+        Birch, 
         DBSCAN,
         MeanShift,
     )
 
 @testset "Fit/predict" begin
    for mod in models
-       m = mod()
-       f, = MB.fit(m, 1, X)
-       fp = MB.fitted_params(m, f)
+        m = mod()
+        f, = MB.fit(m, 1, X)
+        fp = MB.fitted_params(m, f)
 
-       if m in (AffinityPropagation, MeanShift)
-          p = MB.predict(m, f, X)
-          @test p isa MB.CategoricalArray
-       end
+        if m in (AffinityPropagation, MeanShift)
+            p = MB.predict(m, f, X)
+            @test p isa MB.CategoricalArray
+        end
 
-       @test keys(fp) == getproperty(fparams, Symbol(mod))
+        @test keys(fp) == getproperty(fparams, Symbol(mod))
     end
 end
 
@@ -109,13 +110,13 @@ models = (
        Xt = MB.transform(m, f, X)
        if mod == FeatureAgglomeration
            @test fp.distances === nothing
-           Xit = MB.inverse_transform(m, f, Xt)
+           Xit = MB.inverse_transform(m, f, Xt) # Need MB.inverse_transform function
           # NOTE: they're not equal (not sure why)
            @test Xit isa MB.Tables.MatrixTable
        else
-        p = MB.predict(m, f, X)
-        @test p isa MB.CategoricalArray
-        @test Xt isa MB.Tables.MatrixTable
+            p = MB.predict(m, f, X)
+            @test p isa MB.CategoricalArray
+            @test Xt isa MB.Tables.MatrixTable
        end
 
        @test keys(fp) == getproperty(fparams, Symbol(mod))

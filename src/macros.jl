@@ -138,7 +138,7 @@ function _skmodel_fit_reg(modelname, params)
             sksym, skmod, mdl = $(Symbol(modelname, "_"))
             # retrieve the namespace, if it's not there yet, import it
             parent = eval(sksym)
-            ispynull(parent) && ski!(parent, skmod)
+            pyisnull(parent) && ski!(parent, skmod)
             # retrieve the effective ScikitLearn constructor
             skconstr = getproperty(parent, mdl)
             # build the scikitlearn model passing all the parameters
@@ -146,7 +146,9 @@ function _skmodel_fit_reg(modelname, params)
                         $((Expr(:kw, p, :(model.$p)) for p in params)...))
             # --------------------------------------------------------------
             # fit and organise results
-            fitres = SK.fit!(skmodel, Xmatrix, yplain)
+            X_py = ScikitLearnAPI.numpy.array(Xmatrix)
+            y_py = ScikitLearnAPI.numpy.array(yplain)
+            fitres = SK.fit!(skmodel, X_py, y_py)
             # TODO: we may want to use the report later on
             report = NamedTuple()
             # the first nothing is so that we can use the same predict for
@@ -170,7 +172,7 @@ function _skmodel_fit_clf(modelname, params)
             # See _skmodel_fit_reg, same story
             sksym, skmod, mdl = $(Symbol(modelname, "_"))
             parent = eval(sksym)
-            ispynull(parent) && ski!(parent, skmod)
+            pyisnull(parent) && ski!(parent, skmod)
             skconstr = getproperty(parent, mdl)
             skmodel = skconstr(
                         $((Expr(:kw, p, :(model.$p)) for p in params)...))
@@ -249,7 +251,7 @@ function _skmodel_fit_uns(modelname, params)
            # See _skmodel_fit_reg, same story
             sksym, skmod, mdl = $(Symbol(modelname, "_"))
             parent = eval(sksym)
-            ispynull(parent) && ski!(parent, skmod)
+            pyisnull(parent) && ski!(parent, skmod)
             skconstr = getproperty(parent, mdl)
             skmodel = skconstr(
                         $((Expr(:kw, p, :(model.$p)) for p in params)...))
@@ -285,7 +287,8 @@ there is one supported.
 macro sku_inverse_transform(modelname)
     quote
         function MMI.inverse_transform(::$modelname, fitres, X)
-            X = SK.inverse_transform(fitres, MMI.matrix(X))
+            X_py = ScikitLearnAPI.numpy.array(MMI.matrix(X))
+            X = SK.inverse_transform(fitres, X_py)
             MMI.table(X)
         end
     end
@@ -313,10 +316,10 @@ macro sku_predict(modelname)
             if sm in (:Birch, :KMeans, :MiniBatchKMeans)
                 catv = MMI.categorical(1:m.n_clusters)
             elseif sm == :AffinityPropagation
-                nc   = length(fitres.cluster_centers_indices_)
+                nc   = length(pyconvert(Array, fitres.cluster_centers_))
                 catv = MMI.categorical(1:nc)
             elseif sm == :MeanShift
-                nc   = size(fitres.cluster_centers_, 1)
+                nc   = size(pyconvert(Array, fitres.cluster_centers_), 1)
                 catv = MMI.categorical(1:nc)
             else
                 throw(ArgumentError("Model $sm does not support `predict`."))
