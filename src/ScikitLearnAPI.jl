@@ -1,8 +1,7 @@
-
+# The mapping of Julia functions into python functions in this file is adapted from 
+# code in ScikitLearn.jl, written by Cédric St-Jean. 
 module ScikitLearnAPI
 
-
-using Tables
 using PythonCall
 
 const numpy = PythonCall.pynew()
