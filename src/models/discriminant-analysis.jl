@@ -6,6 +6,7 @@ const BayesianLDA_ = skda(:LinearDiscriminantAnalysis)
     n_components::Option{Int}        = nothing
     store_covariance::Bool           = false
     tol::Float64                     = 1e-4::(_ > 0)
+    covariance_estimator::Any        = nothing
 end
 MMI.fitted_params(m::BayesianLDA, (f, _, _)) = (
     coef       = f.coef_,
