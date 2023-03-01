@@ -7,7 +7,6 @@ models = (
 )
 
 fparams = (
-    AdaBoostClassifier=(:estimators, :estimator_weights, :estimator_errors, :classes, :n_classes),
     AdaBoostClassifier=(:estimator, :estimators, :estimator_weights, :estimator_errors, :classes, :n_classes),
     BaggingClassifier=(:estimator, :estimators, :estimators_samples, :estimators_features, :classes, :n_classes, :oob_score, :oob_decision_function),
     GradientBoostingClassifier=(:n_estimators, :feature_importances, :train_score, :loss, :init, :estimators, :oob_improvement),
