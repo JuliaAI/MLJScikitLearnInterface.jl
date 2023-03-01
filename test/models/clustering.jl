@@ -16,6 +16,7 @@ fparams = (
 
 models = (
         AffinityPropagation,
+        Birch,
         AgglomerativeClustering,
         Birch, 
         DBSCAN,

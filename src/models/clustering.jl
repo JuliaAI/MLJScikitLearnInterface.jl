@@ -30,7 +30,9 @@ meta(AffinityPropagation,
 const AgglomerativeClustering_ = skcl(:AgglomerativeClustering)
 @sk_uns mutable struct AgglomerativeClustering <: MMI.Unsupervised
     n_clusters::Int     = 2::(_ ≥ 1)
-    metric::String      = "euclidean"::(_ in ("euclidean", "l1", "l2", "manhattan", "cosine", "precomputed"))
+    # replace `affinity` parameter with `metric` when scikit learn releases v1.4
+    affinity::String    = "euclidean"::(_ in ("euclidean", "l1", "l2", "manhattan", "cosine", "precomputed"))
+    #metric::Any = nothing::(_ isa Union{Nothing, Function} || _ in ("euclidean", "l1", "l2", "manhattan", "cosine", "precomputed"))
     memory::Any         = nothing
     connectivity::Any   = nothing
     compute_full_tree::Union{String,Bool} = "auto"::(_ isa Bool || _ == "auto")
@@ -143,7 +145,8 @@ const FeatureAgglomeration_ = skcl(:FeatureAgglomeration)
     connectivity::Any      = nothing
     # XXX unclear how to pass a proper callable here; just passing mean = nok
     # pooling_func::Function = mean
-    metric::Any            = "euclidean"::(_ isa Function || _ in ("euclidean", "l1", "l2", "manhattan", "cosine",  "precomputed"))
+    # replace `affinity` parameter with `metric` when scikit learn releases v1.4
+    affinity::Any          = "euclidean"::(_ isa Function || _ in ("euclidean", "l1", "l2", "manhattan", "cosine",  "precomputed"))
     compute_full_tree::Union{String,Bool} = "auto"::(_ isa Bool || _ == "auto")
     linkage::String        = "ward"::(_ in ("ward", "complete", "average", "single"))
     distance_threshold::Option{Float64}   = nothing
@@ -180,7 +183,7 @@ FeatureAgglomeration
 const KMeans_ = skcl(:KMeans)
 @sk_uns mutable struct KMeans <: MMI.Unsupervised
     n_clusters::Int     = 8::(_ ≥ 1)
-    n_init::Int         = 10::(_ ≥ 1)
+    n_init::Union{Int, String} = 10::(_ =="auto" || (_ isa Int && _ ≥ 1))
     max_iter::Int       = 300::(_ ≥ 1)
     tol::Float64        = 1e-4::(_ > 0)
     verbose::Int        = 0::(_ ≥ 0)
@@ -227,7 +230,7 @@ const MiniBatchKMeans_ = skcl(:MiniBatchKMeans)
     tol::Float64            = 0.0::(_ ≥ 0)
     max_no_improvement::Int = 10::(_ > 1)
     init_size::Option{Int}  = nothing
-    n_init::Int             = 3::(_ > 0)
+    n_init::Union{Int, String} = 3::(_ == "auto" || (_ isa Int && _ > 0))
     init::Union{AbstractArray,String} = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
     reassignment_ratio::Float64       = 0.01::(_ > 0)
 end
@@ -346,7 +349,7 @@ const SpectralClustering_ = skcl(:SpectralClustering)
     affinity::String      = "rbf"::(_ in ("nearest_neighbors", "rbf", "precomputed", "precomputed_nearest_neighbors"))
     n_neighbors::Int      = 10::(_ > 0)
     eigen_tol::Float64    = 0.0::(_ ≥ 0)
-    assign_labels::String = "kmeans"::(_ in ("kmeans", "discretize"))
+    assign_labels::String = "kmeans"::(_ in ("kmeans", "discretize", "cluster_qr"))
     n_jobs::Option{Int}   = nothing
 end
 function MMI.fitted_params(m::SpectralClustering, f)

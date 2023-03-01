@@ -14,7 +14,8 @@ end
 MMI.fitted_params(m::SVMLinearClassifier, (f, _, _)) = (
     coef      = f.coef_,
     intercept = f.intercept_,
-    classes   = f.classes_
+    classes   = f.classes_,
+    n_iter    = f.n_iter_
     )
 meta(SVMLinearClassifier,
     input   = Table(Continuous),
@@ -28,7 +29,7 @@ const SVMClassifier_ = sksv(:SVC)
     C::Float64          = 1.0::(_ > 0)
     kernel::Union{String,Function}  = "rbf"::(_ isa Function || _ in ("linear", "poly", "rbf", "sigmoid", "precomputed"))
     degree::Int         = 3::(_ > 0)
-    gamma::Union{Float64,String}    = "auto"::(_ isa Float64 && _ > 0 || _ in ("scale", "auto"))
+    gamma::Union{Float64, String}    = "scale"::((_ isa Float64 && _ > 0) || _ in ("scale", "auto"))
     coef0::Float64      = 0.0
     shrinking::Bool     = true
     tol::Float64        = 1e-3::(_ > 0)
@@ -70,7 +71,8 @@ const SVMLinearRegressor_ = sksv(:LinearSVR)
 end
 MMI.fitted_params(m::SVMLinearRegressor, (f, _, _)) = (
     coef = f.coef_,
-    intercept = f.intercept_
+    intercept = f.intercept_,
+    n_iter = f.n_iter_
     )
 meta(SVMLinearRegressor,
     input   = Table(Continuous),
@@ -83,7 +85,7 @@ const SVMRegressor_ = sksv(:SVR)
 @sk_reg mutable struct SVMRegressor <: MMI.Deterministic
     kernel::Union{String,Function} = "rbf"::(_ isa Function || _ in ("linear", "poly", "rbf", "sigmoid", "precomputed"))
     degree::Int      = 3::(_ > 0)
-    gamma::Union{Float64,String}   = "auto"::(_ isa Float64 && _ > 0 || _ in ("scale", "auto"))
+    gamma::Union{Float64,String}   = "scale"::((_ isa Float64 && _ > 0) || _ in ("scale", "auto"))
     coef0::Float64   = 0.0
     tol::Float64     = 1e-3::(_ > 0)
     C::Float64       = 1.0::(_ > 0)
@@ -98,7 +100,8 @@ MMI.fitted_params(m::SVMRegressor, (f, _, _)) = (
     dual_coef       = f.dual_coef_,
     coef            = m.kernel == "linear" ? f.coef_ : nothing,
     intercept       = f.intercept_,
-    fit_status      = f.fit_status_
+    fit_status      = f.fit_status_,
+    n_iter          = f.n_iter_
     )
 meta(SVMRegressor,
     input   = Table(Continuous),
@@ -112,7 +115,7 @@ const SVMNuClassifier_ = sksv(:NuSVC)
     nu::Float64 = 0.5::(0 < _ <= 1)
     kernel::Union{String,Function}  = "rbf"::(_ isa Function || _ in ("linear", "poly", "rbf", "sigmoid", "precomputed"))
     degree::Int         = 3::(_ > 0)
-    gamma::Union{Float64,String}    = "auto"::(_ isa Float64 && _ > 0 || _ in ("scale", "auto"))
+    gamma::Union{Float64,String}    = "scale"::((_ isa Float64 && _ > 0) || _ in ("scale", "auto"))
     coef0::Float64      = 0.0
     shrinking::Bool     = true
     # probability
@@ -131,7 +134,8 @@ MMI.fitted_params(m::SVMNuClassifier, (f, _, _)) = (
     coef            = m.kernel == "linear" ? f.coef_ : nothing,
     intercept       = f.intercept_,
     fit_status      = f.fit_status_,
-    classes         = f.classes_
+    classes         = f.classes_,
+    n_iter          = f.n_iter_
     # probA = f.probA_,
     # probB = f.probB_,
     )
@@ -148,7 +152,7 @@ const SVMNuRegressor_ = sksv(:NuSVR)
     C::Float64       = 1.0::(_ > 0)
     kernel::Union{String,Function} = "rbf"::(_ isa Function || _ in ("linear", "poly", "rbf", "sigmoid", "precomputed"))
     degree::Int      = 3::(_ > 0)
-    gamma::Union{Float64,String}   = "auto"::(_ isa Float64 && _ > 0 || _ in ("scale", "auto"))
+    gamma::Union{Float64,String}   = "scale"::((_ isa Float64 && _ > 0) || _ in ("scale", "auto"))
     coef0::Float64   = 0.0
     shrinking        = true
     tol::Float64     = 1e-3::(_ > 0)
@@ -161,6 +165,7 @@ MMI.fitted_params(m::SVMNuRegressor, (f, _, _)) = (
     dual_coef       = f.dual_coef_,
     coef            = m.kernel == "linear" ? f.coef_ : nothing,
     intercept       = f.intercept_,
+    n_iter          = f.n_iter_
     )
 meta(SVMNuRegressor,
     input   = Table(Continuous),

@@ -48,9 +48,7 @@ bad_single_target_classifiers = [
     LogisticCVClassifier,
     LogisticClassifier,
     GaussianProcessClassifier,
-    GradientBoostingClassifier,
-    # https://github.com/JuliaAI/MLJScikitLearnInterface.jl/issues/53
-    GaussianNBClassifier,
+    GradientBoostingClassifier
 ]
 
 @test_broken isempty(bad_single_target_classifiers)
