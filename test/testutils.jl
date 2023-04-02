@@ -1,4 +1,4 @@
-SKD = ScikitLearn.Skcore.pyimport("sklearn.datasets")
+SKD = pyimport("sklearn.datasets")
 
 rmse(y, ŷ) = sqrt(sum(abs2, ŷ .- y) / length(y))
 
@@ -36,7 +36,7 @@ end
 
 function simple_binaryclf(n=100, p=3; sigma=0.1, seed=616866614)
     X, y = SKD.make_blobs(n_samples=n, n_features=p, centers=2, random_state=seed)
-    return MB.table(X), MB.categorical(y)
+    return MB.table(pyconvert(Array, X)), MB.categorical(pyconvert(Array, y))
 end
 
 function test_clf(m, X, y)

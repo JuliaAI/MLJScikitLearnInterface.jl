@@ -5,13 +5,11 @@ version = "0.3.0"
 
 [deps]
 MLJModelInterface = "e80e1ace-859a-464e-9ed9-23947d8ae3ea"
-PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
-ScikitLearn = "3646fa90-6ef7-5e7e-9f22-8aca16db6324"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 
 [compat]
 MLJModelInterface = "1.4"
-PyCall = "1"
-ScikitLearn = "0.7"
+PythonCall = "0.9"
 julia = "1.6"
 
 [extras]
