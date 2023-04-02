@@ -12,7 +12,7 @@ import MLJBase: finaltypes,
     Table
 
 const MODELS = filter(finaltypes(Model)) do m
-    package_name(m) == "ScikitLearn"
+    package_name(m) == "MLJScikitLearnInterface"
 end
 
 const SINGLE_TARGET_REGRESSORS = filter(MODELS) do m

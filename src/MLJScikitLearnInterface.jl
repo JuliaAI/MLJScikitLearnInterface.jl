@@ -6,14 +6,9 @@ import MLJModelInterface:
         Table, Continuous, Count, Finite, OrderedFactor, Multiclass, Unknown
 const MMI = MLJModelInterface
 
-import ScikitLearn
-function __init__()
-    ScikitLearn.Skcore.import_sklearn()
-end
-const SK = ScikitLearn
-
-# Note: PyCall is already imported as part of ScikitLearn so this is cheap
-import PyCall: ispynull, PyNULL, pyimport
+include("ScikitLearnAPI.jl")
+const SK = ScikitLearnAPI
+import PythonCall: pyisnull, PyNULL, pyimport, pycopy!, pynew, pyconvert
 
 # ------------------------------------------------------------------------
 # NOTE: the next few lines of wizardry and their call should not be
@@ -22,14 +17,14 @@ import PyCall: ispynull, PyNULL, pyimport
 # from which much of this stems.
 
 # supervised
-const SKLM = PyNULL()
-const SKGP = PyNULL()
-const SKEN = PyNULL()
-const SKDU = PyNULL()
-const SKNB = PyNULL()
-const SKNE = PyNULL()
-const SKDA = PyNULL()
-const SKSV = PyNULL()
+const SKLM = pynew()
+const SKGP = pynew()
+const SKEN = pynew()
+const SKDU = pynew()
+const SKNB = pynew()
+const SKNE = pynew()
+const SKDA = pynew()
+const SKSV = pynew()
 sklm(m) = (:SKLM, :linear_model, m)
 skgp(m) = (:SKGP, :gaussian_process, m)
 sken(m) = (:SKEN, :ensemble, m)
@@ -40,20 +35,20 @@ skda(m) = (:SKDA, :discriminant_analysis, m)
 sksv(m) = (:SKSV, :svm, m)
 
 # unsupervised
-const SKCL = PyNULL()
+const SKCL = pynew()
 skcl(m) = (:SKCL, :cluster, m)
 
 # Generic loader (see _skmodel_fit_* in macros)
-ski!(sks, mdl) = copy!(sks, pyimport("sklearn.$mdl"))
+ski!(sks, mdl) = pycopy!(sks, pyimport("sklearn.$mdl"))
 # ------------------------------------------------------------------------
 
 const Option{T} = Union{Nothing,T}
 
 # recurrent information for traits
-const PKG_NAME = "ScikitLearn"
+const PKG_NAME = "MLJScikitLearnInterface"
 const API_PKG_NAME = "MLJScikitLearnInterface"
 const SK_UUID = "3646fa90-6ef7-5e7e-9f22-8aca16db6324"
-const SK_URL  = "https://github.com/cstjean/ScikitLearn.jl"
+const SK_URL  = "https://github.com/JuliaAI/MLJScikitLearnInterface.jl"
 const SK_LIC  = "BSD"
 
 const CV = "with built-in cross-validation"

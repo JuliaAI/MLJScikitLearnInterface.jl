@@ -2,8 +2,12 @@ using StableRNGs
 using MLJScikitLearnInterface
 using Test
 import MLJBase
-import ScikitLearn
+using PythonCall
 import MLJBase: target_scitype, input_scitype, output_scitype
+
+# Filter out warnings for convergence during testing
+pyimport("warnings").simplefilter(; action="ignore", 
+                    category=pyimport("sklearn").exceptions.ConvergenceWarning)
 
 const MB = MLJBase
 

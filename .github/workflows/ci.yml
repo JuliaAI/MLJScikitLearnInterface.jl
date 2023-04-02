@@ -1,8 +1,5 @@
 name: CI
 
-env:
-  PYTHON: Conda
-  
 on:
   pull_request:
     branches:
@@ -23,36 +20,43 @@ jobs:
         version:
           - '1.6'
           - '1'
+          - 'nightly'
         os:
           - ubuntu-latest
+          - macOS-latest
+          - windows-latest
         arch:
           - x64
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: actions/cache@v1
-        env:
-          cache-name: cache-artifacts
-        with:
-          path: ~/.julia/artifacts
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-test-${{ env.cache-name }}-
-            ${{ runner.os }}-test-
-            ${{ runner.os }}-
+      - uses: julia-actions/cache@v1
+      - name: "Replace julia libstdcxx ubuntu + julia v1.6"
+        if: ${{ matrix.version == '1.6' && matrix.os == 'ubuntu-latest' }}
+        # The following is needed for Julia <=1.8.3 on Linux OS 
+        # due to old version of libstcxx used by Julia
+        # taken from https://github.com/hhaensel/ReplaceLibstdcxx.jl/blob/main/src/ReplaceLibstdcxx.jl
+        run: |
+              julia -e '
+                libs = filter(x -> ! occursin("32", x), getindex.(split.(readlines(pipeline(`ldconfig -p`, `grep libstdc`)), r"\s*=>\s*"), 2))
+                source_dir = dirname(libs[end])
+                julia_lib_dir = joinpath(dirname(Sys.BINDIR), "lib", "julia")
+                julia_lib_file = get(filter(endswith(r"libstdc\+\+.so\.\d+\.\d+\.\d+"), readdir(julia_lib_dir, join = true)), 1, nothing)
+                julia_lib_version = match(r"so(\.\d+)\.", julia_lib_file).captures[1]
+                source_lib = get(filter(endswith(r"libstdc\+\+.so\.\d+\.\d+\.\d+"), readdir(source_dir, join = true)), 1, nothing)
+                julia_lib = joinpath(dirname(Sys.BINDIR), "lib", "julia", "libstdc++.so")
+                for src in [julia_lib, julia_lib * julia_lib_version]
+                  islink(src) && rm(src, force = true)
+                  symlink(source_lib, src)
+                  @info read(`ls -al $src`, String)
+                end
+              '
       - uses: julia-actions/julia-buildpkg@v1
-# The following is needed for Julia <=0.8.4 on Linux OS 
-# due to old version of libstcxx used by Julia
-      - name: "Export LD_LIBRARY_PATH envrioment variable"
-        if: ${{matrix.version == '1.6'}}
-        run: echo "LD_LIBRARY_PATH=/home/runner/.julia/conda/3/x86_64/lib" >> $GITHUB_ENV
       - uses: julia-actions/julia-runtest@v1
-        env:
-          LD_LIBRARY_PATH: /home/runner/.julia/conda/3/x86_64/lib
       - uses: julia-actions/julia-processcoverage@v1
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v3
         with:
           file: lcov.info
