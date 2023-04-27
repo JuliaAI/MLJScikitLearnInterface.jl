@@ -1,6 +1,6 @@
-# MLJ <> ScikitLearn.jl
+# MLJ <> scikit-learn
 Repository implementing MLJ interface for 
-[ScikitLearn.jl](https://github.com/cstjean/ScikitLearn.jl) models.
+[scikit-learn](https://github.com/scikit-learn/scikit-learn) models (via PythonCall.jl). 
 
 
 [![Build Status](https://github.com/JuliaAI/MLJScikitLearnInterface.jl/workflows/CI/badge.svg)](https://github.com/JuliaAI/MLJScikitLearnInterface.jl/actions)
@@ -16,3 +16,6 @@ export LD_LIBRARY_PATH=$ROOT_ENV"/lib":$LD_LIBRARY_PATH
 Another method is to link your OS's version of `libstdcxx` instead of the one that comes with Julia. More details can be found [here](https://github.com/hhaensel/ReplaceLibstdcxx.jl).
 
 In both cases, it is recommended to use a Julia version `>=1.8.4`, but these fixes can be used as a last resort if you have to stay on an older Julia version. 
+
+# Related Projects
+- [ScikitLearn.jl](https://github.com/cstjean/ScikitLearn.jl) - a Julia implementation of the scikit-learn API
