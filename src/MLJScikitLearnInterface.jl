@@ -10,12 +10,6 @@ include("ScikitLearnAPI.jl")
 const SK = ScikitLearnAPI
 import PythonCall: pyisnull, PyNULL, pyimport, pycopy!, pynew, pyconvert
 
-# ------------------------------------------------------------------------
-# NOTE: the next few lines of wizardry and their call should not be
-# modified carelessly. In particular do consider the recommendations at
-# JuliaPy/PyCall.jl#using-pycall-from-julia-modules
-# from which much of this stems.
-
 # supervised
 const SKLM = pynew()
 const SKGP = pynew()
