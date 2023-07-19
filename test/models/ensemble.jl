@@ -9,7 +9,7 @@ models = (
 fparams = (
     AdaBoostClassifier=(:estimator, :estimators, :estimator_weights, :estimator_errors, :classes, :n_classes),
     BaggingClassifier=(:estimator, :estimators, :estimators_samples, :estimators_features, :classes, :n_classes, :oob_score, :oob_decision_function),
-    GradientBoostingClassifier=(:n_estimators, :feature_importances, :train_score, :loss, :init, :estimators, :oob_improvement),
+    GradientBoostingClassifier=(:n_estimators, :feature_importances, :train_score, :init, :estimators, :oob_improvement),
     RandomForestClassifier=(:estimator, :estimators, :classes, :n_classes, :n_features, :n_outputs, :feature_importances, :oob_score, :oob_decision_function),
     ExtraTreesClassifier=(:estimator, :estimators, :classes, :n_classes, :feature_importances, :n_features, :n_outputs, :oob_score, :oob_decision_function)
 )
@@ -42,7 +42,7 @@ models = (
 fparams = (
     AdaBoostRegressor=(:estimator, :estimators, :estimator_weights, :estimator_errors, :feature_importances),
     BaggingRegressor=(:estimator, :estimators, :estimators_samples, :estimators_features, :oob_score, :oob_prediction),
-    GradientBoostingRegressor=(:feature_importances, :train_score, :loss, :init, :estimators, :oob_improvement),
+    GradientBoostingRegressor=(:feature_importances, :train_score, :init, :estimators, :oob_improvement),
     RandomForestRegressor=(:estimator, :estimators, :feature_importances, :n_features, :n_outputs, :oob_score, :oob_prediction),
     ExtraTreesRegressor=(:estimator, :estimators, :feature_importances, :n_features, :n_outputs, :oob_score, :oob_prediction)
 )

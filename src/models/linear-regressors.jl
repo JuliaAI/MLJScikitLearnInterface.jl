@@ -1,5 +1,6 @@
 const ARDRegressor_ = sklm(:ARDRegression)
 @sk_reg mutable struct ARDRegressor <: MMI.Deterministic
+    # TODO: rename `n_iter` to `max_iter` in v1.5
     n_iter::Int               = 300::(_ > 0)
     tol::Float64              = 1e-3::(_ > 0)
     alpha_1::Float64          = 1e-6::(_ > 0)
@@ -25,6 +26,7 @@ add_human_name_trait(ARDRegressor, "Bayesian ARD regressor")
 # =============================================================================
 const BayesianRidgeRegressor_ = sklm(:BayesianRidge)
 @sk_reg mutable struct BayesianRidgeRegressor <: MMI.Deterministic
+    # TODO: rename `n_iter` to `max_iter` in v1.5
     n_iter::Int         = 300::(_ ≥ 1)
     tol::Float64        = 1e-3::(_ > 0)
     alpha_1::Float64    = 1e-6::(_ > 0)
