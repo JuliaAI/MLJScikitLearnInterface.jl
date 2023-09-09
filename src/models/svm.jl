@@ -59,7 +59,7 @@ meta(SVMClassifier,
 # ============================================================================
 const SVMLinearRegressor_ = sksv(:LinearSVR)
 @sk_reg mutable struct SVMLinearRegressor <: MMI.Deterministic
-    epsilon::Float64 = 0.0::(_ >= 0)
+    epsilon::Float64 = 0.0::(_ ≥ 0)
     tol::Float64     = 1e-4::(_ > 0)
     C::Float64       = 1.0::(_ > 0)
     loss::String      = "epsilon_insensitive"::(_ in ("epsilon_insensitive", "squared_epsilon_insensitive"))
@@ -89,7 +89,7 @@ const SVMRegressor_ = sksv(:SVR)
     coef0::Float64   = 0.0
     tol::Float64     = 1e-3::(_ > 0)
     C::Float64       = 1.0::(_ > 0)
-    epsilon::Float64 = 0.1::(_ >= 0)
+    epsilon::Float64 = 0.1::(_ ≥ 0)
     shrinking        = true
     cache_size::Int  = 200::(_ > 0)
     max_iter::Int    = -1

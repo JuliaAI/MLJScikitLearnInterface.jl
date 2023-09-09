@@ -138,6 +138,48 @@ data which contains clusters of similar density.
 DBSCAN
 
 # ============================================================================
+const HDBSCAN_ = skcl(:HDBSCAN)
+@sk_uns mutable struct HDBSCAN <: MMI.Unsupervised
+    min_cluster_size::Int     = 5::(_ > 0)
+    min_samples::Option{Int}  = nothing
+    cluster_selection_epsilon::Float64 = 0.0::(_ ≥ 0)
+    max_cluster_size::Option{Int} = nothing
+    metric::String           = "euclidean"::(_ in ("euclidean", "precomputed"))
+    alpha::Float64           = 1.0::(_ > 0)
+    algorithm::String        = "auto"::(_ in ("auto", "brute", "kdtree", "balltree"))
+    leaf_size::Int           = 40::(_ > 1)
+    cluster_selection_method::String = "eom"::(_ in ("eom", "leaf"))
+    allow_single_cluster::Bool = false
+    store_centers::Option{String} = nothing
+end
+function MMI.fitted_params(m::HDBSCAN, f)
+    labels = pyconvert(Array, f.labels_) .+ 2
+    nc   = length(unique(labels))
+    catv = MMI.categorical([-1, (1:nc)...])
+    return (
+        labels              = catv[labels],
+        probabilities       = pyconvert(Array, f.probabilities_)
+    )
+end
+meta(HDBSCAN,
+    input   = Table(Continuous),
+    weights = false,
+    )
+
+"""
+$(MMI.doc_header(HDBSCAN))
+
+Hierarchical Density-Based Spatial Clustering of Applications with 
+Noise. Performs [`DBSCAN'](@ref) over varying epsilon values and 
+integrates the result to find a clustering that gives the best 
+stability over epsilon. This allows HDBSCAN to find clusters of 
+varying densities (unlike [`DBSCAN'](@ref)), and be more robust to 
+parameter selection. 
+
+"""
+HDBSCAN
+
+# ============================================================================
 const FeatureAgglomeration_ = skcl(:FeatureAgglomeration)
 @sk_uns mutable struct FeatureAgglomeration <: MMI.Unsupervised
     n_clusters::Int        = 2::(_ > 0)
@@ -191,7 +233,7 @@ const KMeans_ = skcl(:KMeans)
     copy_x::Bool        = true
     algorithm::String   = "lloyd"::(_ in ("elkane", "lloyd"))
     # long
-    init::Union{AbstractArray,String}        = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
+    init::Union{AbstractArray,String} = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
 end
 @sku_transform KMeans
 @sku_predict KMeans
@@ -216,6 +258,45 @@ K-Means algorithm: find K centroids corresponding to K clusters in the data.
 
 """
 KMeans
+
+# ============================================================================
+const BisectingKMeans_ = skcl(:BisectingKMeans)
+@sk_uns mutable struct BisectingKMeans <: MMI.Unsupervised
+    n_clusters::Int     = 8::(_ ≥ 1)
+    n_init::Int         = 1::(_ ≥ 1)
+    max_iter::Int       = 300::(_ ≥ 1)
+    tol::Float64        = 1e-4::(_ > 0)
+    verbose::Int        = 0::(_ ≥ 0)
+    random_state::Any   = nothing
+    copy_x::Bool        = true
+    algorithm::String   = "lloyd"::(_ in ("elkane", "lloyd"))
+    # long
+    init::Union{AbstractArray,String} = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
+    bisecting_strategy::String = "biggest_inertia"::(_ in ("biggest_inertia", "largest_cluster"))
+end
+@sku_transform BisectingKMeans
+# @sku_predict BisectingKMeans #TODO: Why does this fail?
+function MMI.fitted_params(m::BisectingKMeans, f)
+    nc   = pyconvert(Int, f.n_clusters)
+    catv = MMI.categorical(1:nc)
+    return (
+        cluster_centers = pyconvert(Array, f.cluster_centers_),
+        labels          = catv[pyconvert(Array, f.labels_) .+ 1],
+        inertia         = pyconvert(Float64, f.inertia_))
+end
+meta(BisectingKMeans,
+     input   = Table(Continuous),
+     target  = AbstractVector{Multiclass},
+     output  = Table(Continuous),
+     weights = false)
+
+"""
+$(MMI.doc_header(BisectingKMeans))
+
+Bisecting K-Means clustering.
+
+"""
+BisectingKMeans
 
 # ============================================================================
 const MiniBatchKMeans_ = skcl(:MiniBatchKMeans)
@@ -339,7 +420,7 @@ OPTICS
 # ============================================================================
 const SpectralClustering_ = skcl(:SpectralClustering)
 @sk_uns mutable struct SpectralClustering <: MMI.Unsupervised
-    n_clusters::Int      = 8::(_ ≥ 1)
+    n_clusters::Int       = 8::(_ ≥ 1)
     eigen_solver::Option{String} = nothing::(_ === nothing || _ in ("arpack", "lobpcg", "amg"))
     # n_components::Option{Int}    = nothing::(_ === nothing || _ ≥ 1)
     random_state::Any     = nothing
@@ -378,11 +459,83 @@ SpectralClustering
 
 # NOTE: the two models below are weird, not bothering with them for now
 # # ============================================================================
-# SpectralBiclustering_ = skcl(:SpectralBiclustering)
+# const SpectralBiclustering_ = skcl(:SpectralBiclustering)
 # @sk_uns mutable struct SpectralBiclustering <: MMI.Unsupervised
+#     n_clusters::Int       = 3::(_ ≥ 1)
+#     method::String        = "bistochastic"::(_ in ("bistochastic", "scale", "log"))
+#     n_components::Int     = 6::(_ ≥ 1)
+#     n_best::Int           = 3
+#     svd_method::String    = "randomized"::(_ in ("arpack", "randomized"))
+#     n_svd_vecs::Option{Int} = nothing
+#     mini_batch::Bool      = false
+#     init::Union{AbstractArray,String} = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
+#     n_init::Int           = 10::(_ ≥ 1)
+#     random_state::Any     = nothing
 # end
-#
+# function MMI.fitted_params(m::SpectralBiclustering, f)
+#     return (
+#         rows            = pyconvert(Array, f.rows_),
+#         columns         = pyconvert(Array, f.columns_),
+#         row_labels      = pyconvert(Array, f.row_labels_),
+#         column_labels   = pyconvert(Array, f.column_labels_)
+#     )
+# end
+# meta(SpectralBiclustering,
+#     input   = Table(Continuous),
+#     weights = false
+#     )
+
+# """
+# $(MMI.doc_header(SpectralBiclustering))
+
+# Partitions rows and columns under the assumption that the data 
+# has an underlying checkerboard structure. For instance, if there 
+# are two row partitions and three column partitions, each row will 
+# belong to three biclusters, and each column will belong to two 
+# biclusters. The outer product of the corresponding row and column 
+# label vectors gives this checkerboard structure.
+
+# """
+# SpectralBiclustering
+
 # # ============================================================================
-# SpectralCoclustering_ = skcl(:SpectralCoclustering)
+# const SpectralCoclustering_ = skcl(:SpectralCoclustering)
 # @sk_uns mutable struct SpectralCoclustering <: MMI.Unsupervised
+#     n_clusters::Int       = 3::(_ ≥ 1)
+#     svd_method::String    = "randomized"::(_ in ("arpack", "randomized"))
+#     n_svd_vecs::Option{Int} = nothing
+#     mini_batch::Bool      = false
+#     init::Union{AbstractArray,String} = "k-means++"::(_ isa AbstractArray || _ in ("k-means++", "random"))
+#     n_init::Int           = 10::(_ ≥ 1)
+#     random_state::Any     = nothing
 # end
+# function MMI.fitted_params(m::SpectralCoclustering, f)
+#     return (
+#         rows            = pyconvert(Array, f.rows_),
+#         columns         = pyconvert(Array, f.columns_),
+#         row_labels      = pyconvert(Array, f.row_labels_),
+#         column_labels   = pyconvert(Array, f.column_labels_),
+#         biclusters      = Tuple(pyconvert(Array, i) for i in f.biclusters_)
+#     )
+# end
+# meta(SpectralCoclustering,
+#     input   = Table(Continuous),
+#     weights = false
+#     )
+
+# """
+# $(MMI.doc_header(SpectralCoclustering))
+
+# Clusters rows and columns of an array `X` to solve the 
+# relaxed normalized cut of the bipartite graph created 
+# from `X` as follows: the edge between row vertex `i` and 
+# column vertex `j` has weight `X[i, j]`.
+
+# The resulting bicluster structure is block-diagonal, since 
+# each row and each column belongs to exactly one bicluster.
+
+# Supports sparse matrices, as long as they are nonnegative.
+
+# """
+# SpectralCoclustering
+
