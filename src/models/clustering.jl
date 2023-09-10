@@ -170,10 +170,10 @@ meta(HDBSCAN,
 $(MMI.doc_header(HDBSCAN))
 
 Hierarchical Density-Based Spatial Clustering of Applications with 
-Noise. Performs [`DBSCAN'](@ref) over varying epsilon values and 
+Noise. Performs [`DBSCAN`](@ref) over varying epsilon values and 
 integrates the result to find a clustering that gives the best 
 stability over epsilon. This allows HDBSCAN to find clusters of 
-varying densities (unlike [`DBSCAN'](@ref)), and be more robust to 
+varying densities (unlike [`DBSCAN`](@ref)), and be more robust to 
 parameter selection. 
 
 """
