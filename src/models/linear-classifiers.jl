@@ -17,8 +17,8 @@ const LogisticClassifier_ = sklm(:LogisticRegression)
     l1_ratio::Option{Float64}  = nothing::(_ === nothing || 0 ≤ _ ≤ 1)
 end
 MMI.fitted_params(m::LogisticClassifier, (f, _, _)) = (
-    classes   = f.classes_,
-    coef      = f.coef_,
+    classes   = pyconvert(Array, f.classes_),
+    coef      = pyconvert(Array, f.coef_),
     intercept = ifelse(m.fit_intercept, f.intercept_, nothing)
     )
 meta(LogisticClassifier,
@@ -50,15 +50,15 @@ const LogisticCVClassifier_ = sklm(:LogisticRegressionCV)
     l1_ratios::Option{AbstractVector{Float64}}=nothing::(_ === nothing || all(0 .≤ _ .≤ 1))
 end
 MMI.fitted_params(m::LogisticCVClassifier, (f, _, _)) = (
-    classes     = f.classes_,
-    coef        = f.coef_,
-    intercept   = m.fit_intercept ? f.intercept_ : nothing,
-    Cs          = f.Cs_,
+    classes     = pyconvert(Array, f.classes_),
+    coef        = pyconvert(Array, f.coef_),
+    intercept   = m.fit_intercept ? pyconvert(Array, f.intercept_) : nothing,
+    Cs          = pyconvert(Array, f.Cs_),
     l1_ratios   = ifelse(m.penalty == "elasticnet", f.l1_ratios_, nothing),
-    coefs_paths = f.coefs_paths_,
+    coefs_paths = pyconvert(Array, f.coefs_paths_),
     scores      = f.scores_,
-    C           = f.C_,
-    l1_ratio    = f.l1_ratio_
+    C           = pyconvert(Array, f.C_),
+    l1_ratio    = pyconvert(Array, f.l1_ratio_)
     )
 meta(LogisticCVClassifier,
     input   = Table(Continuous),
@@ -87,7 +87,7 @@ const PassiveAggressiveClassifier_ = sklm(:PassiveAggressiveClassifier)
     average::Bool         = false
 end
 MMI.fitted_params(m::PassiveAggressiveClassifier, (f, _, _)) = (
-    coef      = f.coef_,
+    coef      = pyconvert(Array, f.coef_),
     intercept = ifelse(m.fit_intercept, f.intercept_, nothing)
     )
 meta(PassiveAggressiveClassifier,
@@ -117,7 +117,7 @@ const PerceptronClassifier_ = sklm(:Perceptron)
     warm_start::Bool        = false
 end
 MMI.fitted_params(m::PerceptronClassifier, (f, _, _)) = (
-    coef      = f.coef_,
+    coef      = pyconvert(Array, f.coef_),
     intercept = ifelse(m.fit_intercept, f.intercept_, nothing)
     )
 meta(PerceptronClassifier,
@@ -139,7 +139,7 @@ const RidgeClassifier_ = sklm(:RidgeClassifier)
     random_state::Any     = nothing
 end
 MMI.fitted_params(m::RidgeClassifier, (f, _, _)) = (
-    coef      = f.coef_,
+    coef      = pyconvert(Array, f.coef_),
     intercept = ifelse(m.fit_intercept, f.intercept_, nothing)
     )
 meta(RidgeClassifier,
@@ -160,7 +160,7 @@ const RidgeCVClassifier_ = sklm(:RidgeClassifierCV)
     store_cv_values::Bool = false
 end
 MMI.fitted_params(m::RidgeCVClassifier, (f, _, _)) = (
-    coef      = f.coef_,
+    coef      = pyconvert(Array, f.coef_),
     intercept = ifelse(m.fit_intercept, f.intercept_, nothing)
     )
 meta(RidgeCVClassifier,
@@ -220,12 +220,12 @@ const ProbabilisticSGDClassifier_ = sklm(:SGDClassifier)
     average::Bool         = false
 end
 MMI.fitted_params(m::SGDClassifier, (f,_,_)) = (
-    coef      = f.coef_,
+    coef      = pyconvert(Array, f.coef_),
     intercept = ifelse(m.fit_intercept, f.intercept_, nothing)
     )
 # duplication to avoid ambiguity that julia doesn't like
 MMI.fitted_params(m::ProbabilisticSGDClassifier, (f,_,_)) = (
-    coef      = f.coef_,
+    coef      = pyconvert(Array, f.coef_),
     intercept = ifelse(m.fit_intercept, f.intercept_, nothing)
     )
 meta.((SGDClassifier, ProbabilisticSGDClassifier),

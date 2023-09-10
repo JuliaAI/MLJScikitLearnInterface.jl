@@ -371,11 +371,11 @@ const RANSACRegressor_ = sklm(:RANSACRegressor)
 end
 MMI.fitted_params(m::RANSACRegressor, (f, _, _)) = (
     estimator             = f.estimator_,
-    n_trials              = f.n_trials_,
-    inlier_mask           = f.inlier_mask_,
-    n_skips_no_inliers    = f.n_skips_no_inliers_,
-    n_skips_invalid_data  = f.n_skips_invalid_data_,
-    n_skips_invalid_model = f.n_skips_invalid_model_
+    n_trials              = pyconvert(Int, f.n_trials_),
+    inlier_mask           = pyconvert(Array, f.inlier_mask_),
+    n_skips_no_inliers    = pyconvert(Int, f.n_skips_no_inliers_),
+    n_skips_invalid_data  = pyconvert(Int, f.n_skips_invalid_data_),
+    n_skips_invalid_model = pyconvert(Int, f.n_skips_invalid_model_)
     )
 
 # =============================================================================

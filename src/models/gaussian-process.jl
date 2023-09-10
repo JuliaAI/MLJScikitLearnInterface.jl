@@ -38,9 +38,9 @@ const GaussianProcessClassifier_ = skgp(:GaussianProcessClassifier)
 end
 MMI.fitted_params(m::GaussianProcessClassifier, (f, _, _)) = (
     kernel    = f.kernel_,
-    log_marginal_likelihood_value = f.log_marginal_likelihood_value_,
-    classes   = f.classes_,
-    n_classes = f.n_classes_
+    log_marginal_likelihood_value = pyconvert(Float64, f.log_marginal_likelihood_value_),
+    classes   = pyconvert(Array, f.classes_),
+    n_classes = pyconvert(Int, f.n_classes_)
     )
 meta(GaussianProcessClassifier,
     input   = Table(Continuous),

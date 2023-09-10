@@ -9,15 +9,15 @@ const BayesianLDA_ = skda(:LinearDiscriminantAnalysis)
     covariance_estimator::Any        = nothing
 end
 MMI.fitted_params(m::BayesianLDA, (f, _, _)) = (
-    coef       = f.coef_,
-    intercept  = f.intercept_,
-    covariance = m.store_covariance ? f.covariance_ : nothing,
-    means      = f.means_,
-    priors     = f.priors_,
-    scalings   = f.scalings_,
-    xbar       = f.xbar_,
-    classes    = f.classes_,
-    explained_variance_ratio = f.explained_variance_ratio_
+    coef       = pyconvert(Array, f.coef_),
+    intercept  = pyconvert(Array, f.intercept_),
+    covariance = m.store_covariance ? pyconvert(Array, f.covariance_) : nothing,
+    explained_variance_ratio = pyconvert(Array, f.explained_variance_ratio_),
+    means      = pyconvert(Array, f.means_),
+    priors     = pyconvert(Array, f.priors_),
+    scalings   = pyconvert(Array, f.scalings_),
+    xbar       = pyconvert(Array, f.xbar_),
+    classes    = pyconvert(Array, f.classes_)
     )
 meta(BayesianLDA,
     input   = Table(Continuous),
@@ -35,11 +35,11 @@ const BayesianQDA_ = skda(:QuadraticDiscriminantAnalysis)
     tol::Float64                   = 1e-4::(_ > 0)
 end
 MMI.fitted_params(m::BayesianQDA, (f, _, _)) = (
-    covariance = m.store_covariance ? f.covariance_ : nothing,
-    means      = f.means_,
-    priors     = f.priors_,
-    rotations  = f.rotations_,
-    scalings   = f.scalings_
+    covariance = m.store_covariance ? pyconvert(Array, f.covariance_) : nothing,
+    means      = pyconvert(Array, f.means_),
+    priors     = pyconvert(Array, f.priors_),
+    rotations  = pyconvert(Array, f.rotations_),
+    scalings   = pyconvert(Array, f.scalings_),
     )
 meta(BayesianQDA,
     input   = Table(Continuous),

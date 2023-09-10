@@ -9,9 +9,9 @@ end
 MMI.fitted_params(model::AdaBoostRegressor, (f, _, _)) = (
     estimator            = f.estimator_,
     estimators           = f.estimators_,
-    estimator_weights    = f.estimator_weights_,
-    estimator_errors     = f.estimator_errors_,
-    feature_importances  = f.feature_importances_
+    estimator_weights    = pyconvert(Array, f.estimator_weights_),
+    estimator_errors     = pyconvert(Array, f.estimator_errors_),
+    feature_importances  = pyconvert(Array, f.feature_importances_)
     )
 add_human_name_trait(AdaBoostRegressor, "AdaBoost ensemble regression")
 """
@@ -41,10 +41,10 @@ end
 MMI.fitted_params(m::AdaBoostClassifier, (f, _, _)) = (
     estimator         = f.estimator_,
     estimators        = f.estimators_,
-    estimator_weights = f.estimator_weights_,
-    estimator_errors  = f.estimator_errors_,
-    classes           = f.classes_,
-    n_classes         = f.n_classes_
+    estimator_weights = pyconvert(Array, f.estimator_weights_),
+    estimator_errors  = pyconvert(Array, f.estimator_errors_),
+    classes           = pyconvert(Array, f.classes_),
+    n_classes         = pyconvert(Int, f.n_classes_)
     )
 meta(AdaBoostClassifier,
     input   = Table(Continuous),
@@ -85,8 +85,8 @@ MMI.fitted_params(model::BaggingRegressor, (f, _, _)) = (
     estimators          = f.estimators_,
     estimators_samples  = f.estimators_samples_,
     estimators_features = f.estimators_features_,
-    oob_score           = model.oob_score ? f.oob_score_ : nothing,
-    oob_prediction      = model.oob_score ? f.oob_prediction_ : nothing
+    oob_score           = model.oob_score ? pyconvert(Float64, f.oob_score_) : nothing,
+    oob_prediction      = model.oob_score ? pyconvert(Array, f.oob_prediction_) : nothing
     )
 add_human_name_trait(BaggingRegressor, "bagging ensemble regressor")
 """
@@ -124,9 +124,9 @@ MMI.fitted_params(m::BaggingClassifier, (f, _, _)) = (
     estimators            = f.estimators_,
     estimators_samples    = f.estimators_samples_,
     estimators_features   = f.estimators_features_,
-    classes               = f.classes_,
-    n_classes             = f.n_classes_,
-    oob_score             = m.oob_score ? f.oob_score_ : nothing,
+    classes               = pyconvert(Array, f.classes_),
+    n_classes             = pyconvert(Int, f.n_classes_),
+    oob_score             = m.oob_score ? pyconvert(Float64, f.oob_score_) : nothing,
     oob_decision_function = m.oob_score ? f.oob_decision_function_ : nothing
     )
 meta(BaggingClassifier,
@@ -171,11 +171,11 @@ end
 MMI.fitted_params(m::ExtraTreesRegressor, (f, _, _)) = (
     estimator           = f.estimator_,
     estimators          = f.estimators_,
-    feature_importances = f.feature_importances_,
-    n_features          = f.n_features_in_,
-    n_outputs           = f.n_outputs_,
-    oob_score           = m.oob_score ? f.oob_score_ : nothing,
-    oob_prediction      = m.oob_score ? f.oob_prediction_ : nothing,
+    feature_importances = pyconvert(Array, f.feature_importances_),
+    n_features          = pyconvert(Int, f.n_features_in_),
+    n_outputs           = pyconvert(Int, f.n_outputs_),
+    oob_score           = m.oob_score ? pyconvert(Float64, f.oob_score_) : nothing,
+    oob_prediction      = m.oob_score ? pyconvert(Array, f.oob_prediction_) : nothing,
     )
 meta(ExtraTreesRegressor,
     input   = Table(Continuous),
@@ -216,12 +216,12 @@ end
 MMI.fitted_params(m::ExtraTreesClassifier, (f, _, _)) = (
     estimator             = f.estimator_,
     estimators            = f.estimators_,
-    classes               = f.classes_,
-    n_classes             = f.n_classes_,
-    feature_importances   = f.feature_importances_,
-    n_features            = f.n_features_in_,
-    n_outputs             = f.n_outputs_,
-    oob_score             = m.oob_score ? f.oob_score_ : nothing,
+    classes               = pyconvert(Array, f.classes_),
+    n_classes             = pyconvert(Int, f.n_classes_),
+    feature_importances   = pyconvert(Array, f.feature_importances_),
+    n_features            = pyconvert(Int, f.n_features_in_),
+    n_outputs             = pyconvert(Int, f.n_outputs_),
+    oob_score             = m.oob_score ? pyconvert(Float64, f.oob_score_) : nothing,
     oob_decision_function = m.oob_score ? f.oob_decision_function_ : nothing,
     )
 meta(ExtraTreesClassifier,
@@ -266,11 +266,11 @@ const GradientBoostingRegressor_ = sken(:GradientBoostingRegressor)
     tol::Float64                   = 1e-4::(_>0)
 end
 MMI.fitted_params(m::GradientBoostingRegressor, (f, _, _)) = (
-    feature_importances = f.feature_importances_,
-    train_score         = f.train_score_,
+    feature_importances = pyconvert(Array, f.feature_importances_),
+    train_score         = pyconvert(Array, f.train_score_),
     init                = f.init_,
     estimators          = f.estimators_,
-    oob_improvement     = m.subsample < 1 ? f.oob_improvement_ : nothing
+    oob_improvement     = m.subsample < 1 ? pyconvert(Array, f.oob_improvement_) : nothing
     )
 add_human_name_trait(GradientBoostingRegressor, "gradient boosting ensemble regression")
 """
@@ -313,11 +313,11 @@ const GradientBoostingClassifier_ = sken(:GradientBoostingClassifier)
 end
 MMI.fitted_params(m::GradientBoostingClassifier, (f, _, _)) = (
     n_estimators        = f.n_estimators_,
-    feature_importances = f.feature_importances_,
-    train_score         = f.train_score_,
+    feature_importances = pyconvert(Array, f.feature_importances_),
+    train_score         = pyconvert(Array, f.train_score_),
     init                = f.init_,
     estimators          = f.estimators_,
-    oob_improvement     = m.subsample < 1 ? f.oob_improvement_ : nothing
+    oob_improvement     = m.subsample < 1 ? pyconvert(Array, f.oob_improvement_) : nothing
     )
 meta(GradientBoostingClassifier,
     input   = Table(Continuous),
@@ -364,11 +364,11 @@ end
 MMI.fitted_params(model::RandomForestRegressor, (f, _, _)) = (
     estimator           = f.estimator_,
     estimators          = f.estimators_,
-    feature_importances = f.feature_importances_,
-    n_features          = f.n_features_in_,
-    n_outputs           = f.n_outputs_,
-    oob_score           = model.oob_score ? f.oob_score_ : nothing,
-    oob_prediction      = model.oob_score ? f.oob_prediction_ : nothing
+    feature_importances = pyconvert(Array, f.feature_importances_),
+    n_features          = pyconvert(Int, f.n_features_in_),
+    n_outputs           = pyconvert(Int, f.n_outputs_),
+    oob_score           = model.oob_score ? pyconvert(Float64, f.oob_score_) : nothing,
+    oob_prediction      = model.oob_score ? pyconvert(Array, f.oob_prediction_) : nothing
     )
 meta(RandomForestRegressor,
     input   = Table(Count,Continuous),
@@ -414,12 +414,12 @@ end
 MMI.fitted_params(m::RandomForestClassifier, (f, _, _)) = (
     estimator             = f.estimator_,
     estimators            = f.estimators_,
-    classes               = f.classes_,
-    n_classes             = f.n_classes_,
-    n_features            = f.n_features_in_,
-    n_outputs             = f.n_outputs_,
-    feature_importances   = f.feature_importances_,
-    oob_score             = m.oob_score ? f.oob_score_ : nothing,
+    classes               = pyconvert(Array, f.classes_),
+    n_classes             = pyconvert(Int, f.n_classes_),
+    n_features            = pyconvert(Int, f.n_features_in_),
+    n_outputs             = pyconvert(Int, f.n_outputs_),
+    feature_importances   = pyconvert(Array, f.feature_importances_),
+    oob_score             = m.oob_score ? pyconvert(Float64, f.oob_score_) : nothing,
     oob_decision_function = m.oob_score ? f.oob_decision_function_ : nothing
     )
 meta(RandomForestClassifier,

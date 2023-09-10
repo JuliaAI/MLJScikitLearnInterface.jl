@@ -5,8 +5,8 @@ const DummyRegressor_ = skdu(:DummyRegressor)
     quantile::Float64 = 0.5::(0 ≤ _ ≤ 1)
 end
 MMI.fitted_params(m::DummyRegressor, (f, _, _)) = (
-    constant  = f.constant_,
-    n_outputs = f.n_outputs_
+    constant  = pyconvert(Array, f.constant_),
+    n_outputs = pyconvert(Int, f.n_outputs_)
     )
 meta(DummyRegressor,
     input   = Table(Continuous),
@@ -30,9 +30,9 @@ const DummyClassifier_ = skdu(:DummyClassifier)
     random_state::Any = nothing
 end
 MMI.fitted_params(m::DummyClassifier, (f, _, _)) = (
-    classes   = f.classes_,
-    n_classes = f.n_classes_,
-    n_outputs = f.n_outputs_
+    classes   = pyconvert(Array, f.classes_),
+    n_classes = pyconvert(Int, f.n_classes_),
+    n_outputs = pyconvert(Int, f.n_outputs_)
     )
 meta(DummyClassifier,
     input   = Table(Continuous),
@@ -55,11 +55,11 @@ const GaussianNBClassifier_ = sknb(:GaussianNB)
     var_smoothing::Float64                  = 1e-9::(_ > 0)
 end
 MMI.fitted_params(m::GaussianNBClassifier, (f, _, _)) = (
-    class_prior = f.class_prior_,
-    class_count = f.class_count_,
-    theta       = f.theta_,
-    var       = f.var_,
-    epsilon     = f.epsilon_,
+    class_prior = pyconvert(Array, f.class_prior_),
+    class_count = pyconvert(Array, f.class_count_),
+    theta       = pyconvert(Array, f.theta_),
+    var         = pyconvert(Array, f.var_),
+    epsilon     = pyconvert(Float64, f.epsilon_),
     )
 meta(GaussianNBClassifier,
     input   = Table(Continuous),
@@ -77,10 +77,10 @@ const BernoulliNBClassifier_ = sknb(:BernoulliNB)
     class_prior::Option{AbstractVector} = nothing::(_ === nothing || all(_ .≥ 0))
 end
 MMI.fitted_params(m::BernoulliNBClassifier, (f, _, _)) = (
-    class_log_prior  = f.class_log_prior_,
-    feature_log_prob = f.feature_log_prob_,
-    class_count      = f.class_count_,
-    feature_count    = f.feature_count_
+    class_log_prior  = pyconvert(Array, f.class_log_prior_),
+    feature_log_prob = pyconvert(Array, f.feature_log_prob_),
+    class_count      = pyconvert(Array, f.class_count_),
+    feature_count    = pyconvert(Array, f.feature_count_)
     )
 meta(BernoulliNBClassifier,
     input   = Table(Count),      # it expects binary but binarize takes care of that
@@ -108,10 +108,10 @@ const MultinomialNBClassifier_ = sknb(:MultinomialNB)
     class_prior::Option{AbstractVector} = nothing::(_ === nothing || all(_ .≥ 0))
 end
 MMI.fitted_params(m::MultinomialNBClassifier, (f, _, _)) = (
-    class_log_prior  = f.class_log_prior_,
-    feature_log_prob = f.feature_log_prob_,
-    class_count      = f.class_count_,
-    feature_count    = f.feature_count_
+    class_log_prior  = pyconvert(Array, f.class_log_prior_),
+    feature_log_prob = pyconvert(Array, f.feature_log_prob_),
+    class_count      = pyconvert(Array, f.class_count_),
+    feature_count    = pyconvert(Array, f.feature_count_)
     )
 meta(MultinomialNBClassifier,
     input   = Table(Count),        # NOTE: sklearn may also accept continuous (tf-idf)
@@ -138,18 +138,18 @@ const ComplementNBClassifier_ = sknb(:ComplementNB)
     norm::Bool      = false
 end
 MMI.fitted_params(m::ComplementNBClassifier, (f, _, _)) = (
-    class_log_prior  = f.class_log_prior_,
-    feature_log_prob = f.feature_log_prob_,
-    class_count      = f.class_count_,
-    feature_count    = f.feature_count_,
-    feature_all      = f.feature_all_
+    class_log_prior  = pyconvert(Array, f.class_log_prior_),
+    feature_log_prob = pyconvert(Array, f.feature_log_prob_),
+    class_count      = pyconvert(Array, f.class_count_),
+    feature_count    = pyconvert(Array, f.feature_count_),
+    feature_all      = pyconvert(Array, f.feature_all_)
     )
 meta(ComplementNBClassifier,
     input   = Table(Count),        # NOTE: sklearn may also accept continuous (tf-idf)
     target  = AbstractVector{<:Finite},
-     weights = false,
-     human_name = "Complement naive Bayes classifier"
-     )
+    weights = false,
+    human_name = "Complement naive Bayes classifier"
+    )
 
 """
 $(MMI.doc_header(ComplementNBClassifier))
@@ -196,10 +196,10 @@ const KNeighborsClassifier_ = skne(:KNeighborsClassifier)
     n_jobs::Option{Int} = nothing
 end
 MMI.fitted_params(m::KNeighborsClassifier, (f, _, _)) = (
-    classes                 = f.classes_,
+    classes                 = pyconvert(Array, f.classes_),
     effective_metric        = f.effective_metric_,
     effective_metric_params = f.effective_metric_params_,
-    outputs_2d              = f.outputs_2d_
+    outputs_2d              = pyconvert(Bool, f.outputs_2d_)
     )
 meta(KNeighborsClassifier,
     input   = Table(Continuous),

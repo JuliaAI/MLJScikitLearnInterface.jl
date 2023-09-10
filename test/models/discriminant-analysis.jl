@@ -4,7 +4,7 @@ models = (
     )
 
 fparams = (
-    BayesianLDA=(:coef, :intercept, :covariance, :means, :priors, :scalings, :xbar, :classes, :explained_variance_ratio),
+    BayesianLDA=(:coef, :intercept, :covariance, :explained_variance_ratio, :means, :priors, :scalings, :xbar, :classes),
     BayesianQDA=(:covariance, :means, :priors, :rotations, :scalings),
     )
 
