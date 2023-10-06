@@ -8,7 +8,7 @@ MLJModelInterface = "e80e1ace-859a-464e-9ed9-23947d8ae3ea"
 PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 
 [compat]
-MLJBase = "=1"
+MLJBase = "1"
 MLJModelInterface = "1.4"
 PythonCall = "0.9"
 StatisticalMeasures = "0.1"
