@@ -329,3 +329,18 @@ macro sku_predict(modelname)
         end
     end
 end
+
+"""
+    macro sk_feature_importances(modelname)
+
+Adds a `feature_importance` method to a declared scikit model if
+there is one supported.
+"""
+macro sk_feature_importances(modelname)
+    quote
+        MMI.reports_feature_importances(::Type{<:$modelname}) = true
+        function MMI.feature_importances(::$modelname, (f, _), r)
+            result = [(i => x) for (i, x) in enumerate(f.feature_importances)]
+        end
+    end
+end

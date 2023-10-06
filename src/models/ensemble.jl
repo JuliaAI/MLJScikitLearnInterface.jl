@@ -6,6 +6,7 @@ const AdaBoostRegressor_ = sken(:AdaBoostRegressor)
     loss::String           = "linear"::(_ in ("linear","square","exponential"))
     random_state::Any      = nothing
 end
+@sk_feature_importances AdaBoostRegressor
 MMI.fitted_params(model::AdaBoostRegressor, (f, _, _)) = (
     estimator            = f.estimator_,
     estimators           = f.estimators_,
@@ -38,13 +39,15 @@ const AdaBoostClassifier_ = sken(:AdaBoostClassifier)
     algorithm::String      = "SAMME.R"::(_ in ("SAMME", "SAMME.R"))
     random_state::Any      = nothing
 end
+@sk_feature_importances AdaBoostClassifier
 MMI.fitted_params(m::AdaBoostClassifier, (f, _, _)) = (
     estimator         = f.estimator_,
     estimators        = f.estimators_,
     estimator_weights = pyconvert(Array, f.estimator_weights_),
     estimator_errors  = pyconvert(Array, f.estimator_errors_),
     classes           = pyconvert(Array, f.classes_),
-    n_classes         = pyconvert(Int, f.n_classes_)
+    n_classes         = pyconvert(Int, f.n_classes_),
+    feature_importances  = pyconvert(Array, f.feature_importances_)
     )
 meta(AdaBoostClassifier,
     input   = Table(Continuous),
@@ -168,6 +171,7 @@ const ExtraTreesRegressor_ = sken(:ExtraTreesRegressor)
     verbose::Int                   = 0
     warm_start::Bool               = false
 end
+@sk_feature_importances ExtraTreesRegressor
 MMI.fitted_params(m::ExtraTreesRegressor, (f, _, _)) = (
     estimator           = f.estimator_,
     estimators          = f.estimators_,
@@ -213,6 +217,7 @@ const ExtraTreesClassifier_ = sken(:ExtraTreesClassifier)
     warm_start::Bool               = false
     class_weight::Any              = nothing
 end
+@sk_feature_importances ExtraTreesClassifier
 MMI.fitted_params(m::ExtraTreesClassifier, (f, _, _)) = (
     estimator             = f.estimator_,
     estimators            = f.estimators_,
@@ -265,6 +270,7 @@ const GradientBoostingRegressor_ = sken(:GradientBoostingRegressor)
     n_iter_no_change::Option{Int}  = nothing
     tol::Float64                   = 1e-4::(_>0)
 end
+@sk_feature_importances GradientBoostingRegressor
 MMI.fitted_params(m::GradientBoostingRegressor, (f, _, _)) = (
     feature_importances = pyconvert(Array, f.feature_importances_),
     train_score         = pyconvert(Array, f.train_score_),
@@ -311,6 +317,7 @@ const GradientBoostingClassifier_ = sken(:GradientBoostingClassifier)
     n_iter_no_change::Option{Int}  = nothing
     tol::Float64                   = 1e-4::(_>0)
 end
+@sk_feature_importances GradientBoostingClassifier
 MMI.fitted_params(m::GradientBoostingClassifier, (f, _, _)) = (
     n_estimators        = f.n_estimators_,
     feature_importances = pyconvert(Array, f.feature_importances_),
@@ -361,6 +368,7 @@ const RandomForestRegressor_ = sken(:RandomForestRegressor)
     max_samples::Union{Nothing,Float64,Int} =
         nothing::(_ === nothing || (_ ≥ 0 && (_ isa Integer || _ ≤ 1)))
 end
+@sk_feature_importances RandomForestRegressor
 MMI.fitted_params(model::RandomForestRegressor, (f, _, _)) = (
     estimator           = f.estimator_,
     estimators          = f.estimators_,
@@ -411,6 +419,7 @@ const RandomForestClassifier_ = sken(:RandomForestClassifier)
     max_samples::Union{Nothing,Float64,Int} =
         nothing::(_ === nothing || (_ ≥ 0 && (_ isa Integer || _ ≤ 1)))
 end
+@sk_feature_importances RandomForestClassifier
 MMI.fitted_params(m::RandomForestClassifier, (f, _, _)) = (
     estimator             = f.estimator_,
     estimators            = f.estimators_,
