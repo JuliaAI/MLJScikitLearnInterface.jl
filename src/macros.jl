@@ -117,7 +117,8 @@ function _skmodel_fit_reg(modelname, params)
     expr = quote
         function MMI.fit(model::$modelname, verbosity::Int, X, y)
             # set X and y into a format that can be processed by sklearn
-            Xmatrix   = MMI.matrix(X)
+            Xmatrix = MMI.matrix(X)
+            names = get_column_names(X)
             yplain    = y
             targnames = nothing
             # check if it's a multi-target regression case, in that case keep
@@ -149,8 +150,7 @@ function _skmodel_fit_reg(modelname, params)
             X_py = ScikitLearnAPI.numpy.array(Xmatrix)
             y_py = ScikitLearnAPI.numpy.array(yplain)
             fitres = SK.fit!(skmodel, X_py, y_py)
-            # TODO: we may want to use the report later on
-            report = NamedTuple()
+            report = (; names)
             # the first nothing is so that we can use the same predict for
             # regressors and classifiers
             return ((fitres, nothing, targnames), nothing, report)
@@ -168,6 +168,7 @@ function _skmodel_fit_clf(modelname, params)
     quote
         function MMI.fit(model::$modelname, verbosity::Int, X, y)
             Xmatrix = MMI.matrix(X)
+            names = get_column_names(X)
             yplain  = MMI.int(y)
             # See _skmodel_fit_reg, same story
             sksym, skmod, mdl = $(Symbol(modelname, "_"))
@@ -177,8 +178,7 @@ function _skmodel_fit_clf(modelname, params)
             skmodel = skconstr(
                         $((Expr(:kw, p, :(model.$p)) for p in params)...))
             fitres  = SK.fit!(skmodel, Xmatrix, yplain)
-            # TODO: we may want to use the report later on
-            report  = NamedTuple()
+            report = (; names)
             # pass y[1] for decoding in predict method, first nothing
             # is targnames
             return ((fitres, y[1], nothing), nothing, report)
@@ -340,7 +340,7 @@ macro sk_feature_importances(modelname)
     quote
         MMI.reports_feature_importances(::Type{<:$modelname}) = true
         function MMI.feature_importances(::$modelname, (f, _), r)
-            result = [(i => x) for (i, x) in enumerate(f.feature_importances)]
+            result = [(r[i] => x) for (i, x) in enumerate(f.feature_importances)]
         end
     end
 end
