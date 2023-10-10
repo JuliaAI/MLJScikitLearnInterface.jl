@@ -1,5 +1,7 @@
 
-const ERR_TABLE_TYPE(t) = "Error: Expected a table or matrix of appropriate element types but got a data of type $t."
+const ERR_TABLE_TYPE(t) = ArgumentError(
+    "Error: Expected a table or matrix of appropriate element types but got a data of type $t."
+)
 
 function get_column_names(X)
     Tables.istable(X) || throw((ERR_TABLE_TYPE(typeof(X))))

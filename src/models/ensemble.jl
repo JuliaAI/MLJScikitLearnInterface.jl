@@ -47,7 +47,7 @@ MMI.fitted_params(m::AdaBoostClassifier, (f, _, _)) = (
     estimator_errors  = pyconvert(Array, f.estimator_errors_),
     classes           = pyconvert(Array, f.classes_),
     n_classes         = pyconvert(Int, f.n_classes_),
-    feature_importances  = pyconvert(Array, f.feature_importances_)
+    feature_importances = pyconvert(Array, f.feature_importances_)
     )
 meta(AdaBoostClassifier,
     input   = Table(Continuous),

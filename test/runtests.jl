@@ -3,7 +3,6 @@ using MLJScikitLearnInterface
 using Test
 import MLJBase
 using PythonCall
-using StatisticalMeasures
 import MLJBase: target_scitype, input_scitype, output_scitype
 
 # Filter out warnings for convergence during testing

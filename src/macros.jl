@@ -339,8 +339,9 @@ there is one supported.
 macro sk_feature_importances(modelname)
     quote
         MMI.reports_feature_importances(::Type{<:$modelname}) = true
-        function MMI.feature_importances(::$modelname, (f, _), r)
-            result = [(r[i] => x) for (i, x) in enumerate(f.feature_importances)]
+        function MMI.feature_importances(m::$modelname, fitres, r)
+            params = MMI.fitted_params(m, fitres)
+            result = [(r.names[i] => x) for (i, x) in enumerate(params.feature_importances)]
         end
     end
 end
