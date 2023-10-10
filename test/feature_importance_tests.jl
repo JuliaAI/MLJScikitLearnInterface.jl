@@ -1,38 +1,4 @@
 
-clf_models = (
-    # discriminant analysis
-    BayesianLDA,
-    
-    # ensemble classifiers
-    AdaBoostClassifier,
-    ExtraTreesClassifier,
-    GradientBoostingClassifier,
-    RandomForestClassifier,
-
-    # linear classifiers
-    LogisticClassifier,
-    LogisticCVClassifier,
-    PassiveAggressiveClassifier,
-    PerceptronClassifier,
-    RidgeClassifier,
-    RidgeCVClassifier,
-    SGDClassifier,
-
-    # svc
-    SVMLinearClassifier
-)
-
-@testset "Classification Feature Importance" begin
-    X, y = simple_binaryclf()
-    num_columns = length(Tables.columnnames(X))
-    for mod in clf_models
-        m = mod()
-        f, _, r = MB.fit(m, 1, X, y)
-        fi = MB.feature_importances(m, f, r)
-        @test size(fi) == (num_columns,)
-    end
-end
-
 reg_models = (
     # ensemble regressors
     AdaBoostRegressor,

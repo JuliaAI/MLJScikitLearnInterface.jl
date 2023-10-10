@@ -44,7 +44,6 @@ bad_single_target_classifiers = [
     BayesianQDA,
     ProbabilisticSGDClassifier,
     SVMLinearClassifier,
-    SVMLinearClassifier,
     LogisticCVClassifier,
     LogisticClassifier,
     GaussianProcessClassifier,

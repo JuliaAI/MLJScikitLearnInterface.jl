@@ -27,7 +27,6 @@ meta(LogisticClassifier,
     weights = false,
     human_name  = "logistic regression classifier"
     )
-@sk_feature_importances LogisticClassifier
 
 # ============================================================================
 const LogisticCVClassifier_ = sklm(:LogisticRegressionCV)
@@ -67,7 +66,6 @@ meta(LogisticCVClassifier,
     weights = false,
     human_name   = "logistic regression classifier $CV"
     )
-@sk_feature_importances LogisticCVClassifier
 
 # ============================================================================
 const PassiveAggressiveClassifier_ = sklm(:PassiveAggressiveClassifier)
@@ -98,7 +96,6 @@ meta(PassiveAggressiveClassifier,
     weights = false,
     human_name   = "passive aggressive classifier"
     )
-@sk_feature_importances PassiveAggressiveClassifier
 
 # ============================================================================
 const PerceptronClassifier_ = sklm(:Perceptron)
@@ -128,7 +125,6 @@ meta(PerceptronClassifier,
     target  = AbstractVector{<:Finite},
     weights = false,
     )
-@sk_feature_importances PerceptronClassifier
 
 # ============================================================================
 const RidgeClassifier_ = sklm(:RidgeClassifier)
@@ -152,7 +148,6 @@ meta(RidgeClassifier,
     weights = false,
     human_name   = "ridge regression classifier"
     )
-@sk_feature_importances RidgeClassifier
 
 # ============================================================================
 const RidgeCVClassifier_ = sklm(:RidgeClassifierCV)
@@ -174,7 +169,6 @@ meta(RidgeCVClassifier,
     weights = false,
     human_name   = "ridge regression classifier $CV"
     )
-@sk_feature_importances RidgeCVClassifier
 
 # ============================================================================
 const SGDClassifier_ = sklm(:SGDClassifier)
@@ -239,4 +233,3 @@ meta.((SGDClassifier, ProbabilisticSGDClassifier),
     target  = AbstractVector{<:Finite},
     weights = false
     )
-@sk_feature_importances SGDClassifier
