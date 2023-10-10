@@ -3,6 +3,7 @@ using MLJScikitLearnInterface
 using Test
 import MLJBase
 using PythonCall
+import Tables
 import MLJBase: target_scitype, input_scitype, output_scitype
 
 # Filter out warnings for convergence during testing
@@ -23,4 +24,6 @@ println("\ngaussian-process");        include("models/gaussian-process.jl")
 println("\nensemble");                include("models/ensemble.jl")
 println("\nclustering");              include("models/clustering.jl")
 
-println("\ngeneric interface tests");  include("generic_api_tests.jl")
+println("\nfeature importance tests");  include("feature_importance_tests.jl")
+println("\ngeneric interface tests");   include("generic_api_tests.jl")
+println("\nExtra tests from bug reports"); include("extras.jl")

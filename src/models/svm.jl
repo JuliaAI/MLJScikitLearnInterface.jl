@@ -22,6 +22,7 @@ meta(SVMLinearClassifier,
     target  = AbstractVector{<:Finite},
     human_name   = "linear support vector classifier"
     )
+@sk_feature_importances SVMLinearClassifier
 
 # ----------------------------------------------------------------------------
 const SVMClassifier_ = sksv(:SVC)
@@ -79,6 +80,7 @@ meta(SVMLinearRegressor,
     target  = AbstractVector{Continuous},
     human_name   = "linear support vector regressor"
     )
+@sk_feature_importances SVMLinearRegressor
 
 # ----------------------------------------------------------------------------
 const SVMRegressor_ = sksv(:SVR)

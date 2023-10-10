@@ -14,7 +14,7 @@ const ARDRegressor_ = sklm(:ARDRegression)
     verbose::Bool             = false
 end
 MMI.fitted_params(model::ARDRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alpha     = fitresult.alpha_,
     lambda    = fitresult.lambda_,
@@ -22,6 +22,7 @@ MMI.fitted_params(model::ARDRegressor, (fitresult, _, _)) = (
     scores    = fitresult.scores_
     )
 add_human_name_trait(ARDRegressor, "Bayesian ARD regressor")
+@sk_feature_importances ARDRegressor
 
 # =============================================================================
 const BayesianRidgeRegressor_ = sklm(:BayesianRidge)
@@ -39,7 +40,7 @@ const BayesianRidgeRegressor_ = sklm(:BayesianRidge)
     verbose::Bool       = false
 end
 MMI.fitted_params(model::BayesianRidgeRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alpha     = fitresult.alpha_,
     lambda    = fitresult.lambda_,
@@ -47,6 +48,7 @@ MMI.fitted_params(model::BayesianRidgeRegressor, (fitresult, _, _)) = (
     scores    = fitresult.scores_
     )
 add_human_name_trait(BayesianRidgeRegressor, "Bayesian ridge regressor")
+@sk_feature_importances BayesianRidgeRegressor
 
 # =============================================================================
 const ElasticNetRegressor_ = sklm(:ElasticNet)
@@ -64,9 +66,10 @@ const ElasticNetRegressor_ = sklm(:ElasticNet)
     selection::String   = "cyclic"::(_ in ("cyclic","random"))
 end
 MMI.fitted_params(model::ElasticNetRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     )
+@sk_feature_importances ElasticNetRegressor
 
 # =============================================================================
 const ElasticNetCVRegressor_ = sklm(:ElasticNetCV)
@@ -88,13 +91,14 @@ const ElasticNetCVRegressor_ = sklm(:ElasticNetCV)
     selection::String   = "cyclic"::(_ in ("cyclic","random"))
 end
 MMI.fitted_params(model::ElasticNetCVRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     l1_ratio  = fitresult.l1_ratio_,
     mse_path  = fitresult.mse_path_,
     alphas    = fitresult.alphas_
     )
 add_human_name_trait(ElasticNetCVRegressor, "elastic net regression $CV")
+@sk_feature_importances ElasticNetCVRegressor
 
 # =============================================================================
 const HuberRegressor_ = sklm(:HuberRegressor)
@@ -107,12 +111,13 @@ const HuberRegressor_ = sklm(:HuberRegressor)
     tol::Float64        = 1e-5::(_ > 0)
 end
 MMI.fitted_params(model::HuberRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     scale     = fitresult.scale_,
     outliers  = fitresult.outliers_
     )
 add_human_name_trait(HuberRegressor, "Huber regressor")
+@sk_feature_importances HuberRegressor
 
 # =============================================================================
 const LarsRegressor_ = sklm(:Lars)
@@ -128,13 +133,14 @@ const LarsRegressor_ = sklm(:Lars)
     fit_path::Bool = true
 end
 MMI.fitted_params(model::LarsRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alphas    = fitresult.alphas_,
     active    = fitresult.active_,
     coef_path = fitresult.coef_path_
     )
 add_human_name_trait(LarsRegressor, "least angle regressor (LARS)")
+@sk_feature_importances LarsRegressor
 
 # =============================================================================
 const LarsCVRegressor_ = sklm(:LarsCV)
@@ -152,7 +158,7 @@ const LarsCVRegressor_ = sklm(:LarsCV)
     copy_X::Bool      = true
 end
 MMI.fitted_params(model::LarsCVRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alpha     = fitresult.alpha_,
     alphas    = fitresult.alphas_,
@@ -161,6 +167,7 @@ MMI.fitted_params(model::LarsCVRegressor, (fitresult, _, _)) = (
     coef_path = fitresult.coef_path_
     )
 add_human_name_trait(LarsCVRegressor, "least angle regressor $CV")
+@sk_feature_importances LarsCVRegressor
 
 # =============================================================================
 const LassoRegressor_ = sklm(:Lasso)
@@ -177,9 +184,10 @@ const LassoRegressor_ = sklm(:Lasso)
     selection::String   = "cyclic"::(_ in ("cyclic","random"))
 end
 MMI.fitted_params(model::LassoRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     )
+@sk_feature_importances LassoRegressor
 
 # =============================================================================
 const LassoCVRegressor_ = sklm(:LassoCV)
@@ -200,7 +208,7 @@ const LassoCVRegressor_ = sklm(:LassoCV)
     selection::String   = "cyclic"::(_ in ("cyclic","random"))
 end
 MMI.fitted_params(model::LassoCVRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alpha     = fitresult.alpha_,
     alphas    = fitresult.alphas_,
@@ -208,6 +216,7 @@ MMI.fitted_params(model::LassoCVRegressor, (fitresult, _, _)) = (
     dual_gap  = fitresult.dual_gap_
     )
 add_human_name_trait(LassoCVRegressor, "lasso regressor $CV")
+@sk_feature_importances LassoCVRegressor
 
 # =============================================================================
 const LassoLarsRegressor_ = sklm(:LassoLars)
@@ -225,13 +234,14 @@ const LassoLarsRegressor_ = sklm(:LassoLars)
     positive::Any       = false
 end
 MMI.fitted_params(model::LassoLarsRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alphas    = fitresult.alphas_,
     active    = fitresult.active_,
     coef_path = fitresult.coef_path_
     )
 add_human_name_trait(LassoLarsRegressor, "Lasso model fit with least angle regression (LARS)")
+@sk_feature_importances LassoLarsRegressor
 
 # =============================================================================
 const LassoLarsCVRegressor_ = sklm(:LassoLarsCV)
@@ -250,7 +260,7 @@ const LassoLarsCVRegressor_ = sklm(:LassoLarsCV)
     positive::Any       = false
 end
 MMI.fitted_params(model::LassoLarsCVRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     coef_path = fitresult.coef_path_,
     alpha     = fitresult.alpha_,
@@ -260,6 +270,7 @@ MMI.fitted_params(model::LassoLarsCVRegressor, (fitresult, _, _)) = (
     )
 add_human_name_trait(LassoLarsCVRegressor, "Lasso model fit with least angle "*
                      "regression (LARS) $CV")
+@sk_feature_importances LassoLarsCVRegressor
 
 # =============================================================================
 const LassoLarsICRegressor_ = sklm(:LassoLarsIC)
@@ -276,12 +287,13 @@ const LassoLarsICRegressor_ = sklm(:LassoLarsIC)
     positive::Any       = false
 end
 MMI.fitted_params(model::LassoLarsICRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alpha     = fitresult.alpha_
     )
 add_human_name_trait(LassoLarsICRegressor, "Lasso model with LARS using "*
                      "BIC or AIC for model selection")
+@sk_feature_importances LassoLarsICRegressor
 
 # =============================================================================
 const LinearRegressor_ = sklm(:LinearRegression)
@@ -291,10 +303,11 @@ const LinearRegressor_ = sklm(:LinearRegression)
     n_jobs::Option{Int} = nothing
 end
 MMI.fitted_params(model::LinearRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
 add_human_name_trait(LinearRegressor, "ordinary least-squares regressor (OLS)")
+@sk_feature_importances LinearRegressor
 
 # =============================================================================
 const OrthogonalMatchingPursuitRegressor_ = sklm(:OrthogonalMatchingPursuit)
@@ -306,9 +319,10 @@ const OrthogonalMatchingPursuitRegressor_ = sklm(:OrthogonalMatchingPursuit)
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
 end
 MMI.fitted_params(model::OrthogonalMatchingPursuitRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
+@sk_feature_importances OrthogonalMatchingPursuitRegressor
 
 # =============================================================================
 const OrthogonalMatchingPursuitCVRegressor_ = sklm(:OrthogonalMatchingPursuitCV)
@@ -323,12 +337,13 @@ const OrthogonalMatchingPursuitCVRegressor_ = sklm(:OrthogonalMatchingPursuitCV)
     verbose::Union{Bool,Int} = false
 end
 MMI.fitted_params(model::OrthogonalMatchingPursuitCVRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     n_nonzero_coefs = fitresult.n_nonzero_coefs_
     )
 add_human_name_trait(OrthogonalMatchingPursuitCVRegressor, "orthogonal ,atching pursuit "*
                      "(OMP) model $CV")
+@sk_feature_importances OrthogonalMatchingPursuitCVRegressor
 
 # =============================================================================
 const PassiveAggressiveRegressor_ = sklm(:PassiveAggressiveRegressor)
@@ -349,9 +364,10 @@ const PassiveAggressiveRegressor_ = sklm(:PassiveAggressiveRegressor)
     average::Union{Bool,Int}     = false
 end
 MMI.fitted_params(model::PassiveAggressiveRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
+@sk_feature_importances PassiveAggressiveRegressor
 
 # =============================================================================
 const RANSACRegressor_ = sklm(:RANSACRegressor)
@@ -390,9 +406,10 @@ const RidgeRegressor_ = sklm(:Ridge)
     random_state::Any   = nothing
 end
 MMI.fitted_params(model::RidgeRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
+@sk_feature_importances RidgeRegressor
 
 # =============================================================================
 const RidgeCVRegressor_ = sklm(:RidgeCV)
@@ -405,12 +422,13 @@ const RidgeCVRegressor_ = sklm(:RidgeCV)
     store_cv_values::Bool    = false
 end
 MMI.fitted_params(model::RidgeCVRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alpha     = fitresult.alpha_,
     cv_values = model.store_cv_values ? fitresult.cv_values_ : nothing
     )
 add_human_name_trait(RidgeCVRegressor, "ridge regressor $CV")
+@sk_feature_importances RidgeCVRegressor
 
 # =============================================================================
 const SGDRegressor_ = sklm(:SGDRegressor)
@@ -436,12 +454,13 @@ const SGDRegressor_ = sklm(:SGDRegressor)
     average::Union{Int,Bool} = false
 end
 MMI.fitted_params(model::SGDRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     average_coef      = model.average ? fitresult.average_coef_ : nothing,
     average_intercept = model.average ? ifelse(model.fit_intercept, fitresult.average_intercept_, nothing) : nothing
     )
 add_human_name_trait(SGDRegressor, "stochastic gradient descent-based regressor")
+@sk_feature_importances SGDRegressor
 
 # =============================================================================
 const TheilSenRegressor_ = sklm(:TheilSenRegressor)
@@ -457,13 +476,13 @@ const TheilSenRegressor_ = sklm(:TheilSenRegressor)
     verbose::Bool       = false
 end
 MMI.fitted_params(model::TheilSenRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     breakdown       = fitresult.breakdown_,
     n_subpopulation = fitresult.n_subpopulation_
     )
 add_human_name_trait(TheilSenRegressor, "Theil-Sen regressor")
-
+@sk_feature_importances TheilSenRegressor
 
 # Metadata for Continuous -> Vector{Continuous}
 const SKL_REGS_SINGLE = Union{

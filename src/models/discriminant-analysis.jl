@@ -25,6 +25,7 @@ meta(BayesianLDA,
     weights = false,
     human_name   = "Bayesian linear discriminant analysis"
     )
+@sk_feature_importances BayesianLDA
 
 # ============================================================================
 const BayesianQDA_ = skda(:QuadraticDiscriminantAnalysis)

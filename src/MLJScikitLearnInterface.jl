@@ -5,6 +5,7 @@ import MLJModelInterface:
         @mlj_model, _process_model_def, _model_constructor, _model_cleaner,
         Table, Continuous, Count, Finite, OrderedFactor, Multiclass, Unknown
 const MMI = MLJModelInterface
+using Statistics
 import Tables
 
 include("ScikitLearnAPI.jl")

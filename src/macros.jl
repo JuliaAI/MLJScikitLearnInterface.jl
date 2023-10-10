@@ -113,7 +113,7 @@ end
 Called as part of [`@sk_reg`](@ref), returns the expression corresponing to the
 `fit` method for a ScikitLearn regression model.
 """
-function _skmodel_fit_reg(modelname, params)
+function _skmodel_fit_reg(modelname, params, save_std::Bool=false)
     expr = quote
         function MMI.fit(model::$modelname, verbosity::Int, X, y)
             # set X and y into a format that can be processed by sklearn
@@ -150,7 +150,12 @@ function _skmodel_fit_reg(modelname, params)
             X_py = ScikitLearnAPI.numpy.array(Xmatrix)
             y_py = ScikitLearnAPI.numpy.array(yplain)
             fitres = SK.fit!(skmodel, X_py, y_py)
-            report = (; names)
+            if ScikitLearnAPI.pyhasattr(fitres, "coef_")
+                column_std = std(Xmatrix, dims=1) |> vec
+                report = (; column_std, names)
+            else
+                report = (; names)
+            end
             # the first nothing is so that we can use the same predict for
             # regressors and classifiers
             return ((fitres, nothing, targnames), nothing, report)
@@ -179,6 +184,12 @@ function _skmodel_fit_clf(modelname, params)
                         $((Expr(:kw, p, :(model.$p)) for p in params)...))
             fitres  = SK.fit!(skmodel, Xmatrix, yplain)
             report = (; names)
+            if ScikitLearnAPI.pyhasattr(fitres, "coef_")
+                column_std = std(Xmatrix, dims=1) |> vec
+                report = (; column_std, names)
+            else
+                report = (; names)
+            end
             # pass y[1] for decoding in predict method, first nothing
             # is targnames
             return ((fitres, y[1], nothing), nothing, report)
@@ -330,6 +341,15 @@ macro sku_predict(modelname)
     end
 end
 
+# 
+function _coef_vec(coef::AbstractVector)
+    return abs.(coef)
+end
+
+function _coef_vec(coef::AbstractMatrix)
+    return mean(abs.(coef), dims=1) |> vec
+end
+
 """
     macro sk_feature_importances(modelname)
 
@@ -341,7 +361,12 @@ macro sk_feature_importances(modelname)
         MMI.reports_feature_importances(::Type{<:$modelname}) = true
         function MMI.feature_importances(m::$modelname, fitres, r)
             params = MMI.fitted_params(m, fitres)
-            result = [(r.names[i] => x) for (i, x) in enumerate(params.feature_importances)]
+            feature_importances = if haskey(params, :feature_importances)
+                params.feature_importances
+            else
+                _coef_vec(params.coef) .* r.column_std
+            end
+            result = [(r.names[i] => x) for (i, x) in enumerate(feature_importances)]
         end
     end
 end

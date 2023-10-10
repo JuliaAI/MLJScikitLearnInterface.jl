@@ -9,10 +9,11 @@ const MultiTaskLassoRegressor_ = sklm(:MultiTaskLasso)
     selection::String   = "cyclic"::(_ in ("cyclic","random"))
 end
 MMI.fitted_params(model::MultiTaskLassoRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
 add_human_name_trait(MultiTaskLassoRegressor, "multi-target lasso regressor")
+@sk_feature_importances MultiTaskLassoRegressor
 
 # ==============================================================================
 const MultiTaskLassoCVRegressor_ = sklm(:MultiTaskLassoCV)
@@ -31,13 +32,14 @@ const MultiTaskLassoCVRegressor_ = sklm(:MultiTaskLassoCV)
     selection::String   = "cyclic"::(_ in ("cyclic","random"))
 end
 MMI.fitted_params(model::MultiTaskLassoCVRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alpha     = fitresult.alpha_,
     mse_path  = fitresult.mse_path_,
     alphas    = fitresult.alphas_
     )
 add_human_name_trait(MultiTaskLassoCVRegressor, "multi-target lasso regressor $CV")
+@sk_feature_importances MultiTaskLassoCVRegressor
 
 # ==============================================================================
 const MultiTaskElasticNetRegressor_ = sklm(:MultiTaskElasticNet)
@@ -53,10 +55,11 @@ const MultiTaskElasticNetRegressor_ = sklm(:MultiTaskElasticNet)
     selection::String   = "cyclic"::(_ in ("cyclic","random"))
 end
 MMI.fitted_params(model::MultiTaskElasticNetRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing)
     )
 add_human_name_trait(MultiTaskElasticNetRegressor, "multi-target elastic net regressor")
+@sk_feature_importances MultiTaskElasticNetRegressor
 
 # ==============================================================================
 const MultiTaskElasticNetCVRegressor_ = sklm(:MultiTaskElasticNetCV)
@@ -76,7 +79,7 @@ const MultiTaskElasticNetCVRegressor_ = sklm(:MultiTaskElasticNetCV)
     selection::String   = "cyclic"::(_ in ("cyclic","random"))
 end
 MMI.fitted_params(model::MultiTaskElasticNetCVRegressor, (fitresult, _, _)) = (
-    coef      = fitresult.coef_,
+    coef      = pyconvert(Array, fitresult.coef_),
     intercept = ifelse(model.fit_intercept, fitresult.intercept_, nothing),
     alpha     = fitresult.alpha_,
     mse_path  = fitresult.mse_path_,
@@ -84,7 +87,7 @@ MMI.fitted_params(model::MultiTaskElasticNetCVRegressor, (fitresult, _, _)) = (
     )
 add_human_name_trait(MultiTaskElasticNetCVRegressor, "multi-target elastic "*
                      "net regressor $CV")
-
+@sk_feature_importances MultiTaskElasticNetCVRegressor
 
 const SKL_REGS_MULTI = Union{
        Type{<:MultiTaskLassoRegressor},
