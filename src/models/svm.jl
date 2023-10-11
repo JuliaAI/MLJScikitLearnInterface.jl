@@ -12,10 +12,10 @@ const SVMLinearClassifier_ = sksv(:LinearSVC)
     max_iter::Int              = 1000::(_ > 0)
 end
 MMI.fitted_params(m::SVMLinearClassifier, (f, _, _)) = (
-    coef      = f.coef_,
-    intercept = f.intercept_,
-    classes   = f.classes_,
-    n_iter    = f.n_iter_
+    coef      = pyconvert(Array, f.coef_),
+    intercept = pyconvert(Array, f.intercept_),
+    classes   = pyconvert(Array, f.classes_),
+    n_iter    = pyconvert(Int, f.n_iter_)
     )
 meta(SVMLinearClassifier,
     input   = Table(Continuous),
@@ -39,14 +39,14 @@ const SVMClassifier_ = sksv(:SVC)
     random_state        = nothing
 end
 MMI.fitted_params(m::SVMClassifier, (f, _, _)) = (
-    support         = f.support_,
-    support_vectors = f.support_vectors_,
-    n_support       = f.n_support_,
-    dual_coef       = f.dual_coef_,
-    coef            = m.kernel == "linear" ? f.coef_ : nothing,
-    intercept       = f.intercept_,
-    fit_status      = f.fit_status_,
-    classes         = f.classes_
+    support         = pyconvert(Array, f.support_),
+    support_vectors = pyconvert(Array, f.support_vectors_),
+    n_support       = pyconvert(Array, f.n_support_),
+    dual_coef       = pyconvert(Array, f.dual_coef_),
+    coef            = m.kernel == "linear" ? pyconvert(Array, f.coef_) : nothing,
+    intercept       = pyconvert(Array, f.intercept_),
+    fit_status      = pyconvert(Int, f.fit_status_),
+    classes         = pyconvert(Array, f.classes_)
     # probA = f.probA_,
     # probB = f.probB_,
     )
@@ -59,7 +59,7 @@ meta(SVMClassifier,
 # ============================================================================
 const SVMLinearRegressor_ = sksv(:LinearSVR)
 @sk_reg mutable struct SVMLinearRegressor <: MMI.Deterministic
-    epsilon::Float64 = 0.0::(_ >= 0)
+    epsilon::Float64 = 0.0::(_ ≥ 0)
     tol::Float64     = 1e-4::(_ > 0)
     C::Float64       = 1.0::(_ > 0)
     loss::String      = "epsilon_insensitive"::(_ in ("epsilon_insensitive", "squared_epsilon_insensitive"))
@@ -70,15 +70,16 @@ const SVMLinearRegressor_ = sksv(:LinearSVR)
     max_iter::Int              = 1000::(_ > 0)
 end
 MMI.fitted_params(m::SVMLinearRegressor, (f, _, _)) = (
-    coef = f.coef_,
-    intercept = f.intercept_,
-    n_iter = f.n_iter_
+    coef = pyconvert(Array, f.coef_),
+    intercept = pyconvert(Array, f.intercept_),
+    n_iter = pyconvert(Int, f.n_iter_)
     )
 meta(SVMLinearRegressor,
     input   = Table(Continuous),
     target  = AbstractVector{Continuous},
     human_name   = "linear support vector regressor"
     )
+@sk_feature_importances SVMLinearRegressor
 
 # ----------------------------------------------------------------------------
 const SVMRegressor_ = sksv(:SVR)
@@ -89,19 +90,19 @@ const SVMRegressor_ = sksv(:SVR)
     coef0::Float64   = 0.0
     tol::Float64     = 1e-3::(_ > 0)
     C::Float64       = 1.0::(_ > 0)
-    epsilon::Float64 = 0.1::(_ >= 0)
+    epsilon::Float64 = 0.1::(_ ≥ 0)
     shrinking        = true
     cache_size::Int  = 200::(_ > 0)
     max_iter::Int    = -1
 end
 MMI.fitted_params(m::SVMRegressor, (f, _, _)) = (
-    support         = f.support_,
-    support_vectors = f.support_vectors_,
-    dual_coef       = f.dual_coef_,
-    coef            = m.kernel == "linear" ? f.coef_ : nothing,
-    intercept       = f.intercept_,
-    fit_status      = f.fit_status_,
-    n_iter          = f.n_iter_
+    support         = pyconvert(Array, f.support_),
+    support_vectors = pyconvert(Array, f.support_vectors_),
+    dual_coef       = pyconvert(Array, f.dual_coef_),
+    coef            = m.kernel == "linear" ? pyconvert(Array, f.coef_) : nothing,
+    intercept       = pyconvert(Array, f.intercept_),
+    fit_status      = pyconvert(Int, f.fit_status_),
+    n_iter          = pyconvert(Int, f.n_iter_)
     )
 meta(SVMRegressor,
     input   = Table(Continuous),
@@ -127,15 +128,15 @@ const SVMNuClassifier_ = sksv(:NuSVC)
     random_state        = nothing
 end
 MMI.fitted_params(m::SVMNuClassifier, (f, _, _)) = (
-    support         = f.support_,
-    support_vectors = f.support_vectors_,
-    n_support       = f.n_support_,
-    dual_coef       = f.dual_coef_,
-    coef            = m.kernel == "linear" ? f.coef_ : nothing,
-    intercept       = f.intercept_,
-    fit_status      = f.fit_status_,
-    classes         = f.classes_,
-    n_iter          = f.n_iter_
+    support         = pyconvert(Array, f.support_),
+    support_vectors = pyconvert(Array, f.support_vectors_),
+    n_support       = pyconvert(Array, f.n_support_),
+    dual_coef       = pyconvert(Array, f.dual_coef_),
+    coef            = m.kernel == "linear" ? pyconvert(Array, f.coef_) : nothing,
+    intercept       = pyconvert(Array, f.intercept_),
+    fit_status      = pyconvert(Int, f.fit_status_),
+    classes         = pyconvert(Array, f.classes_),
+    n_iter          = pyconvert(Int, f.n_iter_)
     # probA = f.probA_,
     # probB = f.probB_,
     )
@@ -160,12 +161,12 @@ const SVMNuRegressor_ = sksv(:NuSVR)
     max_iter::Int    = -1
 end
 MMI.fitted_params(m::SVMNuRegressor, (f, _, _)) = (
-    support         = f.support_,
-    support_vectors = f.support_vectors_,
-    dual_coef       = f.dual_coef_,
-    coef            = m.kernel == "linear" ? f.coef_ : nothing,
-    intercept       = f.intercept_,
-    n_iter          = f.n_iter_
+    support         = pyconvert(Array, f.support_),
+    support_vectors = pyconvert(Array, f.support_vectors_),
+    dual_coef       = pyconvert(Array, f.dual_coef_),
+    coef            = m.kernel == "linear" ? pyconvert(Array, f.coef_) : nothing,
+    intercept       = pyconvert(Array, f.intercept_),
+    n_iter          = pyconvert(Int, f.n_iter_)
     )
 meta(SVMNuRegressor,
     input   = Table(Continuous),

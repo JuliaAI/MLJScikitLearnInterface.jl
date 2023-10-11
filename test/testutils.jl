@@ -46,5 +46,5 @@ function test_clf(m, X, y)
     else
         ŷ = MB.predict_mode(m, f, X)
     end
-    return MB.accuracy(ŷ, y), f
+    return sum(ŷ .== y)/length(y), f
 end

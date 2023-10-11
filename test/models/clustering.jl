@@ -5,22 +5,33 @@ fparams = (
         AgglomerativeClustering = (:n_clusters, :labels, :n_leaves, :n_connected_components, :children),
         Birch = (:root, :dummy_leaf, :subcluster_centers, :subcluster_labels, :labels),
         DBSCAN = (:core_sample_indices,  :components, :labels),
+        HDBSCAN = (:labels,  :probabilities),
         FeatureAgglomeration = (:n_clusters, :labels, :n_leaves, :n_connected_components,  :children, :distances),
         KMeans = (:cluster_centers, :labels, :inertia),
+        BisectingKMeans = (:cluster_centers, :labels, :inertia),
         MiniBatchKMeans = (:cluster_centers, :labels, :inertia),
         MeanShift = (:cluster_centers, :labels),
         OPTICS = (:labels, :reachability, :ordering, :core_distances, :predecessor, :cluster_hierarchy),
-        SpectralClustering = (:labels, :affinity_matrix)
+        SpectralClustering = (:labels, :affinity_matrix),
+        # SpectralBiclustering = (:rows, :columns, :row_labels, :column_labels),
+        # SpectralCoclustering = (:rows, :columns, :row_labels, :column_labels, :biclusters),
     )
-
 
 models = (
         AffinityPropagation,
+        AgglomerativeClustering, 
         Birch,
-        AgglomerativeClustering,
-        Birch, 
         DBSCAN,
+        HDBSCAN,
+        FeatureAgglomeration,
         MeanShift,
+        KMeans,
+        BisectingKMeans,
+        MiniBatchKMeans,
+        MeanShift,
+        OPTICS,
+        # SpectralBiclustering,
+        # SpectralCoclustering
     )
 
 @testset "Fit/predict" begin

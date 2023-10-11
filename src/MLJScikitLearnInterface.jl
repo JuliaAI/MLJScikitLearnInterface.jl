@@ -5,6 +5,8 @@ import MLJModelInterface:
         @mlj_model, _process_model_def, _model_constructor, _model_cleaner,
         Table, Continuous, Count, Finite, OrderedFactor, Multiclass, Unknown
 const MMI = MLJModelInterface
+using Statistics
+import Tables
 
 include("ScikitLearnAPI.jl")
 const SK = ScikitLearnAPI
@@ -49,6 +51,7 @@ const CV = "with built-in cross-validation"
 
 include("macros.jl")
 include("meta.jl")
+include("tables.jl")
 
 include("models/linear-regressors.jl")
 include("models/linear-regressors-multi.jl")
