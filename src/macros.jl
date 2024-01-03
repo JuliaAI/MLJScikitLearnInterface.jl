@@ -103,6 +103,17 @@ function _sk_finalize(m, clean_expr, fit_expr, expr)
     esc(expr)
 end
 
+"""
+    _prepare_param(obj)
+
+Prepare model parameters for passing Python constructor
+"""
+_prepare_param(obj) = obj
+
+function _prepare_param(obj::Dict)
+    return SK.PythonCall.pydict(obj)
+end
+
 # =================================
 # Specifics for SUPERVISED MODELS
 # =================================
@@ -142,9 +153,10 @@ function _skmodel_fit_reg(modelname, params, save_std::Bool=false)
             pyisnull(parent) && ski!(parent, skmod)
             # retrieve the effective ScikitLearn constructor
             skconstr = getproperty(parent, mdl)
-            # build the scikitlearn model passing all the parameters
-            skmodel = skconstr(
-                        $((Expr(:kw, p, :(model.$p)) for p in params)...))
+            param_dict = Dict{Symbol, Any}(
+                [(p => _prepare_param(getfield(model, p))) for p in $params]
+            )
+            skmodel = skconstr(; param_dict...)
             # --------------------------------------------------------------
             # fit and organise results
             X_py = ScikitLearnAPI.numpy.array(Xmatrix)
@@ -180,8 +192,10 @@ function _skmodel_fit_clf(modelname, params)
             parent = eval(sksym)
             pyisnull(parent) && ski!(parent, skmod)
             skconstr = getproperty(parent, mdl)
-            skmodel = skconstr(
-                        $((Expr(:kw, p, :(model.$p)) for p in params)...))
+            param_dict = Dict{Symbol, Any}(
+                [(p => _prepare_param(getfield(model, p))) for p in $params]
+            )
+            skmodel = skconstr(; param_dict...)
             fitres  = SK.fit!(skmodel, Xmatrix, yplain)
             report = (; names)
             if ScikitLearnAPI.pyhasattr(fitres, "coef_")
@@ -264,8 +278,10 @@ function _skmodel_fit_uns(modelname, params)
             parent = eval(sksym)
             pyisnull(parent) && ski!(parent, skmod)
             skconstr = getproperty(parent, mdl)
-            skmodel = skconstr(
-                        $((Expr(:kw, p, :(model.$p)) for p in params)...))
+            param_dict = Dict{Symbol, Any}(
+                [(p => _prepare_param(getfield(model, p))) for p in $params]
+            )
+            skmodel = skconstr(; param_dict...)
             fitres  = SK.fit!(skmodel, Xmatrix)
             # TODO: we may want to use the report later on
             report  = NamedTuple()
