@@ -1,3 +1,4 @@
+using Aqua
 using StableRNGs
 using MLJScikitLearnInterface
 using Test
@@ -27,3 +28,5 @@ println("\nclustering");              include("models/clustering.jl")
 println("\nfeature importance tests");  include("feature_importance_tests.jl")
 println("\ngeneric interface tests");   include("generic_api_tests.jl")
 println("\nExtra tests from bug reports"); include("extras.jl")
+
+Aqua.test_all(MLJScikitLearnInterface)
