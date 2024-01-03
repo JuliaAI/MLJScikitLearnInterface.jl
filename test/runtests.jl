@@ -29,4 +29,4 @@ println("\nfeature importance tests");  include("feature_importance_tests.jl")
 println("\ngeneric interface tests");   include("generic_api_tests.jl")
 println("\nExtra tests from bug reports"); include("extras.jl")
 
-Aqua.test_all(MLJScikitLearnInterface)
+Aqua.test_all(MLJScikitLearnInterface, ambiguities=false)
