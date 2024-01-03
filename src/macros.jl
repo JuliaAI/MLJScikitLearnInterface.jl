@@ -114,7 +114,6 @@ function _prepare_param(obj::Dict)
     return SK.PythonCall.pydict(obj)
 end
 
-
 # =================================
 # Specifics for SUPERVISED MODELS
 # =================================
