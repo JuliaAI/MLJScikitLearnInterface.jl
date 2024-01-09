@@ -189,6 +189,9 @@ function _skmodel_fit_clf(modelname, params)
             yplain  = MMI.int(y)
 
             if size(unique(yplain), 1) == 1 # only one class (i46)
+                if verbosity > 0
+                    @warn "Model fitting skipped: Only one class present in the target data."
+                end
                 fitres = nothing
             else
                 # See _skmodel_fit_reg, same story
