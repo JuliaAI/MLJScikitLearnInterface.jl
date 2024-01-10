@@ -187,16 +187,24 @@ function _skmodel_fit_clf(modelname, params)
             Xmatrix = MMI.matrix(X)
             names = get_column_names(X)
             yplain  = MMI.int(y)
-            # See _skmodel_fit_reg, same story
-            sksym, skmod, mdl = $(Symbol(modelname, "_"))
-            parent = eval(sksym)
-            pyisnull(parent) && ski!(parent, skmod)
-            skconstr = getproperty(parent, mdl)
-            param_dict = Dict{Symbol, Any}(
-                [(p => _prepare_param(getfield(model, p))) for p in $params]
-            )
-            skmodel = skconstr(; param_dict...)
-            fitres  = SK.fit!(skmodel, Xmatrix, yplain)
+
+            if size(unique(yplain), 1) == 1 # only one class (i46)
+                if verbosity > 0
+                    @warn "Model fitting skipped: Only one class present in the target data."
+                end
+                fitres = nothing
+            else
+                # See _skmodel_fit_reg, same story
+                sksym, skmod, mdl = $(Symbol(modelname, "_"))
+                parent = eval(sksym)
+                pyisnull(parent) && ski!(parent, skmod)
+                skconstr = getproperty(parent, mdl)
+                param_dict = Dict{Symbol, Any}(
+                    [(p => _prepare_param(getfield(model, p))) for p in $params]
+                )
+                skmodel = skconstr(; param_dict...)
+                fitres  = SK.fit!(skmodel, Xmatrix, yplain)
+            end
             report = (; names)
             if ScikitLearnAPI.pyhasattr(fitres, "coef_")
                 column_std = std(Xmatrix, dims=1) |> vec
@@ -221,7 +229,13 @@ function _skmodel_predict(modelname)
     quote
         function MMI.predict(model::$modelname, (fitres, y1, targnames), Xnew)
             Xmatrix = MMI.matrix(Xnew)
-            preds   = SK.predict(fitres, Xmatrix)
+            if fitres === nothing
+                n = size(Xmatrix, 1)
+                preds = fill(y[1], n)
+            else
+                preds = SK.predict(fitres, Xmatrix)
+            end
+
             if isa(preds, Matrix)
                 # only regressors are possibly multitarget;
                 # build a table with the appropriate column names
