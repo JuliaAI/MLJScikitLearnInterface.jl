@@ -1,7 +1,6 @@
 const ARDRegressor_ = sklm(:ARDRegression)
 @sk_reg mutable struct ARDRegressor <: MMI.Deterministic
-    # TODO: rename `n_iter` to `max_iter` in v1.5
-    n_iter::Int               = 300::(_ > 0)
+    max_iter::Int             = 300::(_ > 0)
     tol::Float64              = 1e-3::(_ > 0)
     alpha_1::Float64          = 1e-6::(_ > 0)
     alpha_2::Float64          = 1e-6::(_ > 0)
@@ -19,7 +18,8 @@ MMI.fitted_params(model::ARDRegressor, (fitresult, _, _)) = (
     alpha     = fitresult.alpha_,
     lambda    = fitresult.lambda_,
     sigma     = fitresult.sigma_,
-    scores    = fitresult.scores_
+    scores    = fitresult.scores_,
+    n_iter    = fitresult.n_iter_,
     )
 add_human_name_trait(ARDRegressor, "Bayesian ARD regressor")
 @sk_feature_importances ARDRegressor
@@ -27,8 +27,7 @@ add_human_name_trait(ARDRegressor, "Bayesian ARD regressor")
 # =============================================================================
 const BayesianRidgeRegressor_ = sklm(:BayesianRidge)
 @sk_reg mutable struct BayesianRidgeRegressor <: MMI.Deterministic
-    # TODO: rename `n_iter` to `max_iter` in v1.5
-    n_iter::Int         = 300::(_ ≥ 1)
+    max_iter::Int       = 300::(_ ≥ 1)
     tol::Float64        = 1e-3::(_ > 0)
     alpha_1::Float64    = 1e-6::(_ > 0)
     alpha_2::Float64    = 1e-6::(_ > 0)
@@ -45,7 +44,8 @@ MMI.fitted_params(model::BayesianRidgeRegressor, (fitresult, _, _)) = (
     alpha     = fitresult.alpha_,
     lambda    = fitresult.lambda_,
     sigma     = fitresult.sigma_,
-    scores    = fitresult.scores_
+    scores    = fitresult.scores_,
+    n_iter    = fitresult.n_iter_,
     )
 add_human_name_trait(BayesianRidgeRegressor, "Bayesian ridge regressor")
 @sk_feature_importances BayesianRidgeRegressor
