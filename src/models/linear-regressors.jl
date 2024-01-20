@@ -124,8 +124,6 @@ const LarsRegressor_ = sklm(:Lars)
 @sk_reg mutable struct LarsRegressor <: MMI.Deterministic
     fit_intercept::Bool      = true
     verbose::Union{Bool,Int} = false
-    # TODO Remove this when python ScikitLearn releases v1.4
-    normalize::Bool          = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     n_nonzero_coefs::Int     = 500::(_ > 0)
     eps::Float64   = eps(Float64)::(_ > 0)
@@ -148,8 +146,6 @@ const LarsCVRegressor_ = sklm(:LarsCV)
     fit_intercept::Bool      = true
     verbose::Union{Bool,Int} = false
     max_iter::Int     = 500::(_ > 0)
-    # TODO Remove this when python ScikitLearn releases v1.4
-    normalize::Bool   = false 
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     cv::Any           = 5
     max_n_alphas::Int = 1_000::(_ > 0)
@@ -224,8 +220,6 @@ const LassoLarsRegressor_ = sklm(:LassoLars)
     alpha::Float64      = 1.0::(_ ≥ 0) # 0 should be OLS
     fit_intercept::Bool = true
     verbose::Union{Bool, Int} = false
-    # TODO Remove this when python ScikitLearn releases v1.4
-    normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     max_iter::Int       = 500::(_ > 0)
     eps::Float64        = eps(Float64)::(_ > 0)
@@ -249,8 +243,6 @@ const LassoLarsCVRegressor_ = sklm(:LassoLarsCV)
     fit_intercept::Bool = true
     verbose::Union{Bool, Int} = false
     max_iter::Int       = 500::(_ > 0)
-    # TODO Remove this when python ScikitLearn releases v1.4
-    normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     cv::Any             = 5
     max_n_alphas::Int   = 1_000::(_ > 0)
@@ -278,8 +270,6 @@ const LassoLarsICRegressor_ = sklm(:LassoLarsIC)
     criterion::String   = "aic"::(_ in ("aic","bic"))
     fit_intercept::Bool = true
     verbose::Union{Bool, Int} = false
-    # TODO Remove this when python ScikitLearn releases v1.4
-    normalize::Bool     = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
     max_iter::Int       = 500::(_ > 0)
     eps::Float64        = eps(Float64)::(_ > 0.0)
@@ -315,7 +305,6 @@ const OrthogonalMatchingPursuitRegressor_ = sklm(:OrthogonalMatchingPursuit)
     n_nonzero_coefs::Option{Int} = nothing
     tol::Option{Float64} = nothing
     fit_intercept::Bool  = true
-    normalize::Bool      = false
     precompute::Union{Bool,String,AbstractMatrix} = "auto"
 end
 MMI.fitted_params(model::OrthogonalMatchingPursuitRegressor, (fitresult, _, _)) = (
@@ -329,8 +318,6 @@ const OrthogonalMatchingPursuitCVRegressor_ = sklm(:OrthogonalMatchingPursuitCV)
 @sk_reg mutable struct OrthogonalMatchingPursuitCVRegressor <: MMI.Deterministic
     copy::Bool            = true
     fit_intercept::Bool   = true
-    # TODO Remove this when python ScikitLearn releases v1.4
-    normalize::Bool       = false
     max_iter::Option{Int} = nothing::(_ === nothing||_ > 0)
     cv::Any               = 5
     n_jobs::Option{Int}   = 1

@@ -30,9 +30,7 @@ meta(AffinityPropagation,
 const AgglomerativeClustering_ = skcl(:AgglomerativeClustering)
 @sk_uns mutable struct AgglomerativeClustering <: MMI.Unsupervised
     n_clusters::Int     = 2::(_ ≥ 1)
-    # replace `affinity` parameter with `metric` when scikit learn releases v1.4
-    affinity::String    = "euclidean"::(_ in ("euclidean", "l1", "l2", "manhattan", "cosine", "precomputed"))
-    #metric::Any = nothing::(_ isa Union{Nothing, Function} || _ in ("euclidean", "l1", "l2", "manhattan", "cosine", "precomputed"))
+    metric::String      = "euclidean"::(_ in ("euclidean", "l1", "l2", "manhattan", "cosine", "precomputed"))
     memory::Any         = nothing
     connectivity::Any   = nothing
     compute_full_tree::Union{String,Bool} = "auto"::(_ isa Bool || _ == "auto")
@@ -187,8 +185,7 @@ const FeatureAgglomeration_ = skcl(:FeatureAgglomeration)
     connectivity::Any      = nothing
     # XXX unclear how to pass a proper callable here; just passing mean = nok
     # pooling_func::Function = mean
-    # replace `affinity` parameter with `metric` when scikit learn releases v1.4
-    affinity::Any          = "euclidean"::(_ isa Function || _ in ("euclidean", "l1", "l2", "manhattan", "cosine",  "precomputed"))
+    metric::Any            = "euclidean"::(_ isa Function || _ in ("euclidean", "l1", "l2", "manhattan", "cosine",  "precomputed"))
     compute_full_tree::Union{String,Bool} = "auto"::(_ isa Bool || _ == "auto")
     linkage::String        = "ward"::(_ in ("ward", "complete", "average", "single"))
     distance_threshold::Option{Float64}   = nothing
