@@ -23,8 +23,8 @@ models = (
     )
 
 fparams = (
-    ARDRegressor=(:coef, :intercept, :alpha, :lambda, :sigma, :scores),
-    BayesianRidgeRegressor=(:coef, :intercept, :alpha, :lambda, :sigma, :scores),
+    ARDRegressor=(:coef, :intercept, :alpha, :lambda, :sigma, :scores, :n_iter),
+    BayesianRidgeRegressor=(:coef, :intercept, :alpha, :lambda, :sigma, :scores, :n_iter),
     ElasticNetRegressor=(:coef, :intercept),
     ElasticNetCVRegressor=(:coef, :intercept, :l1_ratio, :mse_path, :alphas),
     HuberRegressor=(:coef, :intercept, :scale, :outliers),

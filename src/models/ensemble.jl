@@ -170,6 +170,9 @@ const ExtraTreesRegressor_ = sken(:ExtraTreesRegressor)
     random_state::Any              = nothing
     verbose::Int                   = 0
     warm_start::Bool               = false
+    ccp_alpha::Float64             = 0.0
+    max_samples::Option{Union{Int64,Float64,Nothing}} = nothing
+    monotonic_cst::Option{Union{Vector, Dict}} = nothing
 end
 @sk_feature_importances ExtraTreesRegressor
 MMI.fitted_params(m::ExtraTreesRegressor, (f, _, _)) = (
@@ -216,6 +219,9 @@ const ExtraTreesClassifier_ = sken(:ExtraTreesClassifier)
     verbose::Int                   = 0
     warm_start::Bool               = false
     class_weight::Any              = nothing
+    ccp_alpha::Float64             = 0.0
+    max_samples::Option{Union{Int64,Float64,Nothing}} = nothing
+    monotonic_cst::Option{Union{Vector, Dict}} = nothing
 end
 @sk_feature_importances ExtraTreesClassifier
 MMI.fitted_params(m::ExtraTreesClassifier, (f, _, _)) = (
@@ -367,6 +373,7 @@ const RandomForestRegressor_ = sken(:RandomForestRegressor)
     ccp_alpha::Float64             =0.0::(_ ≥ 0)
     max_samples::Union{Nothing,Float64,Int} =
         nothing::(_ === nothing || (_ ≥ 0 && (_ isa Integer || _ ≤ 1)))
+    monotonic_cst::Option{Union{Vector, Dict}} = nothing
 end
 @sk_feature_importances RandomForestRegressor
 MMI.fitted_params(model::RandomForestRegressor, (f, _, _)) = (
@@ -418,6 +425,7 @@ const RandomForestClassifier_ = sken(:RandomForestClassifier)
     ccp_alpha::Float64             =0.0::(_ ≥ 0)
     max_samples::Union{Nothing,Float64,Int} =
         nothing::(_ === nothing || (_ ≥ 0 && (_ isa Integer || _ ≤ 1)))
+    monotonic_cst::Option{Union{Vector, Dict}} = nothing
 end
 @sk_feature_importances RandomForestClassifier
 MMI.fitted_params(m::RandomForestClassifier, (f, _, _)) = (
@@ -463,7 +471,7 @@ const HistGradientBoostingRegressor_ = sken(:HistGradientBoostingRegressor)
     max_bins::Int                   = 255
     categorical_features::Option{Vector} = nothing
     monotonic_cst::Option{Union{Vector, Dict}} = nothing
-    # interaction_cst
+    interaction_cst::Any            = nothing
     warm_start::Bool                = false
     early_stopping::Union{String, Bool} = "auto"::(_ in ("auto", true, false))
     scoring::String                 = "loss"
@@ -507,7 +515,7 @@ const HistGradientBoostingClassifier_ = sken(:HistGradientBoostingClassifier)
     max_bins::Int                   = 255
     categorical_features::Option{Vector} = nothing
     monotonic_cst::Option{Union{Vector, Dict}} = nothing
-    # interaction_cst
+    interaction_cst::Any            = nothing
     warm_start::Bool                = false
     early_stopping::Union{String, Bool} = "auto"::(_ in ("auto",) || _ isa Bool)
     scoring::String                 = "loss"
