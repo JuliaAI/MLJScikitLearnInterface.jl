@@ -9,7 +9,7 @@ Repository implementing MLJ interface for
 # Known Issue
 If you are using Linux and Julia version `>=1.8.3`, the `libstdcxx` version is not compatible with `scikit-learn>=1.2`. To get around this issue, you have to swap out the `libstdcxx` version that is loaded in with Julia. There is two methods to do this. The first is to build an environment with `Conda.jl` and use that as your `LD_LIBRARY_PATH`. 
 ```bash
-ROOT_ENV=`julia -e "using Conda; print(Conda.ROOTENV)`
+ROOT_ENV=`julia -e "using Conda; print(Conda.ROOTENV)"`
 export LD_LIBRARY_PATH=$ROOT_ENV"/lib":$LD_LIBRARY_PATH
 ```
 
